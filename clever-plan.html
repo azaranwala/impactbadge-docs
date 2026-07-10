@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Clever Complete Implementation Plan — ImpactBadge</title>
 <style>
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:900px;margin:0 auto;padding:40px 20px;color:#333;line-height:1.7;background:#fff}
-h1{color:#00897B;border-bottom:3px solid #00897B;padding-bottom:12px;margin-top:40px;font-size:28px}
-h2{color:#00695C;margin-top:36px;border-bottom:1px solid #e0e0e0;padding-bottom:8px;font-size:22px}
-h3{color:#333;margin-top:28px;font-size:18px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:920px;margin:0 auto;padding:40px 24px;color:#333;line-height:1.7;background:#fff}
+h1{color:#00897B;border-bottom:3px solid #00897B;padding-bottom:12px;margin-top:40px;font-size:26px}
+h2{color:#00695C;margin-top:36px;border-bottom:1px solid #e0e0e0;padding-bottom:8px;font-size:20px}
+h3{color:#333;margin-top:28px;font-size:17px}
 h4{color:#555;margin-top:20px;font-size:15px}
-a{color:#00897B;text-decoration:none}
+a{color:#00897B;text-decoration:none;font-weight:500}
 a:hover{text-decoration:underline}
 table{border-collapse:collapse;width:100%;margin:16px 0;font-size:13px}
 th{background:#00897B;color:white;padding:10px 14px;text-align:left;font-weight:600}
@@ -19,12 +19,12 @@ tr:nth-child(even){background:#f9f9f9}
 code{background:#f0f4f3;padding:2px 6px;border-radius:4px;font-size:12px;font-family:'SF Mono',Consolas,monospace;color:#00695C}
 pre{background:#1a2332;color:#d4d4d4;padding:16px 20px;border-radius:10px;overflow-x:auto;font-size:12px;line-height:1.5;margin:16px 0}
 pre code{background:none;color:inherit;padding:0}
-ul,ol{margin:12px 0;padding-left:28px}
-li{margin:4px 0}
+ul,ol{margin:8px 0 8px 0;padding-left:28px}
+li{margin:4px 0;line-height:1.6}
 hr{border:none;border-top:1px solid #e0e0e0;margin:24px 0}
-p{margin:8px 0}
+p{margin:10px 0}
 strong{color:#1a1a1a}
-.back-link{display:inline-block;margin-bottom:20px;padding:6px 16px;background:#f0f4f3;border-radius:8px;font-size:13px;font-weight:600;color:#00897B}
+.back-link{display:inline-block;margin-bottom:24px;padding:8px 18px;background:#f0f4f3;border-radius:8px;font-size:13px;font-weight:600;color:#00897B;text-decoration:none;border:1px solid #e0e0e0}
 .back-link:hover{background:#e0f2f1;text-decoration:none}
 </style>
 </head>
@@ -43,31 +43,15 @@ strong{color:#1a1a1a}
 
 <ol>
 <li><a href="#1-what-clever-complete-provides">What Clever Complete Provides</a></li>
-</ul>
-<ol>
 <li><a href="#2-current-implementation-vs-whats-needed">Current Implementation vs What's Needed</a></li>
-</ul>
-<ol>
 <li><a href="#3-implementation-phases">Implementation Phases</a></li>
-</ul>
-<ol>
 <li><a href="#4-phase-1-district-sso">Phase 1: District SSO (Instant Login)</a></li>
-</ul>
-<ol>
 <li><a href="#5-phase-2-secure-sync">Phase 2: Secure Sync (Rostering)</a></li>
-</ul>
-<ol>
 <li><a href="#6-phase-3-lms-connect">Phase 3: LMS Connect (Grade Passback)</a></li>
-</ul>
-<ol>
 <li><a href="#7-certification-requirements-checklist">Certification Requirements Checklist</a></li>
-</ul>
-<ol>
 <li><a href="#8-files-to-createmodify">Files to Create/Modify</a></li>
-</ul>
-<ol>
 <li><a href="#9-timeline">Timeline</a></li>
-</ul>
+</ol>
 
 <hr>
 
@@ -400,13 +384,9 @@ async function upsertStudent(cleverStudent) {
 <p>Allows ImpactBadge to:</p>
 <ol>
 <li><strong>LTI 1.3 Launch</strong>: Students/teachers launch ImpactBadge from their LMS (Canvas, Schoology, etc.)</li>
-</ul>
-<ol>
 <li><strong>Grade Passback</strong>: Push volunteer hours as "grades" or "completion" back to the LMS gradebook</li>
-</ul>
-<ol>
 <li><strong>Course Mapping</strong>: Map ImpactBadge volunteer activities to LMS courses</li>
-</ul>
+</ol>
 
 <h3 id="prerequisites">Prerequisites</h3>
 <ul>
@@ -426,13 +406,9 @@ async function upsertStudent(cleverStudent) {
 <h3 id="design-decisions-before-building">Design Decisions (Before Building)</h3>
 <ol>
 <li><strong>When to push assignments</strong>: After teacher creates a challenge/requirement in ImpactBadge</li>
-</ul>
-<ol>
 <li><strong>When to push results</strong>: After hours are verified (auto or manual)</li>
-</ul>
-<ol>
 <li><strong>LMS import strategy</strong>: Push-only (ImpactBadge → LMS), no bidirectional sync</li>
-</ul>
+</ol>
 
 <h3 id="recommendation-defer-to-v20">Recommendation: DEFER TO v2.0</h3>
 <p>LMS Connect is valuable but complex (5+ days of work). The SSO + Rostering integration provides immediate value for HCPS. LMS Connect can be added after certification for SSO + Secure Sync is complete.</p>
@@ -585,13 +561,9 @@ Phase 3 (Deferred): LMS Connect
 <h3 id="blockers">Blockers</h3>
 <ol>
 <li><strong>Clever Complete agreement must be signed</strong> before getting production credentials</li>
-</ul>
-<ol>
 <li><strong>HCPS district admin must approve</strong> the connection for HCPS-specific data</li>
-</ul>
-<ol>
 <li><strong>Production Client ID/Secret</strong> — different from sandbox; issued after agreement signing</li>
-</ul>
+</ol>
 
 <hr>
 
