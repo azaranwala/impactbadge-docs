@@ -1,100 +1,224 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><title>Clever Complete Implementation Plan</title>
-<style>body{font-family:-apple-system,sans-serif;max-width:900px;margin:40px auto;padding:0 20px;color:#333;line-height:1.6}
-h1{color:#00897B;border-bottom:3px solid #00897B;padding-bottom:10px}h2{color:#00695C;margin-top:30px;border-bottom:1px solid #ddd;padding-bottom:6px}
-h3{color:#444;margin-top:20px}code{background:#f5f5f5;padding:2px 6px;border-radius:4px;font-size:12px}
-table{border-collapse:collapse;width:100%;margin:16px 0}th{background:#00897B;color:white;padding:8px 12px;text-align:left}
-td{border:1px solid #e0e0e0;padding:8px 12px}tr:nth-child(even){background:#f9f9f9}
-pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:auto;font-size:12px}</style></head><body>
-<p><h1>ImpactBadge — Clever Complete Implementation Plan</h1></p><p><strong>Date:</strong> July 9, 2026
-<strong>Integration:</strong> Clever Complete (SSO + Secure Sync Rostering + LMS Connect)
-<strong>Target District:</strong> HCPS (Henrico County Public Schools) + all future districts
-<strong>Current State:</strong> Clever Library SSO already built and working (7 gaps fixed)</p><p>---</p><p><h2>Table of Contents</h2></p><p>1. [What Clever Complete Provides](#1-what-clever-complete-provides)
-2. [Current Implementation vs What's Needed](#2-current-implementation-vs-whats-needed)
-3. [Implementation Phases](#3-implementation-phases)
-4. [Phase 1: District SSO (Instant Login)](#4-phase-1-district-sso)
-5. [Phase 2: Secure Sync (Rostering)](#5-phase-2-secure-sync)
-6. [Phase 3: LMS Connect (Grade Passback)](#6-phase-3-lms-connect)
-7. [Certification Requirements Checklist](#7-certification-requirements-checklist)
-8. [Files to Create/Modify](#8-files-to-createmodify)
-9. [Timeline](#9-timeline)</p><p>---</p><p><h2>1. What Clever Complete Provides</h2></p><p>| Component | What It Does | Data Available |
-|-----------|-------------|----------------|
-| <strong>District SSO</strong> | "Log in with Clever" button on ImpactBadge + portal SSO | User identity, role, school, email |
-| <strong>Secure Sync (Rostering)</strong> | Auto-sync students, teachers, classes from district SIS | Full names, emails, student IDs, grades, sections, schools, demographics |
-| <strong>LMS Connect</strong> | Grade passback + LTI 1.3 launch from district LMS | Assignments, grades, course mappings |</p><p><h3>Key Differences from Library (Already Built)</h3></p><p>| Feature | Library (Current) | Complete (New) |
-|---------|------------------|----------------|
-| <strong>Who manages</strong> | Individual teachers | District admin |
-| <strong>Student email</strong> | NOT available | Available |
-| <strong>Student full name</strong> | First + last initial | First + full last name |
-| <strong>Student ID</strong> | NOT available | Available (student_number, sis_id) |
-| <strong>Grade</strong> | NOT available | Available |
-| <strong>"Log in with Clever" button</strong> | NOT allowed | Available (Instant Login) |
-| <strong>Roster sync</strong> | None | Auto-sync from SIS |
-| <strong>Section/class data</strong> | None | Full rosters with teachers |
-| <strong>Demographics</strong> | None | Race, gender, ELL, IEP, FRL (v3.1) |
-| <strong>Token type</strong> | SSO bearer token only | SSO bearer + district app token |</p><p>---</p><p><h2>2. Current Implementation vs What's Needed</h2></p><p><h3>Already Built (from Clever Library work)</h3></p><p>| Component | Status | Notes |
-|-----------|--------|-------|
-| OAuth 2.0 authorization flow | <strong>DONE</strong> | <code>cleverOAuthCallback.ts</code> handles full flow |
-| Token exchange (code → access_token) | <strong>DONE</strong> | Uses Basic auth with client credentials |
-| <code>/me</code> endpoint user identification | <strong>DONE</strong> | Gets cleverId and type |
-| <code>/v3.0/users/{id}</code> full user data | <strong>DONE</strong> | Extracts roles, school, name, grade |
-| Role mapping (student/teacher/school_admin) | <strong>DONE</strong> | Based on roles object |
-| Account matching (cleverUserId → email → studentId) | <strong>DONE</strong> | 4-step priority matching |
-| Firestore user doc merge (non-destructive) | <strong>DONE</strong> | Only overwrites non-empty Clever values |
-| <code>cleverDataType: "library" | "complete"</code> tracking | <strong>DONE</strong> | Set based on email availability |
-| Email preservation (never overwrite personal email) | <strong>DONE</strong> | Stores <code>cleverEmail</code> separately |
-| Web portal Clever callback | <strong>DONE</strong> | <code>/clever-callback</code> page |
-| Android deep link handler | <strong>DONE</strong> | <code>impactbadge://clever/callback</code> |
-| Feature flag <code>enable_clever_sso</code> | <strong>DONE</strong> | Firebase Remote Config |
-| Sandbox credentials configured | <strong>DONE</strong> | Client ID + Secret in <code>.env</code> |</p><p><h3>Needs to Be Built</h3></p><p>| Component | Priority | Effort |
-|-----------|----------|--------|
-| <strong>Instant Login ("Log in with Clever" button)</strong> | P0 | 1 day |
-| <strong>District App Token management</strong> | P0 | 2 days |
-| <strong>Roster sync backend (Secure Sync)</strong> | P0 | 3 days |
-| <strong>Events API polling (roster changes)</strong> | P1 | 2 days |
-| <strong>Section/class management</strong> | P1 | 2 days |
-| <strong>Student demographics sync (v3.1)</strong> | P2 | 1 day |
-| <strong>LMS Connect (LTI 1.3 + grade passback)</strong> | P3 | 5 days |
-| <strong>Admin dashboard: roster sync status</strong> | P1 | 1 day |
-| <strong>Certification testing + submission</strong> | P0 | 2 days |</p><p>---</p><p><h2>3. Implementation Phases</h2></p><p><code>`</code>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clever Complete Implementation Plan — ImpactBadge</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:900px;margin:0 auto;padding:40px 20px;color:#333;line-height:1.7;background:#fff}
+h1{color:#00897B;border-bottom:3px solid #00897B;padding-bottom:12px;margin-top:40px;font-size:28px}
+h2{color:#00695C;margin-top:36px;border-bottom:1px solid #e0e0e0;padding-bottom:8px;font-size:22px}
+h3{color:#333;margin-top:28px;font-size:18px}
+h4{color:#555;margin-top:20px;font-size:15px}
+a{color:#00897B;text-decoration:none}
+a:hover{text-decoration:underline}
+table{border-collapse:collapse;width:100%;margin:16px 0;font-size:13px}
+th{background:#00897B;color:white;padding:10px 14px;text-align:left;font-weight:600}
+td{border:1px solid #e0e0e0;padding:8px 14px;vertical-align:top}
+tr:nth-child(even){background:#f9f9f9}
+code{background:#f0f4f3;padding:2px 6px;border-radius:4px;font-size:12px;font-family:'SF Mono',Consolas,monospace;color:#00695C}
+pre{background:#1a2332;color:#d4d4d4;padding:16px 20px;border-radius:10px;overflow-x:auto;font-size:12px;line-height:1.5;margin:16px 0}
+pre code{background:none;color:inherit;padding:0}
+ul,ol{margin:12px 0;padding-left:28px}
+li{margin:4px 0}
+hr{border:none;border-top:1px solid #e0e0e0;margin:24px 0}
+p{margin:8px 0}
+strong{color:#1a1a1a}
+.back-link{display:inline-block;margin-bottom:20px;padding:6px 16px;background:#f0f4f3;border-radius:8px;font-size:13px;font-weight:600;color:#00897B}
+.back-link:hover{background:#e0f2f1;text-decoration:none}
+</style>
+</head>
+<body>
+<a href="index.html" class="back-link">&larr; Back to Documentation Hub</a>
+<h1 id="impactbadge--clever-complete-implementation-plan">ImpactBadge — Clever Complete Implementation Plan</h1>
+
+<p><strong>Date:</strong> July 9, 2026</p>
+<p><strong>Integration:</strong> Clever Complete (SSO + Secure Sync Rostering + LMS Connect)</p>
+<p><strong>Target District:</strong> HCPS (Henrico County Public Schools) + all future districts</p>
+<p><strong>Current State:</strong> Clever Library SSO already built and working (7 gaps fixed)</p>
+
+<hr>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+
+<ol>
+<li><a href="#1-what-clever-complete-provides">What Clever Complete Provides</a></li>
+</ul>
+<ol>
+<li><a href="#2-current-implementation-vs-whats-needed">Current Implementation vs What's Needed</a></li>
+</ul>
+<ol>
+<li><a href="#3-implementation-phases">Implementation Phases</a></li>
+</ul>
+<ol>
+<li><a href="#4-phase-1-district-sso">Phase 1: District SSO (Instant Login)</a></li>
+</ul>
+<ol>
+<li><a href="#5-phase-2-secure-sync">Phase 2: Secure Sync (Rostering)</a></li>
+</ul>
+<ol>
+<li><a href="#6-phase-3-lms-connect">Phase 3: LMS Connect (Grade Passback)</a></li>
+</ul>
+<ol>
+<li><a href="#7-certification-requirements-checklist">Certification Requirements Checklist</a></li>
+</ul>
+<ol>
+<li><a href="#8-files-to-createmodify">Files to Create/Modify</a></li>
+</ul>
+<ol>
+<li><a href="#9-timeline">Timeline</a></li>
+</ul>
+
+<hr>
+
+<h2 id="1-what-clever-complete-provides">1. What Clever Complete Provides</h2>
+
+<table>
+<tr><th>Component</th><th>What It Does</th><th>Data Available</th></tr>
+<tr><td><strong>District SSO</strong></td><td>"Log in with Clever" button on ImpactBadge + portal SSO</td><td>User identity, role, school, email</td></tr>
+<tr><td><strong>Secure Sync (Rostering)</strong></td><td>Auto-sync students, teachers, classes from district SIS</td><td>Full names, emails, student IDs, grades, sections, schools, demographics</td></tr>
+<tr><td><strong>LMS Connect</strong></td><td>Grade passback + LTI 1.3 launch from district LMS</td><td>Assignments, grades, course mappings</td></tr>
+</table>
+
+<h3 id="key-differences-from-library-already-built">Key Differences from Library (Already Built)</h3>
+
+<table>
+<tr><th>Feature</th><th>Library (Current)</th><th>Complete (New)</th></tr>
+<tr><td><strong>Who manages</strong></td><td>Individual teachers</td><td>District admin</td></tr>
+<tr><td><strong>Student email</strong></td><td>NOT available</td><td>Available</td></tr>
+<tr><td><strong>Student full name</strong></td><td>First + last initial</td><td>First + full last name</td></tr>
+<tr><td><strong>Student ID</strong></td><td>NOT available</td><td>Available (student_number, sis_id)</td></tr>
+<tr><td><strong>Grade</strong></td><td>NOT available</td><td>Available</td></tr>
+<tr><td><strong>"Log in with Clever" button</strong></td><td>NOT allowed</td><td>Available (Instant Login)</td></tr>
+<tr><td><strong>Roster sync</strong></td><td>None</td><td>Auto-sync from SIS</td></tr>
+<tr><td><strong>Section/class data</strong></td><td>None</td><td>Full rosters with teachers</td></tr>
+<tr><td><strong>Demographics</strong></td><td>None</td><td>Race, gender, ELL, IEP, FRL (v3.1)</td></tr>
+<tr><td><strong>Token type</strong></td><td>SSO bearer token only</td><td>SSO bearer + district app token</td></tr>
+</table>
+
+<hr>
+
+<h2 id="2-current-implementation-vs-whats-needed">2. Current Implementation vs What's Needed</h2>
+
+<h3 id="already-built-from-clever-library-work">Already Built (from Clever Library work)</h3>
+
+<table>
+<tr><th>Component</th><th>Status</th><th>Notes</th></tr>
+<tr><td>OAuth 2.0 authorization flow</td><td><strong>DONE</strong></td><td><code>cleverOAuthCallback.ts</code> handles full flow</td></tr>
+<tr><td>Token exchange (code → access_token)</td><td><strong>DONE</strong></td><td>Uses Basic auth with client credentials</td></tr>
+<tr><td><code>/me</code> endpoint user identification</td><td><strong>DONE</strong></td><td>Gets cleverId and type</td></tr>
+<tr><td><code>/v3.0/users/{id}</code> full user data</td><td><strong>DONE</strong></td><td>Extracts roles, school, name, grade</td></tr>
+<tr><td>Role mapping (student/teacher/school_admin)</td><td><strong>DONE</strong></td><td>Based on roles object</td></tr>
+<tr><td>Account matching (cleverUserId → email → studentId)</td><td><strong>DONE</strong></td><td>4-step priority matching</td></tr>
+<tr><td>Firestore user doc merge (non-destructive)</td><td><strong>DONE</strong></td><td>Only overwrites non-empty Clever values</td></tr>
+<tr><td>`cleverDataType: "library"</td><td>"complete"` tracking</td><td><strong>DONE</strong></td><td>Set based on email availability</td></tr>
+<tr><td>Email preservation (never overwrite personal email)</td><td><strong>DONE</strong></td><td>Stores <code>cleverEmail</code> separately</td></tr>
+<tr><td>Web portal Clever callback</td><td><strong>DONE</strong></td><td><code>/clever-callback</code> page</td></tr>
+<tr><td>Android deep link handler</td><td><strong>DONE</strong></td><td><code>impactbadge://clever/callback</code></td></tr>
+<tr><td>Feature flag <code>enable_clever_sso</code></td><td><strong>DONE</strong></td><td>Firebase Remote Config</td></tr>
+<tr><td>Sandbox credentials configured</td><td><strong>DONE</strong></td><td>Client ID + Secret in <code>.env</code></td></tr>
+</table>
+
+<h3 id="needs-to-be-built">Needs to Be Built</h3>
+
+<table>
+<tr><th>Component</th><th>Priority</th><th>Effort</th></tr>
+<tr><td><strong>Instant Login ("Log in with Clever" button)</strong></td><td>P0</td><td>1 day</td></tr>
+<tr><td><strong>District App Token management</strong></td><td>P0</td><td>2 days</td></tr>
+<tr><td><strong>Roster sync backend (Secure Sync)</strong></td><td>P0</td><td>3 days</td></tr>
+<tr><td><strong>Events API polling (roster changes)</strong></td><td>P1</td><td>2 days</td></tr>
+<tr><td><strong>Section/class management</strong></td><td>P1</td><td>2 days</td></tr>
+<tr><td><strong>Student demographics sync (v3.1)</strong></td><td>P2</td><td>1 day</td></tr>
+<tr><td><strong>LMS Connect (LTI 1.3 + grade passback)</strong></td><td>P3</td><td>5 days</td></tr>
+<tr><td><strong>Admin dashboard: roster sync status</strong></td><td>P1</td><td>1 day</td></tr>
+<tr><td><strong>Certification testing + submission</strong></td><td>P0</td><td>2 days</td></tr>
+</table>
+
+<hr>
+
+<h2 id="3-implementation-phases">3. Implementation Phases</h2>
+
+<pre><code>
 Phase 1: District SSO (Instant Login)          — 2 days
 Phase 2: Secure Sync (Rostering)               — 5 days
 Phase 3: LMS Connect (Grade Passback)          — 5 days (defer to v2.0)
 Certification: Testing + submission            — 2 days
                                         Total: ~9 days (Phases 1-2)
-<code>`</code></p><p>---</p><p><h2>4. Phase 1: District SSO (Instant Login)</h2></p><p><h3>What Changes</h3>
-With Clever Complete, ImpactBadge can add a <strong>"Log in with Clever" button</strong> directly on the login page (Instant Login). Currently, Library users must launch from the Clever portal.</p><p><h3>Already Done</h3>
-- OAuth flow is complete — same flow works for both Library and Complete
-- The "Sign in with Clever" button already exists on the web portal
-- Android has a Clever button (feature-flagged)
-- iOS has Clever deep link handling</p><p><h3>What's New</h3></p><p>#### 1a. Enable Instant Login in Clever Dashboard
-- Go to Clever Dashboard → Settings → Instant Login
-- Set redirect URI: <code>https://impacthub-prod.web.app/auth/clever/callback</code>
-- Enable all supported user types (student, teacher, staff, district_admin)
-- Clever provides an Instant Login URL: <code>https://clever.com/oauth/authorize?response_type=code&redirect_uri={URI}&client_id={ID}</code></p><p>#### 1b. Update iOS Login Screen
-The iOS "Sign in with Clever" button is currently hidden behind a feature flag. For Complete districts:
-- Enable <code>enable_clever_sso</code> in Firebase Remote Config
-- The OAuth URL already uses the correct Clever authorize endpoint
-- No code changes needed — just enable the flag</p><p>#### 1c. Shared Device Session Override
-Clever requires that a new SSO request overrides any existing session:
-- <strong>Current behavior</strong>: <code>cleverOAuthCallback.ts</code> creates a custom token for the Clever user. If another user was signed in, Firebase Auth will sign them out on the client when <code>signInWithCustomToken</code> is called. This already satisfies the requirement.
-- <strong>Verification needed</strong>: Confirm that the iOS/Android clients properly sign out the previous user before signing in with the Clever token.</p><p><h3>Files to Modify</h3>
-| File | Change |
-|------|--------|
-| Firebase Remote Config | Enable <code>enable_clever_sso = true</code> for production |
-| Clever Dashboard | Configure Instant Login redirect URI + user types |
-| No code changes required | OAuth flow already supports Complete |</p><p><h3>Certification Requirements for SSO (Checklist)</h3></p><p>- [x] Use authorization grant flow (OAuth 2.0)
-- [x] Use Clever ID as primary identifier
-- [x] Match users on Clever ID during login
-- [x] Allow teachers to merge Clever accounts with existing accounts
-- [x] Support UTF-8 characters in names (ñ, é)
-- [x] Primary redirect URI secured with HTTPS
-- [x] Show friendly error screen when logins fail
-- [x] Provide a Log Out button
-- [x] Leverage available data from Clever (name, email, school)
-- [x] Clear indication user is logged into correct account
-- [ ] <strong>NEW</strong>: Override sessions upon new Clever auth requests (verify on shared devices)
-- [ ] <strong>NEW</strong>: Test across Chrome, Firefox, Safari, mobile Safari, mobile Chrome
-- [ ] <strong>NEW</strong>: Configure Instant Login in Clever Dashboard settings</p><p>---</p><p><h2>5. Phase 2: Secure Sync (Rostering)</h2></p><p><h3>Architecture Overview</h3></p><p><code>`</code>
+</code></pre>
+
+<hr>
+
+<h2 id="4-phase-1-district-sso-instant-login">4. Phase 1: District SSO (Instant Login)</h2>
+
+<h3 id="what-changes">What Changes</h3>
+<p>With Clever Complete, ImpactBadge can add a <strong>"Log in with Clever" button</strong> directly on the login page (Instant Login). Currently, Library users must launch from the Clever portal.</p>
+
+<h3 id="already-done">Already Done</h3>
+<ul>
+<li>OAuth flow is complete — same flow works for both Library and Complete</li>
+<li>The "Sign in with Clever" button already exists on the web portal</li>
+<li>Android has a Clever button (feature-flagged)</li>
+<li>iOS has Clever deep link handling</li>
+</ul>
+
+<h3 id="whats-new">What's New</h3>
+
+<h4 id="1a-enable-instant-login-in-clever-dashboard">1a. Enable Instant Login in Clever Dashboard</h4>
+<ul>
+<li>Go to Clever Dashboard → Settings → Instant Login</li>
+<li>Set redirect URI: <code>https://impacthub-prod.web.app/auth/clever/callback</code></li>
+<li>Enable all supported user types (student, teacher, staff, district_admin)</li>
+<li>Clever provides an Instant Login URL: <code>https://clever.com/oauth/authorize?response_type=code&redirect_uri={URI}&client_id={ID}</code></li>
+</ul>
+
+<h4 id="1b-update-ios-login-screen">1b. Update iOS Login Screen</h4>
+<p>The iOS "Sign in with Clever" button is currently hidden behind a feature flag. For Complete districts:</p>
+<ul>
+<li>Enable <code>enable_clever_sso</code> in Firebase Remote Config</li>
+<li>The OAuth URL already uses the correct Clever authorize endpoint</li>
+<li>No code changes needed — just enable the flag</li>
+</ul>
+
+<h4 id="1c-shared-device-session-override">1c. Shared Device Session Override</h4>
+<p>Clever requires that a new SSO request overrides any existing session:</p>
+<ul>
+<li><strong>Current behavior</strong>: <code>cleverOAuthCallback.ts</code> creates a custom token for the Clever user. If another user was signed in, Firebase Auth will sign them out on the client when <code>signInWithCustomToken</code> is called. This already satisfies the requirement.</li>
+<li><strong>Verification needed</strong>: Confirm that the iOS/Android clients properly sign out the previous user before signing in with the Clever token.</li>
+</ul>
+
+<h3 id="files-to-modify">Files to Modify</h3>
+<table>
+<tr><th>File</th><th>Change</th></tr>
+<tr><td>Firebase Remote Config</td><td>Enable <code>enable_clever_sso = true</code> for production</td></tr>
+<tr><td>Clever Dashboard</td><td>Configure Instant Login redirect URI + user types</td></tr>
+<tr><td>No code changes required</td><td>OAuth flow already supports Complete</td></tr>
+</table>
+
+<h3 id="certification-requirements-for-sso-checklist">Certification Requirements for SSO (Checklist)</h3>
+
+<ul>
+<li>[x] Use authorization grant flow (OAuth 2.0)</li>
+<li>[x] Use Clever ID as primary identifier</li>
+<li>[x] Match users on Clever ID during login</li>
+<li>[x] Allow teachers to merge Clever accounts with existing accounts</li>
+<li>[x] Support UTF-8 characters in names (ñ, é)</li>
+<li>[x] Primary redirect URI secured with HTTPS</li>
+<li>[x] Show friendly error screen when logins fail</li>
+<li>[x] Provide a Log Out button</li>
+<li>[x] Leverage available data from Clever (name, email, school)</li>
+<li>[x] Clear indication user is logged into correct account</li>
+<li>[ ] <strong>NEW</strong>: Override sessions upon new Clever auth requests (verify on shared devices)</li>
+<li>[ ] <strong>NEW</strong>: Test across Chrome, Firefox, Safari, mobile Safari, mobile Chrome</li>
+<li>[ ] <strong>NEW</strong>: Configure Instant Login in Clever Dashboard settings</li>
+</ul>
+
+<hr>
+
+<h2 id="5-phase-2-secure-sync-rostering">5. Phase 2: Secure Sync (Rostering)</h2>
+
+<h3 id="architecture-overview">Architecture Overview</h3>
+
+<pre><code>
 District SIS (PowerSchool, Infinite Campus, etc.)
     ↓ (nightly sync)
 Clever Platform (normalizes + cleanses data)
@@ -104,10 +228,21 @@ ImpactBadge Backend (Cloud Function)
 Firestore: users, schools, sections collections
     ↓
 iOS / Android / Web apps
-<code>`</code></p><p><h3>Two Token Types</h3></p><p>| Token | Purpose | How to Get |
-|-------|---------|-----------|
-| <strong>SSO Bearer Token</strong> | Identify a single user during login | OAuth code exchange (already built) |
-| <strong>District App Token</strong> | Access ALL data for a connected district | Clever Dashboard → District tokens |</p><p>The SSO token is per-user (already working). The <strong>district app token</strong> is new — it lets ImpactBadge query all students, teachers, sections, and schools for a connected district without any user being logged in.</p><p><h3>2a. District App Token Storage</h3></p><p><code>`</code>
+</code></pre>
+
+<h3 id="two-token-types">Two Token Types</h3>
+
+<table>
+<tr><th>Token</th><th>Purpose</th><th>How to Get</th></tr>
+<tr><td><strong>SSO Bearer Token</strong></td><td>Identify a single user during login</td><td>OAuth code exchange (already built)</td></tr>
+<tr><td><strong>District App Token</strong></td><td>Access ALL data for a connected district</td><td>Clever Dashboard → District tokens</td></tr>
+</table>
+
+<p>The SSO token is per-user (already working). The <strong>district app token</strong> is new — it lets ImpactBadge query all students, teachers, sections, and schools for a connected district without any user being logged in.</p>
+
+<h3 id="2a-district-app-token-storage">2a. District App Token Storage</h3>
+
+<pre><code>
 Firestore: cleverDistricts/{districtId}
 {
   districtId: "6a0d93772f5111cb2c005f84",
@@ -121,151 +256,278 @@ Firestore: cleverDistricts/{districtId}
   syncedSections: 450,
   connectedAt: Timestamp,
 }
-<code>`</code></p><p><strong>Security</strong>: District app tokens are highly sensitive — they grant access to all student PII. Store encrypted in Firestore with Cloud Functions-only access (deny client reads in firestore.rules).</p><p><h3>2b. Roster Sync Cloud Function</h3></p><p><strong>NEW</strong>: <code>cleverRosterSync</code> — Scheduled Pub/Sub function (runs daily at 2:00 AM EST)</p><p><code>`</code>typescript
+</code></pre>
+
+<p><strong>Security</strong>: District app tokens are highly sensitive — they grant access to all student PII. Store encrypted in Firestore with Cloud Functions-only access (deny client reads in firestore.rules).</p>
+
+<h3 id="2b-roster-sync-cloud-function">2b. Roster Sync Cloud Function</h3>
+
+<p><strong>NEW</strong>: <code>cleverRosterSync</code> — Scheduled Pub/Sub function (runs daily at 2:00 AM EST)</p>
+
+<pre><code>
 // Pseudo-code for the sync flow
 async function syncDistrict(districtId: string, appToken: string) {
   // 1. Fetch all schools
   const schools = await cleverAPI.get("/v3.1/schools", appToken);
   for (const school of schools) {
     await upsertSchool(school);
-  }</p><p>  // 2. Fetch all students
+  }
+
+  // 2. Fetch all students
   const students = await cleverAPI.get("/v3.1/users?role=student", appToken);
   for (const student of students) {
     // Match existing user or create new
     await upsertStudent(student);
-  }</p><p>  // 3. Fetch all teachers
+  }
+
+  // 3. Fetch all teachers
   const teachers = await cleverAPI.get("/v3.1/users?role=teacher", appToken);
   for (const teacher of teachers) {
     await upsertTeacher(teacher);
-  }</p><p>  // 4. Fetch all sections (classes)
+  }
+
+  // 4. Fetch all sections (classes)
   const sections = await cleverAPI.get("/v3.1/sections", appToken);
   for (const section of sections) {
     await upsertSection(section);
-  }</p><p>  // 5. Archive users no longer in Clever data
+  }
+
+  // 5. Archive users no longer in Clever data
   await archiveRemovedUsers(districtId, syncedIds);
 }
-<code>`</code></p><p><h3>2c. User Upsert Logic (Student)</h3></p><p><code>`</code>typescript
+</code></pre>
+
+<h3 id="2c-user-upsert-logic-student">2c. User Upsert Logic (Student)</h3>
+
+<pre><code>
 async function upsertStudent(cleverStudent) {
   // Priority matching (same as SSO, but using district token data)
   // 1. Match by cleverUserId
   // 2. Match by studentId + schoolName
   // 3. Match by email
-  // 4. Pre-provision in pendingStudents (don't create Firebase Auth — user hasn't logged in yet)</p><p>  const updateData = {};
+  // 4. Pre-provision in pendingStudents (don't create Firebase Auth — user hasn't logged in yet)
+
+  const updateData = {};
   // Only set non-empty values (same merge logic as cleverOAuthCallback)
-  if (cleverStudent.name.first) updateData.displayName = <code>${cleverStudent.name.first} ${cleverStudent.name.last}</code>;
+  if (cleverStudent.name.first) updateData.displayName = `${cleverStudent.name.first} ${cleverStudent.name.last}`;
   if (cleverStudent.email) updateData.cleverEmail = cleverStudent.email;
   if (cleverStudent.student_number) updateData.studentId = cleverStudent.student_number;
   if (cleverStudent.grade) updateData.grade = parseInt(cleverStudent.grade);
   if (cleverStudent.school) updateData.schoolName = cleverStudent.school.name;
-  // ... demographics (v3.1)</p><p>  updateData.cleverUserId = cleverStudent.id;
+  // ... demographics (v3.1)
+
+  updateData.cleverUserId = cleverStudent.id;
   updateData.cleverDataType = "complete";
   updateData.cleverSyncedAt = FieldValue.serverTimestamp();
 }
-<code>`</code></p><p><h3>2d. Archive/Restore Logic</h3></p><p>When a student is removed from Clever (e.g., transferred to another district):
-- <strong>Archive</strong>: Set <code>cleverArchived: true</code>, <code>cleverArchivedAt: timestamp</code>
-- Do NOT delete the user or their hours — historical data must be preserved
-- Remove from compliance reports and school student lists</p><p>When a student reappears in Clever:
-- <strong>Restore</strong>: Set <code>cleverArchived: false</code>, update all Clever fields
-- Restore in compliance reports and school lists
-- Historical hours/badges/XP preserved</p><p><h3>2e. Events API (Roster Changes)</h3></p><p>Instead of full daily sync for changes, poll Clever Events API:
-- Endpoint: <code>GET /v3.1/events?school={id}&record_type=users</code>
-- Event types: <code>users.created</code>, <code>users.updated</code>, <code>users.deleted</code>, <code>sections.created</code>, <code>sections.updated</code>, <code>sections.deleted</code>
-- Poll every 15 minutes or on-demand
-- Process incrementally — much faster than full sync</p><p><strong>Implementation</strong>: Scheduled Cloud Function <code>cleverEventsPoll</code> (every 15 min)</p><p><h3>2f. Section/Class Data</h3></p><p>Clever sections map to ImpactBadge's school context:
-- Used by teachers to see "their" students (future: scoped by section instead of whole school)
-- Used for school-vs-school challenges (section-level competition)
-- Stored in <code>cleverSections/{sectionId}</code> collection</p><p><h3>Files to Create/Modify</h3></p><p>| File | Change |
-|------|--------|
-| <strong>NEW</strong> <code>functions/src/clever/cleverRosterSync.ts</code> | Daily Pub/Sub sync function |
-| <strong>NEW</strong> <code>functions/src/clever/cleverEventsPoll.ts</code> | 15-min event polling function |
-| <strong>NEW</strong> <code>functions/src/clever/cleverAPI.ts</code> | Clever API v3.1 client wrapper |
-| <strong>NEW</strong> <code>functions/src/clever/cleverTokenManager.ts</code> | District app token storage + refresh |
-| <strong>MODIFY</strong> <code>functions/src/auth/cleverOAuthCallback.ts</code> | Update to v3.1 API, add section data |
-| <strong>MODIFY</strong> <code>functions/src/index.ts</code> | Export new functions |
-| <strong>MODIFY</strong> <code>firestore.rules</code> | Add cleverDistricts (admin-only), cleverSections |
-| <strong>MODIFY</strong> <code>firestore.indexes.json</code> | Add cleverUserId + cleverArchived index |
-| <strong>NEW</strong> <code>functions/src/__tests__/cleverRosterSync.test.ts</code> | 15-20 tests |
-| <strong>MODIFY</strong> web <code>SettingsPage.tsx</code> | Clever sync status dashboard |</p><p><h3>Certification Requirements for Secure Sync (Checklist)</h3></p><p>- [x] Use Clever ID as primary identifier for all data types
-- [ ] <strong>NEW</strong>: Use API v3.1 for new integrations (currently using v3.0)
-- [ ] <strong>NEW</strong>: Update data minimum once daily (scheduled sync function)
-- [ ] <strong>NEW</strong>: Archive records when data is unshared/deleted
-- [ ] <strong>NEW</strong>: Restore records if Clever ID reappears
-- [ ] <strong>NEW</strong>: Handle missing non-required fields per schema
-- [ ] <strong>NEW</strong>: Link historical data to student records
-- [ ] <strong>NEW</strong>: Maintain student-teacher associations
-- [ ] <strong>NEW</strong>: Handle students changing classes
-- [ ] <strong>NEW</strong>: Handle school transfers
-- [ ] <strong>NEW</strong>: Support multiple section/teacher associations
-- [ ] <strong>NEW</strong>: Handle multi-school user assignments</p><p>---</p><p><h2>6. Phase 3: LMS Connect (Grade Passback)</h2></p><p><h3>What It Does</h3>
-Allows ImpactBadge to:
-1. <strong>LTI 1.3 Launch</strong>: Students/teachers launch ImpactBadge from their LMS (Canvas, Schoology, etc.)
-2. <strong>Grade Passback</strong>: Push volunteer hours as "grades" or "completion" back to the LMS gradebook
-3. <strong>Course Mapping</strong>: Map ImpactBadge volunteer activities to LMS courses</p><p><h3>Prerequisites</h3>
-- Must be existing Secure Sync partner (Phase 2 complete)
-- Requires Clever API v3.1
-- Requires Clever Complete agreement</p><p><h3>Use Case for ImpactBadge</h3>
-- Teacher assigns "Complete 10 volunteer hours this semester" as an LMS assignment
-- Student completes hours in ImpactBadge
-- ImpactBadge pushes completion status + hours count back to the LMS gradebook
-- Teacher sees volunteer hours alongside academic grades</p><p><h3>Design Decisions (Before Building)</h3>
-1. <strong>When to push assignments</strong>: After teacher creates a challenge/requirement in ImpactBadge
-2. <strong>When to push results</strong>: After hours are verified (auto or manual)
-3. <strong>LMS import strategy</strong>: Push-only (ImpactBadge → LMS), no bidirectional sync</p><p><h3>Recommendation: DEFER TO v2.0</h3>
-LMS Connect is valuable but complex (5+ days of work). The SSO + Rostering integration provides immediate value for HCPS. LMS Connect can be added after certification for SSO + Secure Sync is complete.</p><p>---</p><p><h2>7. Certification Requirements Checklist</h2></p><p><h3>SSO Certification (Phase 1)</h3></p><p>| # | Requirement | Status | Notes |
-|---|------------|--------|-------|
-| 1 | Authorization grant flow (OAuth 2.0) | DONE | cleverOAuthCallback.ts |
-| 2 | Clever ID as primary identifier | DONE | cleverUserId field |
-| 3 | Match users on Clever ID during login | DONE | 4-step matching |
-| 4 | Allow account merging for existing users | DONE | Email + studentId matching |
-| 5 | HTTPS redirect URI | DONE | impacthub-prod.web.app |
-| 6 | Friendly error screen on login failure | DONE | Redirects with error param |
-| 7 | Log Out button | DONE | All platforms |
-| 8 | Leverage Clever data (name, email, school) | DONE | Full field mapping |
-| 9 | UTF-8 character support | DONE | No string encoding issues |
-| 10 | Support API v3.0 or v3.1 | <strong>TODO</strong> | Upgrade to v3.1 |
-| 11 | Session override on shared devices | <strong>VERIFY</strong> | Test on iPad kiosk |
-| 12 | Cross-browser testing | <strong>TODO</strong> | Chrome, Firefox, Safari, mobile |
-| 13 | Configure Instant Login settings | <strong>TODO</strong> | Clever Dashboard |
-| 14 | Provide SSO test credentials | <strong>TODO</strong> | Sandbox users for certification |</p><p><h3>Secure Sync Certification (Phase 2)</h3></p><p>| # | Requirement | Status | Notes |
-|---|------------|--------|-------|
-| 1 | Clever ID as primary identifier for all data | DONE | |
-| 2 | API v3.1 for new integrations | <strong>TODO</strong> | Upgrade from v3.0 |
-| 3 | Daily data update (minimum) | <strong>TODO</strong> | cleverRosterSync scheduled function |
-| 4 | Archive deleted/unshared records | <strong>TODO</strong> | cleverArchived flag |
-| 5 | Restore records when Clever ID reappears | <strong>TODO</strong> | Archive restore logic |
-| 6 | Handle missing non-required fields | DONE | Optional field handling |
-| 7 | Link historical data on student match | DONE | Merge preserves hours/XP |
-| 8 | Student-teacher associations | <strong>TODO</strong> | Via sections |
-| 9 | Handle class changes | <strong>TODO</strong> | Event polling |
-| 10 | Handle school transfers | DONE | SchoolTransferView + history |
-| 11 | Multiple sections per student | <strong>TODO</strong> | Section data model |
-| 12 | Multi-school users | <strong>TODO</strong> | Edge case handling |
-| 13 | Describe provisioning approach | <strong>TODO</strong> | Documentation for cert |
-| 14 | Define sync frequency | <strong>TODO</strong> | Daily full + 15-min events |</p><p>---</p><p><h2>8. Files to Create/Modify</h2></p><p><h3>New Files (8)</h3></p><p>| File | Purpose |
-|------|---------|
-| <code>functions/src/clever/cleverAPI.ts</code> | Clever API v3.1 client (paginated fetch, token management) |
-| <code>functions/src/clever/cleverTokenManager.ts</code> | District app token encryption/storage |
-| <code>functions/src/clever/cleverRosterSync.ts</code> | Daily scheduled roster sync |
-| <code>functions/src/clever/cleverEventsPoll.ts</code> | 15-min event change polling |
-| <code>functions/src/clever/cleverAdminSetup.ts</code> | Callable for school admins to connect district |
-| <code>functions/src/__tests__/cleverRosterSync.test.ts</code> | Roster sync unit tests |
-| <code>functions/src/__tests__/cleverEventsPoll.test.ts</code> | Event polling tests |
-| <code>web/src/pages/school/CleverSyncPage.tsx</code> | Admin view of sync status |</p><p><h3>Modified Files (7)</h3></p><p>| File | Change |
-|------|--------|
-| <code>functions/src/auth/cleverOAuthCallback.ts</code> | Upgrade to v3.1 API endpoints |
-| <code>functions/src/index.ts</code> | Export new clever functions |
-| <code>firestore.rules</code> | Add cleverDistricts, cleverSections rules |
-| <code>firestore.indexes.json</code> | Add clever-related indexes |
-| <code>web/src/App.tsx</code> | Add /school/clever route |
-| <code>web/src/components/Layout.tsx</code> | Add "Clever Sync" nav link for school admins |
-| <code>web/src/services/api.ts</code> | Add clever admin API calls |</p><p>---</p><p><h2>9. Timeline</h2></p><p><h3>Priority Order</h3></p><p><code>`</code>
+</code></pre>
+
+<h3 id="2d-archiverestore-logic">2d. Archive/Restore Logic</h3>
+
+<p>When a student is removed from Clever (e.g., transferred to another district):</p>
+<ul>
+<li><strong>Archive</strong>: Set <code>cleverArchived: true</code>, <code>cleverArchivedAt: timestamp</code></li>
+<li>Do NOT delete the user or their hours — historical data must be preserved</li>
+<li>Remove from compliance reports and school student lists</li>
+</ul>
+
+<p>When a student reappears in Clever:</p>
+<ul>
+<li><strong>Restore</strong>: Set <code>cleverArchived: false</code>, update all Clever fields</li>
+<li>Restore in compliance reports and school lists</li>
+<li>Historical hours/badges/XP preserved</li>
+</ul>
+
+<h3 id="2e-events-api-roster-changes">2e. Events API (Roster Changes)</h3>
+
+<p>Instead of full daily sync for changes, poll Clever Events API:</p>
+<ul>
+<li>Endpoint: <code>GET /v3.1/events?school={id}&record_type=users</code></li>
+<li>Event types: <code>users.created</code>, <code>users.updated</code>, <code>users.deleted</code>, <code>sections.created</code>, <code>sections.updated</code>, <code>sections.deleted</code></li>
+<li>Poll every 15 minutes or on-demand</li>
+<li>Process incrementally — much faster than full sync</li>
+</ul>
+
+<p><strong>Implementation</strong>: Scheduled Cloud Function <code>cleverEventsPoll</code> (every 15 min)</p>
+
+<h3 id="2f-sectionclass-data">2f. Section/Class Data</h3>
+
+<p>Clever sections map to ImpactBadge's school context:</p>
+<ul>
+<li>Used by teachers to see "their" students (future: scoped by section instead of whole school)</li>
+<li>Used for school-vs-school challenges (section-level competition)</li>
+<li>Stored in <code>cleverSections/{sectionId}</code> collection</li>
+</ul>
+
+<h3 id="files-to-createmodify">Files to Create/Modify</h3>
+
+<table>
+<tr><th>File</th><th>Change</th></tr>
+<tr><td><strong>NEW</strong> <code>functions/src/clever/cleverRosterSync.ts</code></td><td>Daily Pub/Sub sync function</td></tr>
+<tr><td><strong>NEW</strong> <code>functions/src/clever/cleverEventsPoll.ts</code></td><td>15-min event polling function</td></tr>
+<tr><td><strong>NEW</strong> <code>functions/src/clever/cleverAPI.ts</code></td><td>Clever API v3.1 client wrapper</td></tr>
+<tr><td><strong>NEW</strong> <code>functions/src/clever/cleverTokenManager.ts</code></td><td>District app token storage + refresh</td></tr>
+<tr><td><strong>MODIFY</strong> <code>functions/src/auth/cleverOAuthCallback.ts</code></td><td>Update to v3.1 API, add section data</td></tr>
+<tr><td><strong>MODIFY</strong> <code>functions/src/index.ts</code></td><td>Export new functions</td></tr>
+<tr><td><strong>MODIFY</strong> <code>firestore.rules</code></td><td>Add cleverDistricts (admin-only), cleverSections</td></tr>
+<tr><td><strong>MODIFY</strong> <code>firestore.indexes.json</code></td><td>Add cleverUserId + cleverArchived index</td></tr>
+<tr><td><strong>NEW</strong> <code>functions/src/__tests__/cleverRosterSync.test.ts</code></td><td>15-20 tests</td></tr>
+<tr><td><strong>MODIFY</strong> web <code>SettingsPage.tsx</code></td><td>Clever sync status dashboard</td></tr>
+</table>
+
+<h3 id="certification-requirements-for-secure-sync-checklist">Certification Requirements for Secure Sync (Checklist)</h3>
+
+<ul>
+<li>[x] Use Clever ID as primary identifier for all data types</li>
+<li>[ ] <strong>NEW</strong>: Use API v3.1 for new integrations (currently using v3.0)</li>
+<li>[ ] <strong>NEW</strong>: Update data minimum once daily (scheduled sync function)</li>
+<li>[ ] <strong>NEW</strong>: Archive records when data is unshared/deleted</li>
+<li>[ ] <strong>NEW</strong>: Restore records if Clever ID reappears</li>
+<li>[ ] <strong>NEW</strong>: Handle missing non-required fields per schema</li>
+<li>[ ] <strong>NEW</strong>: Link historical data to student records</li>
+<li>[ ] <strong>NEW</strong>: Maintain student-teacher associations</li>
+<li>[ ] <strong>NEW</strong>: Handle students changing classes</li>
+<li>[ ] <strong>NEW</strong>: Handle school transfers</li>
+<li>[ ] <strong>NEW</strong>: Support multiple section/teacher associations</li>
+<li>[ ] <strong>NEW</strong>: Handle multi-school user assignments</li>
+</ul>
+
+<hr>
+
+<h2 id="6-phase-3-lms-connect-grade-passback">6. Phase 3: LMS Connect (Grade Passback)</h2>
+
+<h3 id="what-it-does">What It Does</h3>
+<p>Allows ImpactBadge to:</p>
+<ol>
+<li><strong>LTI 1.3 Launch</strong>: Students/teachers launch ImpactBadge from their LMS (Canvas, Schoology, etc.)</li>
+</ul>
+<ol>
+<li><strong>Grade Passback</strong>: Push volunteer hours as "grades" or "completion" back to the LMS gradebook</li>
+</ul>
+<ol>
+<li><strong>Course Mapping</strong>: Map ImpactBadge volunteer activities to LMS courses</li>
+</ul>
+
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Must be existing Secure Sync partner (Phase 2 complete)</li>
+<li>Requires Clever API v3.1</li>
+<li>Requires Clever Complete agreement</li>
+</ul>
+
+<h3 id="use-case-for-impactbadge">Use Case for ImpactBadge</h3>
+<ul>
+<li>Teacher assigns "Complete 10 volunteer hours this semester" as an LMS assignment</li>
+<li>Student completes hours in ImpactBadge</li>
+<li>ImpactBadge pushes completion status + hours count back to the LMS gradebook</li>
+<li>Teacher sees volunteer hours alongside academic grades</li>
+</ul>
+
+<h3 id="design-decisions-before-building">Design Decisions (Before Building)</h3>
+<ol>
+<li><strong>When to push assignments</strong>: After teacher creates a challenge/requirement in ImpactBadge</li>
+</ul>
+<ol>
+<li><strong>When to push results</strong>: After hours are verified (auto or manual)</li>
+</ul>
+<ol>
+<li><strong>LMS import strategy</strong>: Push-only (ImpactBadge → LMS), no bidirectional sync</li>
+</ul>
+
+<h3 id="recommendation-defer-to-v20">Recommendation: DEFER TO v2.0</h3>
+<p>LMS Connect is valuable but complex (5+ days of work). The SSO + Rostering integration provides immediate value for HCPS. LMS Connect can be added after certification for SSO + Secure Sync is complete.</p>
+
+<hr>
+
+<h2 id="7-certification-requirements-checklist">7. Certification Requirements Checklist</h2>
+
+<h3 id="sso-certification-phase-1">SSO Certification (Phase 1)</h3>
+
+<table>
+<tr><th>#</th><th>Requirement</th><th>Status</th><th>Notes</th></tr>
+<tr><td>1</td><td>Authorization grant flow (OAuth 2.0)</td><td>DONE</td><td>cleverOAuthCallback.ts</td></tr>
+<tr><td>2</td><td>Clever ID as primary identifier</td><td>DONE</td><td>cleverUserId field</td></tr>
+<tr><td>3</td><td>Match users on Clever ID during login</td><td>DONE</td><td>4-step matching</td></tr>
+<tr><td>4</td><td>Allow account merging for existing users</td><td>DONE</td><td>Email + studentId matching</td></tr>
+<tr><td>5</td><td>HTTPS redirect URI</td><td>DONE</td><td>impacthub-prod.web.app</td></tr>
+<tr><td>6</td><td>Friendly error screen on login failure</td><td>DONE</td><td>Redirects with error param</td></tr>
+<tr><td>7</td><td>Log Out button</td><td>DONE</td><td>All platforms</td></tr>
+<tr><td>8</td><td>Leverage Clever data (name, email, school)</td><td>DONE</td><td>Full field mapping</td></tr>
+<tr><td>9</td><td>UTF-8 character support</td><td>DONE</td><td>No string encoding issues</td></tr>
+<tr><td>10</td><td>Support API v3.0 or v3.1</td><td><strong>TODO</strong></td><td>Upgrade to v3.1</td></tr>
+<tr><td>11</td><td>Session override on shared devices</td><td><strong>VERIFY</strong></td><td>Test on iPad kiosk</td></tr>
+<tr><td>12</td><td>Cross-browser testing</td><td><strong>TODO</strong></td><td>Chrome, Firefox, Safari, mobile</td></tr>
+<tr><td>13</td><td>Configure Instant Login settings</td><td><strong>TODO</strong></td><td>Clever Dashboard</td></tr>
+<tr><td>14</td><td>Provide SSO test credentials</td><td><strong>TODO</strong></td><td>Sandbox users for certification</td></tr>
+</table>
+
+<h3 id="secure-sync-certification-phase-2">Secure Sync Certification (Phase 2)</h3>
+
+<table>
+<tr><th>#</th><th>Requirement</th><th>Status</th><th>Notes</th></tr>
+<tr><td>1</td><td>Clever ID as primary identifier for all data</td><td>DONE</td><td></td></tr>
+<tr><td>2</td><td>API v3.1 for new integrations</td><td><strong>TODO</strong></td><td>Upgrade from v3.0</td></tr>
+<tr><td>3</td><td>Daily data update (minimum)</td><td><strong>TODO</strong></td><td>cleverRosterSync scheduled function</td></tr>
+<tr><td>4</td><td>Archive deleted/unshared records</td><td><strong>TODO</strong></td><td>cleverArchived flag</td></tr>
+<tr><td>5</td><td>Restore records when Clever ID reappears</td><td><strong>TODO</strong></td><td>Archive restore logic</td></tr>
+<tr><td>6</td><td>Handle missing non-required fields</td><td>DONE</td><td>Optional field handling</td></tr>
+<tr><td>7</td><td>Link historical data on student match</td><td>DONE</td><td>Merge preserves hours/XP</td></tr>
+<tr><td>8</td><td>Student-teacher associations</td><td><strong>TODO</strong></td><td>Via sections</td></tr>
+<tr><td>9</td><td>Handle class changes</td><td><strong>TODO</strong></td><td>Event polling</td></tr>
+<tr><td>10</td><td>Handle school transfers</td><td>DONE</td><td>SchoolTransferView + history</td></tr>
+<tr><td>11</td><td>Multiple sections per student</td><td><strong>TODO</strong></td><td>Section data model</td></tr>
+<tr><td>12</td><td>Multi-school users</td><td><strong>TODO</strong></td><td>Edge case handling</td></tr>
+<tr><td>13</td><td>Describe provisioning approach</td><td><strong>TODO</strong></td><td>Documentation for cert</td></tr>
+<tr><td>14</td><td>Define sync frequency</td><td><strong>TODO</strong></td><td>Daily full + 15-min events</td></tr>
+</table>
+
+<hr>
+
+<h2 id="8-files-to-createmodify">8. Files to Create/Modify</h2>
+
+<h3 id="new-files-8">New Files (8)</h3>
+
+<table>
+<tr><th>File</th><th>Purpose</th></tr>
+<tr><td><code>functions/src/clever/cleverAPI.ts</code></td><td>Clever API v3.1 client (paginated fetch, token management)</td></tr>
+<tr><td><code>functions/src/clever/cleverTokenManager.ts</code></td><td>District app token encryption/storage</td></tr>
+<tr><td><code>functions/src/clever/cleverRosterSync.ts</code></td><td>Daily scheduled roster sync</td></tr>
+<tr><td><code>functions/src/clever/cleverEventsPoll.ts</code></td><td>15-min event change polling</td></tr>
+<tr><td><code>functions/src/clever/cleverAdminSetup.ts</code></td><td>Callable for school admins to connect district</td></tr>
+<tr><td><code>functions/src/__tests__/cleverRosterSync.test.ts</code></td><td>Roster sync unit tests</td></tr>
+<tr><td><code>functions/src/__tests__/cleverEventsPoll.test.ts</code></td><td>Event polling tests</td></tr>
+<tr><td><code>web/src/pages/school/CleverSyncPage.tsx</code></td><td>Admin view of sync status</td></tr>
+</table>
+
+<h3 id="modified-files-7">Modified Files (7)</h3>
+
+<table>
+<tr><th>File</th><th>Change</th></tr>
+<tr><td><code>functions/src/auth/cleverOAuthCallback.ts</code></td><td>Upgrade to v3.1 API endpoints</td></tr>
+<tr><td><code>functions/src/index.ts</code></td><td>Export new clever functions</td></tr>
+<tr><td><code>firestore.rules</code></td><td>Add cleverDistricts, cleverSections rules</td></tr>
+<tr><td><code>firestore.indexes.json</code></td><td>Add clever-related indexes</td></tr>
+<tr><td><code>web/src/App.tsx</code></td><td>Add /school/clever route</td></tr>
+<tr><td><code>web/src/components/Layout.tsx</code></td><td>Add "Clever Sync" nav link for school admins</td></tr>
+<tr><td><code>web/src/services/api.ts</code></td><td>Add clever admin API calls</td></tr>
+</table>
+
+<hr>
+
+<h2 id="9-timeline">9. Timeline</h2>
+
+<h3 id="priority-order">Priority Order</h3>
+
+<pre><code>
 Week 1 (Days 1-2): Phase 1 — District SSO
   Day 1: Upgrade cleverOAuthCallback to v3.1 API
          Configure Instant Login in Clever Dashboard
          Enable enable_clever_sso feature flag in production
   Day 2: Cross-browser testing (Chrome, Firefox, Safari, mobile)
          Shared device session testing
-         Submit SSO certification</p><p>Week 1-2 (Days 3-7): Phase 2 — Secure Sync
+         Submit SSO certification
+
+Week 1-2 (Days 3-7): Phase 2 — Secure Sync
   Day 3: Build cleverAPI.ts (v3.1 client with pagination)
          Build cleverTokenManager.ts (encrypted token storage)
   Day 4: Build cleverRosterSync.ts (student + teacher sync)
@@ -273,15 +535,23 @@ Week 1 (Days 1-2): Phase 1 — District SSO
   Day 6: Build cleverEventsPoll.ts (incremental changes)
          Build cleverAdminSetup.ts (district connection flow)
   Day 7: Build web CleverSyncPage.tsx (admin status dashboard)
-         Write tests (15-20 tests)</p><p>Week 2 (Days 8-9): Certification
+         Write tests (15-20 tests)
+
+Week 2 (Days 8-9): Certification
   Day 8: End-to-end testing with sandbox district
          Run all test suites (3 rounds)
   Day 9: Submit Secure Sync certification
-         Documentation for Clever review</p><p>Phase 3 (Deferred): LMS Connect
+         Documentation for Clever review
+
+Phase 3 (Deferred): LMS Connect
   When: After SSO + Secure Sync certification approved
   Effort: ~5 days
   Requires: LTI 1.3 implementation + grade passback API
-<code>`</code></p><p><h3>Dependencies</h3></p><p><code>`</code>
+</code></pre>
+
+<h3 id="dependencies">Dependencies</h3>
+
+<pre><code>
                     ┌─────────────────┐
                     │ Sign Clever      │
                     │ Complete DSA     │
@@ -310,29 +580,60 @@ Week 1 (Days 1-2): Phase 1 — District SSO
                     │ Phase 3: LMS    │
                     │ (Deferred v2.0) │
                     └─────────────────┘
-<code>`</code></p><p><h3>Blockers</h3>
-1. <strong>Clever Complete agreement must be signed</strong> before getting production credentials
-2. <strong>HCPS district admin must approve</strong> the connection for HCPS-specific data
-3. <strong>Production Client ID/Secret</strong> — different from sandbox; issued after agreement signing</p><p>---</p><p><h2>Summary</h2></p><p>| Phase | What | Effort | Certification |
-|-------|------|--------|---------------|
-| <strong>Phase 1</strong> | District SSO (Instant Login) | 2 days | SSO cert (mostly already done) |
-| <strong>Phase 2</strong> | Secure Sync (Rostering) | 5 days | Secure Sync cert (new build) |
-| <strong>Phase 3</strong> | LMS Connect (Grade Passback) | 5 days | LMS Connect cert (defer to v2.0) |
-| <strong>Total</strong> | Phases 1-2 | <strong>~9 days</strong> | 2 certifications |</p><p><h3>What's Already Built (Reusable)</h3>
-- Complete OAuth 2.0 flow with 4-step account matching
-- Non-destructive Clever field merge (never blanks existing data)
-- <code>cleverDataType</code> field tracking Library vs Complete
-- Feature flag for SSO button
-- Web portal Clever callback page
-- Android deep link handler
-- Role mapping (student/teacher/school_admin)
-- 15 Clever-related unit tests passing</p><p><h3>What's Net New</h3>
-- District app token management
-- Daily roster sync function
-- Event change polling (15-min)
-- Section/class data model
-- Archive/restore logic
-- v3.1 API upgrade
-- Admin sync status dashboard</p><p>---</p><p>*ImpactBadge LLC — Clever Complete Implementation Plan*
-*Generated July 9, 2026*
-</p></body></html>
+</code></pre>
+
+<h3 id="blockers">Blockers</h3>
+<ol>
+<li><strong>Clever Complete agreement must be signed</strong> before getting production credentials</li>
+</ul>
+<ol>
+<li><strong>HCPS district admin must approve</strong> the connection for HCPS-specific data</li>
+</ul>
+<ol>
+<li><strong>Production Client ID/Secret</strong> — different from sandbox; issued after agreement signing</li>
+</ul>
+
+<hr>
+
+<h2 id="summary">Summary</h2>
+
+<table>
+<tr><th>Phase</th><th>What</th><th>Effort</th><th>Certification</th></tr>
+<tr><td><strong>Phase 1</strong></td><td>District SSO (Instant Login)</td><td>2 days</td><td>SSO cert (mostly already done)</td></tr>
+<tr><td><strong>Phase 2</strong></td><td>Secure Sync (Rostering)</td><td>5 days</td><td>Secure Sync cert (new build)</td></tr>
+<tr><td><strong>Phase 3</strong></td><td>LMS Connect (Grade Passback)</td><td>5 days</td><td>LMS Connect cert (defer to v2.0)</td></tr>
+<tr><td><strong>Total</strong></td><td>Phases 1-2</td><td><strong>~9 days</strong></td><td>2 certifications</td></tr>
+</table>
+
+<h3 id="whats-already-built-reusable">What's Already Built (Reusable)</h3>
+<ul>
+<li>Complete OAuth 2.0 flow with 4-step account matching</li>
+<li>Non-destructive Clever field merge (never blanks existing data)</li>
+<li><code>cleverDataType</code> field tracking Library vs Complete</li>
+<li>Feature flag for SSO button</li>
+<li>Web portal Clever callback page</li>
+<li>Android deep link handler</li>
+<li>Role mapping (student/teacher/school_admin)</li>
+<li>15 Clever-related unit tests passing</li>
+</ul>
+
+<h3 id="whats-net-new">What's Net New</h3>
+<ul>
+<li>District app token management</li>
+<li>Daily roster sync function</li>
+<li>Event change polling (15-min)</li>
+<li>Section/class data model</li>
+<li>Archive/restore logic</li>
+<li>v3.1 API upgrade</li>
+<li>Admin sync status dashboard</li>
+</ul>
+
+<hr>
+
+<p><em>ImpactBadge LLC — Clever Complete Implementation Plan</em></p>
+<p><em>Generated July 9, 2026</em></p>
+
+<hr>
+<p style="text-align:center;color:#aaa;font-size:12px;margin-top:40px">ImpactBadge LLC &nbsp;|&nbsp; <a href="index.html">Documentation Hub</a> &nbsp;|&nbsp; July 2026</p>
+</body>
+</html>

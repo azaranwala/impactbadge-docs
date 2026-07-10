@@ -1,217 +1,327 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><title>Test Coverage Report</title>
-<style>body{font-family:-apple-system,sans-serif;max-width:900px;margin:40px auto;padding:0 20px;color:#333;line-height:1.6}
-h1{color:#00897B;border-bottom:3px solid #00897B;padding-bottom:10px}h2{color:#00695C;margin-top:30px;border-bottom:1px solid #ddd;padding-bottom:6px}
-h3{color:#444;margin-top:20px}code{background:#f5f5f5;padding:2px 6px;border-radius:4px;font-size:12px}
-table{border-collapse:collapse;width:100%;margin:16px 0}th{background:#00897B;color:white;padding:8px 12px;text-align:left}
-td{border:1px solid #e0e0e0;padding:8px 12px}tr:nth-child(even){background:#f9f9f9}</style></head><body>
-<p><h1>ImpactBadge — Test Coverage Report</h1></p><p><strong>Date</strong>: July 5, 2026
-<strong>Executed</strong>: 3 rounds across all platforms
-<strong>Result</strong>: 100% pass rate — zero failures</p><p>---</p><p><h2>Executive Summary</h2></p><p>| Metric | Value |
-|--------|-------|
-| Total unique tests | <strong>2,316</strong> |
-| Total executions (3 rounds x 4 platforms) | <strong>6,948</strong> |
-| Total failures | <strong>0</strong> |
-| Pass rate | <strong>100%</strong> |</p><p>---</p><p><h2>3-Round Test Results</h2></p><p>| Platform | Round 1 | Round 2 | Round 3 | Status |
-|----------|---------|---------|---------|--------|
-| <strong>Backend (Jest)</strong> | 1,209/1,209 | 1,209/1,209 | 1,209/1,209 | ALL PASSED |
-| <strong>Web Portal (Vitest)</strong> | 92/92 | 92/92 | 92/92 | ALL PASSED |
-| <strong>Android (Jest)</strong> | 336/336 | 336/336 | 336/336 | ALL PASSED |
-| <strong>iOS (XCTest)</strong> | 678/678 | 679/679 | 679/679 | ALL PASSED |</p><p>---</p><p><h2>Unit Test Coverage by Category</h2></p><p><h3>Backend — 59 Suites, 1,209 Tests</h3></p><p>| Category | Suite | Tests | Type | Covers |
-|----------|-------|-------|------|--------|
-| <strong>Authentication</strong> | auth | ~20 | Unit | User creation, deletion, parental consent, SSO |
-| | cleverLinking | 15 | Unit | Clever SSO account linking, email preservation, matching priority |
-| <strong>Events</strong> | createEvent | ~20 | Unit | Event creation, validation, geohashing |
-| | editEvent | ~15 | Unit | Event editing, permission checks |
-| | cancelEvent | ~15 | Unit | Event cancellation, notification |
-| | registerForEvent | ~20 | Unit | Registration, capacity, waitlist |
-| | cancelRegistration | ~15 | Unit | Cancel registration, slot release |
-| | getEventsNearby | ~20 | Unit | Geo-proximity search, category filter |
-| | getRecommendedEvents | ~15 | Unit | AI recommendations, scoring |
-| | scheduleNextOccurrence | ~10 | Unit | Recurring events |
-| | getEventReviews | ~15 | Unit | Review retrieval |
-| | submitReview | ~15 | Unit | Review submission, validation |
-| | getOrgAnalytics | ~15 | Unit | Org dashboard metrics |
-| | orgAdmin | ~10 | Unit | Admin operations |
-| <strong>Hours</strong> | checkIn | ~20 | Unit | GPS validation, rate limiting, distance check |
-| | checkOut | ~25 | Unit | Hours calculation, streak, XP, capping |
-| | verifyHours | ~20 | Unit | Approve/reject/adjust, auto-GPS guard |
-| | bulkVerifyHours | ~15 | Unit | Batch verification |
-| | verifyCheckInPIN | ~15 | Unit | PIN validation |
-| | autoVerify | 16 | Unit | GPS auto-verify, PIN no-auto-verify, status checks |
-| <strong>Gamification</strong> | awardBadges | ~15 | Unit | Milestone badges, hour thresholds |
-| | awardStreakBadges | ~15 | Unit | Streak-based badges |
-| | leaderboard | ~20 | Unit | Sorting, pagination, school scope |
-| | challenges | 20 | Unit | Join, complete, claim, progress |
-| | getLevelInfo | ~15 | Unit | Level tiers, XP thresholds |
-| | referrals | ~15 | Unit | Code generation, application |
-| <strong>Students</strong> | getPublicProfile | 45 | Unit | Public data, PII exclusion, CORS |
-| | updateStudentProfile | ~15 | Unit | Profile updates |
-| | followStudent | ~10 | Unit | Follow relationship |
-| | unfollowStudent | ~10 | Unit | Unfollow |
-| | getImpactMetrics | ~15 | Unit | Impact dashboard |
-| | generatePortfolioCall | ~10 | Unit | Portfolio URL generation |
-| | shareableStories | 16 | Unit | Public reflections, input validation, truncation |
-| <strong>Schools</strong> | getSchoolStudents | ~15 | Unit | Student list, school scoping, teacher access |
-| | getSchoolHoursSummary | ~15 | Unit | Aggregate stats |
-| | getDistrictReport | ~15 | Unit | District analytics |
-| | exportSchoolHoursCSV | ~10 | Unit | CSV export format |
-| | exportDistrictReportCSV | ~10 | Unit | District CSV |
-| | schools | ~10 | Unit | Bulk import, compliance |
-| | getComplianceReport (via schools) | ~10 | Unit | Compliance categorization |
-| <strong>Parents</strong> | generateLinkCode | ~10 | Unit | 6-digit code |
-| | linkParent | ~10 | Unit | Parent linking |
-| | unlinkChild | ~10 | Unit | Unlink |
-| | getChildDashboard | ~15 | Unit | Child activity view |
-| | parentPermissions | ~15 | Unit | Permission CRUD |
-| | notifyParent | ~10 | Unit | Parent notification |
-| <strong>Messaging</strong> | sendMessage | ~15 | Unit | DM sending |
-| | getMessages | ~10 | Unit | Message retrieval |
-| | getConversations | ~10 | Unit | Conversation list |
-| <strong>Notifications</strong> | notifyMatchingStudents | ~10 | Unit | Interest-based notification |
-| | notificationPrefs | ~15 | Unit | Preference CRUD |
-| | sendAnnouncement | ~10 | Unit | Org announcement |
-| | getAnnouncements | ~10 | Unit | Announcement retrieval |
-| | weeklyDigest | ~10 | Unit | Weekly email scheduling |
-| <strong>Teams</strong> | createTeam | ~15 | Unit | Team creation, join code |
-| | joinTeam | ~10 | Unit | Team joining |
-| | getMyTeams | ~10 | Unit | Team list |
-| <strong>Utilities</strong> | emailService | ~10 | Unit | SMTP sending, HTML escape |
-| | pdfGenerator | ~10 | Unit | Certificate PDF |
-| | certificateFields | ~10 | Unit | Certificate field mapping |</p><p><h3>Web Portal — 8 Suites, 92 Tests</h3></p><p>| Suite | Tests | Type | Covers |
-|-------|-------|------|--------|
-| App | 7 | Integration | Routing, role-based redirects |
-| Layout | 10 | Unit | Sidebar, nav links, role-based menus |
-| AdminDashboard | 15 | Integration | Stats cards, pending verifications, approve/reject |
-| SchoolDashboard | 11 | Integration | Stats, student table, compliance |
-| DataTable | 9 | Unit | Sorting, pagination, filtering |
-| StatsCard | 6 | Unit | Metric display, formatting |
-| useAuth | 10 | Unit | Auth state, login, logout, token handling |
-| api | 31 | Unit | All 37 API function declarations |</p><p><h3>Android — 14 Suites, 336 Tests</h3></p><p>| Suite | Tests | Type | Covers |
-|-------|-------|------|--------|
-| LoginScreen | 26 | Unit | Email/password, Google, Clever SSO, error handling, forgot password |
-| HomeScreen | 28 | Integration | Event listing, category filter, distance (miles), search |
-| EventDetailScreen | ~25 | Integration | Detail view, registration, address |
-| CheckInScreen | ~20 | Unit | GPS/PIN check-in, validation |
-| HoursScreen | ~25 | Integration | Dashboard, monthly view, self-report |
-| ProfileScreen | ~25 | Integration | Profile info, settings, badges |
-| SettingsScreen | ~20 | Unit | Settings persistence, privacy |
-| LeaderboardScreen | ~20 | Integration | Global/school/friends leaderboard |
-| NotificationsScreen | ~20 | Integration | Notification list, unread badge |
-| ConversationsListScreen | ~20 | Integration | Chat list, message preview |
-| AppNavigator | ~20 | Integration | Role-based tabs, deep linking |
-| useAuth | ~25 | Unit | Auth hook, state management |
-| api | ~30 | Unit | API service functions |
-| SelfReportScreen | 0 | Skipped | Pre-existing react-native-view-shot mock issue |</p><p><h3>iOS — 22 Suites, 679 Tests</h3></p><p>| Suite | Tests | Type | Covers |
-|-------|-------|------|--------|
-| <strong>Models (7 suites)</strong> | | | |
-| StudentTests | ~40 | Unit | Codable decoding, optional fields, Firestore decoder |
-| EventTests | ~35 | Unit | Event model, date formatting, duration, slots |
-| HourLogTests | ~30 | Unit | Hour log decoding, monthly grouping |
-| OrganizationTests | ~22 | Unit | Org model, optional fields |
-| NonprofitTests | ~20 | Unit | Nonprofit model |
-| ShiftTests | ~20 | Unit | Shift model, capacity |
-| TeamInfoTests | ~11 | Unit | Team model, join code |
-| <strong>ViewModels (8 suites)</strong> | | | |
-| AuthViewModelTests | ~30 | Unit | Sign in, sign up, error handling, forgot password |
-| EventsViewModelTests | ~25 | Unit | Location, geo-query, recommendations, filtering |
-| CheckInViewModelTests | ~25 | Unit | GPS/PIN check-in, location permissions, auto-verify badge |
-| HoursViewModelTests | ~25 | Unit | Dashboard, monthly grouping, computed stats |
-| LeaderboardViewModelTests | ~25 | Unit | Global/school scope, rank calculation |
-| LeaderboardFriendsTests | ~11 | Unit | Friends scope, state management |
-| NotificationsViewModelTests | ~20 | Unit | Notification types, unread count |
-| ProfileViewModelTests | ~20 | Unit | Profile data, registrations |
-| <strong>Services (6 suites)</strong> | | | |
-| ErrorFormatterTests | ~20 | Unit | Firebase error → user message |
-| FeatureFlagsTests | ~13 | Unit | Remote config, flag accessors |
-| OfflineCacheServiceTests | ~15 | Unit | Event caching, retrieval |
-| AchievementCardRendererTests | ~10 | Unit | Badge card rendering |
-| CalendarServiceTests | ~15 | Unit | Calendar event creation |
-| CertificatePDFTests | ~10 | Unit | PDF generation |
-| <strong>Views (1 suite)</strong> | | | |
-| ColorHexTests | ~10 | Unit | Hex color parsing, tealPrimary, accentOrange |</p><p>---</p><p><h2>Integration Test Coverage</h2></p><p><h3>Backend Integration (tested via Cloud Functions calling Firestore)</h3>
-| Flow | Covered By | Status |
-|------|-----------|--------|
-| Student signup → profile creation | auth.test.ts | Tested |
-| Event creation → geo-index | createEvent.test.ts | Tested |
-| Registration → capacity check → waitlist | registerForEvent.test.ts | Tested |
-| GPS check-in → distance validation | checkIn.test.ts | Tested |
-| Checkout → hours calc → XP → badges → email | checkOut.test.ts | Tested |
-| Auto-verify (GPS) → skip manual approval | autoVerify.test.ts | Tested |
-| Self-report → signature → admin review | verifyHours.test.ts | Tested |
-| Clever SSO → account linking → email preservation | cleverLinking.test.ts | Tested |
-| Parent link → child dashboard → permissions | parentPermissions.test.ts | Tested |
-| Challenge join → progress → reward | challenges.test.ts | Tested |
-| School compliance → graduation tracking | schools.test.ts | Tested |
-| Weekly digest → email sending | weeklyDigest.test.ts | Tested |</p><p><h3>Web Portal Integration</h3>
-| Flow | Covered By | Status |
-|------|-----------|--------|
-| Login → role-based routing | App.test.tsx | Tested |
-| Admin dashboard → pending verifications → approve | AdminDashboard.test.tsx | Tested |
-| School dashboard → student list → compliance | SchoolDashboard.test.tsx | Tested |</p><p><h3>Mobile Integration (Android)</h3>
-| Flow | Covered By | Status |
-|------|-----------|--------|
-| Login → role-based tabs | AppNavigator.test.tsx | Tested |
-| Home → events → distance (miles) | HomeScreen.test.tsx | Tested |
-| Event detail → register | EventDetailScreen.test.tsx | Tested |
-| Check-in → PIN/GPS | CheckInScreen.test.tsx | Tested |
-| Hours dashboard → self-report | HoursScreen.test.tsx | Tested |
-| Profile → settings → logout | ProfileScreen.test.tsx, SettingsScreen.test.tsx | Tested |</p><p>---</p><p><h2>Regression Test Coverage</h2></p><p><h3>Features Verified Across All 3 Rounds</h3></p><p>| Feature | Backend | iOS | Android | Web | Rounds |
-|---------|---------|-----|---------|-----|--------|
-| Email/Password auth | auth | AuthVM | LoginScreen | useAuth | 3x |
-| Google Sign-In | auth | AuthVM | LoginScreen | — | 3x |
-| Apple Sign-In | auth | AuthVM | — | — | 3x |
-| Clever SSO + linking | cleverLinking | — | LoginScreen | — | 3x |
-| Forgot Password | — | AuthVM | LoginScreen | — | 3x |
-| Event discovery (geo) | getEventsNearby | EventsVM | HomeScreen | — | 3x |
-| Category filtering | getEventsNearby | EventsVM | HomeScreen | — | 3x |
-| AI recommendations | getRecommendedEvents | EventsVM | — | — | 3x |
-| Event registration | registerForEvent | — | EventDetail | — | 3x |
-| GPS check-in | checkIn | CheckInVM | CheckIn | — | 3x |
-| PIN check-in | verifyCheckInPIN | CheckInVM | CheckIn | — | 3x |
-| Checkout + hours | checkOut | CheckInVM | — | — | 3x |
-| Auto-verify (GPS) | autoVerify | CheckInVM | — | — | 3x |
-| Hours dashboard | — | HoursVM | HoursScreen | — | 3x |
-| Self-reported hours | verifyHours | — | — | — | 3x |
-| Bulk verification | bulkVerifyHours | — | — | AdminDash | 3x |
-| XP / levels | getLevelInfo | — | — | — | 3x |
-| Badges | awardBadges | — | — | — | 3x |
-| Streaks | awardStreakBadges, checkOut | — | — | — | 3x |
-| Leaderboard | leaderboard | LeaderboardVM | Leaderboard | — | 3x |
-| Challenges | challenges | — | — | — | 3x |
-| Referrals | referrals | — | — | — | 3x |
-| Follow/unfollow | followStudent, unfollow | — | — | — | 3x |
-| Messaging | sendMessage, getMessages | — | Conversations | — | 3x |
-| Notifications | notifyMatching, prefs | NotificationsVM | Notifications | — | 3x |
-| Reviews | submitReview, getReviews | — | — | — | 3x |
-| Shareable stories | shareableStories | — | — | — | 3x |
-| Parent linking | generateLinkCode, linkParent | — | — | — | 3x |
-| Parent dashboard | getChildDashboard | — | — | — | 3x |
-| Parent permissions | parentPermissions | — | — | — | 3x |
-| School students | getSchoolStudents | — | — | SchoolDash | 3x |
-| Compliance report | schools | — | — | — | 3x |
-| District report | getDistrictReport | — | — | — | 3x |
-| CSV exports | exportSchoolHoursCSV, exportDistrictCSV | — | — | — | 3x |
-| Portfolio/college export | generatePortfolioCall | — | — | — | 3x |
-| Certificate PDF | pdfGenerator, certificateFields | CertPDF | — | — | 3x |
-| Email service | emailService | — | — | — | 3x |
-| Offline caching | — | OfflineCache | — | — | 3x |
-| Feature flags | — | FeatureFlags | — | — | 3x |
-| Distance (miles) | — | — | HomeScreen | — | 3x |
-| Error formatting | — | ErrorFormatter | — | — | 3x |</p><p>---</p><p><h2>Coverage Gaps (Areas Without Automated Tests)</h2></p><p>| Area | Platform | Risk | Reason |
-|------|----------|------|--------|
-| Apple Watch check-in | iOS | Low | Requires physical Watch device |
-| Home Screen Widget | iOS | Low | Widget extension not testable in XCTest |
-| Deep linking | Android | Low | Requires Detox E2E setup |
-| NL Search | Backend | Low | No unit test, but function exists |
-| Similar Events | Backend | Low | No unit test |
-| Shift management | Backend | Medium | CRUD tests missing |
-| Group messaging | Backend | Low | No unit test |
-| Profile photo upload | All | Low | Requires Storage emulator |
-| Webhook listener | Backend | Medium | No integration test |
-| VolunteerMatch import | Backend | Low | Scheduled job, no test |</p><p>---</p><p><h2>Test Infrastructure</h2></p><p>| Platform | Framework | Runner | Mocking | Coverage Tool |
-|----------|-----------|--------|---------|---------------|
-| Backend | Jest 29 + ts-jest | npm test | Manual mocks | Jest --coverage |
-| Web | Vitest 4.1 + Testing Library | npm test | vi.fn() | Vitest coverage |
-| Android | Jest 29 + React Testing Library | npx jest | jest.mock() | Jest --coverage |
-| iOS | XCTest | xcodebuild test | Protocol-based mocks | Xcode coverage |</p><p>---</p><p>*Generated July 5, 2026 — ImpactBadge Test Coverage Report*
-</p></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test Coverage Report — ImpactBadge</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:900px;margin:0 auto;padding:40px 20px;color:#333;line-height:1.7;background:#fff}
+h1{color:#00897B;border-bottom:3px solid #00897B;padding-bottom:12px;margin-top:40px;font-size:28px}
+h2{color:#00695C;margin-top:36px;border-bottom:1px solid #e0e0e0;padding-bottom:8px;font-size:22px}
+h3{color:#333;margin-top:28px;font-size:18px}
+h4{color:#555;margin-top:20px;font-size:15px}
+a{color:#00897B;text-decoration:none}
+a:hover{text-decoration:underline}
+table{border-collapse:collapse;width:100%;margin:16px 0;font-size:13px}
+th{background:#00897B;color:white;padding:10px 14px;text-align:left;font-weight:600}
+td{border:1px solid #e0e0e0;padding:8px 14px;vertical-align:top}
+tr:nth-child(even){background:#f9f9f9}
+code{background:#f0f4f3;padding:2px 6px;border-radius:4px;font-size:12px;font-family:'SF Mono',Consolas,monospace;color:#00695C}
+pre{background:#1a2332;color:#d4d4d4;padding:16px 20px;border-radius:10px;overflow-x:auto;font-size:12px;line-height:1.5;margin:16px 0}
+pre code{background:none;color:inherit;padding:0}
+ul,ol{margin:12px 0;padding-left:28px}
+li{margin:4px 0}
+hr{border:none;border-top:1px solid #e0e0e0;margin:24px 0}
+p{margin:8px 0}
+strong{color:#1a1a1a}
+.back-link{display:inline-block;margin-bottom:20px;padding:6px 16px;background:#f0f4f3;border-radius:8px;font-size:13px;font-weight:600;color:#00897B}
+.back-link:hover{background:#e0f2f1;text-decoration:none}
+</style>
+</head>
+<body>
+<a href="index.html" class="back-link">&larr; Back to Documentation Hub</a>
+<h1 id="impactbadge--test-coverage-report">ImpactBadge — Test Coverage Report</h1>
+
+<p><strong>Date</strong>: July 5, 2026</p>
+<p><strong>Executed</strong>: 3 rounds across all platforms</p>
+<p><strong>Result</strong>: 100% pass rate — zero failures</p>
+
+<hr>
+
+<h2 id="executive-summary">Executive Summary</h2>
+
+<table>
+<tr><th>Metric</th><th>Value</th></tr>
+<tr><td>Total unique tests</td><td><strong>2,316</strong></td></tr>
+<tr><td>Total executions (3 rounds x 4 platforms)</td><td><strong>6,948</strong></td></tr>
+<tr><td>Total failures</td><td><strong>0</strong></td></tr>
+<tr><td>Pass rate</td><td><strong>100%</strong></td></tr>
+</table>
+
+<hr>
+
+<h2 id="3-round-test-results">3-Round Test Results</h2>
+
+<table>
+<tr><th>Platform</th><th>Round 1</th><th>Round 2</th><th>Round 3</th><th>Status</th></tr>
+<tr><td><strong>Backend (Jest)</strong></td><td>1,209/1,209</td><td>1,209/1,209</td><td>1,209/1,209</td><td>ALL PASSED</td></tr>
+<tr><td><strong>Web Portal (Vitest)</strong></td><td>92/92</td><td>92/92</td><td>92/92</td><td>ALL PASSED</td></tr>
+<tr><td><strong>Android (Jest)</strong></td><td>336/336</td><td>336/336</td><td>336/336</td><td>ALL PASSED</td></tr>
+<tr><td><strong>iOS (XCTest)</strong></td><td>678/678</td><td>679/679</td><td>679/679</td><td>ALL PASSED</td></tr>
+</table>
+
+<hr>
+
+<h2 id="unit-test-coverage-by-category">Unit Test Coverage by Category</h2>
+
+<h3 id="backend--59-suites-1209-tests">Backend — 59 Suites, 1,209 Tests</h3>
+
+<table>
+<tr><th>Category</th><th>Suite</th><th>Tests</th><th>Type</th><th>Covers</th></tr>
+<tr><td><strong>Authentication</strong></td><td>auth</td><td>~20</td><td>Unit</td><td>User creation, deletion, parental consent, SSO</td></tr>
+<tr><td></td><td>cleverLinking</td><td>15</td><td>Unit</td><td>Clever SSO account linking, email preservation, matching priority</td></tr>
+<tr><td><strong>Events</strong></td><td>createEvent</td><td>~20</td><td>Unit</td><td>Event creation, validation, geohashing</td></tr>
+<tr><td></td><td>editEvent</td><td>~15</td><td>Unit</td><td>Event editing, permission checks</td></tr>
+<tr><td></td><td>cancelEvent</td><td>~15</td><td>Unit</td><td>Event cancellation, notification</td></tr>
+<tr><td></td><td>registerForEvent</td><td>~20</td><td>Unit</td><td>Registration, capacity, waitlist</td></tr>
+<tr><td></td><td>cancelRegistration</td><td>~15</td><td>Unit</td><td>Cancel registration, slot release</td></tr>
+<tr><td></td><td>getEventsNearby</td><td>~20</td><td>Unit</td><td>Geo-proximity search, category filter</td></tr>
+<tr><td></td><td>getRecommendedEvents</td><td>~15</td><td>Unit</td><td>AI recommendations, scoring</td></tr>
+<tr><td></td><td>scheduleNextOccurrence</td><td>~10</td><td>Unit</td><td>Recurring events</td></tr>
+<tr><td></td><td>getEventReviews</td><td>~15</td><td>Unit</td><td>Review retrieval</td></tr>
+<tr><td></td><td>submitReview</td><td>~15</td><td>Unit</td><td>Review submission, validation</td></tr>
+<tr><td></td><td>getOrgAnalytics</td><td>~15</td><td>Unit</td><td>Org dashboard metrics</td></tr>
+<tr><td></td><td>orgAdmin</td><td>~10</td><td>Unit</td><td>Admin operations</td></tr>
+<tr><td><strong>Hours</strong></td><td>checkIn</td><td>~20</td><td>Unit</td><td>GPS validation, rate limiting, distance check</td></tr>
+<tr><td></td><td>checkOut</td><td>~25</td><td>Unit</td><td>Hours calculation, streak, XP, capping</td></tr>
+<tr><td></td><td>verifyHours</td><td>~20</td><td>Unit</td><td>Approve/reject/adjust, auto-GPS guard</td></tr>
+<tr><td></td><td>bulkVerifyHours</td><td>~15</td><td>Unit</td><td>Batch verification</td></tr>
+<tr><td></td><td>verifyCheckInPIN</td><td>~15</td><td>Unit</td><td>PIN validation</td></tr>
+<tr><td></td><td>autoVerify</td><td>16</td><td>Unit</td><td>GPS auto-verify, PIN no-auto-verify, status checks</td></tr>
+<tr><td><strong>Gamification</strong></td><td>awardBadges</td><td>~15</td><td>Unit</td><td>Milestone badges, hour thresholds</td></tr>
+<tr><td></td><td>awardStreakBadges</td><td>~15</td><td>Unit</td><td>Streak-based badges</td></tr>
+<tr><td></td><td>leaderboard</td><td>~20</td><td>Unit</td><td>Sorting, pagination, school scope</td></tr>
+<tr><td></td><td>challenges</td><td>20</td><td>Unit</td><td>Join, complete, claim, progress</td></tr>
+<tr><td></td><td>getLevelInfo</td><td>~15</td><td>Unit</td><td>Level tiers, XP thresholds</td></tr>
+<tr><td></td><td>referrals</td><td>~15</td><td>Unit</td><td>Code generation, application</td></tr>
+<tr><td><strong>Students</strong></td><td>getPublicProfile</td><td>45</td><td>Unit</td><td>Public data, PII exclusion, CORS</td></tr>
+<tr><td></td><td>updateStudentProfile</td><td>~15</td><td>Unit</td><td>Profile updates</td></tr>
+<tr><td></td><td>followStudent</td><td>~10</td><td>Unit</td><td>Follow relationship</td></tr>
+<tr><td></td><td>unfollowStudent</td><td>~10</td><td>Unit</td><td>Unfollow</td></tr>
+<tr><td></td><td>getImpactMetrics</td><td>~15</td><td>Unit</td><td>Impact dashboard</td></tr>
+<tr><td></td><td>generatePortfolioCall</td><td>~10</td><td>Unit</td><td>Portfolio URL generation</td></tr>
+<tr><td></td><td>shareableStories</td><td>16</td><td>Unit</td><td>Public reflections, input validation, truncation</td></tr>
+<tr><td><strong>Schools</strong></td><td>getSchoolStudents</td><td>~15</td><td>Unit</td><td>Student list, school scoping, teacher access</td></tr>
+<tr><td></td><td>getSchoolHoursSummary</td><td>~15</td><td>Unit</td><td>Aggregate stats</td></tr>
+<tr><td></td><td>getDistrictReport</td><td>~15</td><td>Unit</td><td>District analytics</td></tr>
+<tr><td></td><td>exportSchoolHoursCSV</td><td>~10</td><td>Unit</td><td>CSV export format</td></tr>
+<tr><td></td><td>exportDistrictReportCSV</td><td>~10</td><td>Unit</td><td>District CSV</td></tr>
+<tr><td></td><td>schools</td><td>~10</td><td>Unit</td><td>Bulk import, compliance</td></tr>
+<tr><td></td><td>getComplianceReport (via schools)</td><td>~10</td><td>Unit</td><td>Compliance categorization</td></tr>
+<tr><td><strong>Parents</strong></td><td>generateLinkCode</td><td>~10</td><td>Unit</td><td>6-digit code</td></tr>
+<tr><td></td><td>linkParent</td><td>~10</td><td>Unit</td><td>Parent linking</td></tr>
+<tr><td></td><td>unlinkChild</td><td>~10</td><td>Unit</td><td>Unlink</td></tr>
+<tr><td></td><td>getChildDashboard</td><td>~15</td><td>Unit</td><td>Child activity view</td></tr>
+<tr><td></td><td>parentPermissions</td><td>~15</td><td>Unit</td><td>Permission CRUD</td></tr>
+<tr><td></td><td>notifyParent</td><td>~10</td><td>Unit</td><td>Parent notification</td></tr>
+<tr><td><strong>Messaging</strong></td><td>sendMessage</td><td>~15</td><td>Unit</td><td>DM sending</td></tr>
+<tr><td></td><td>getMessages</td><td>~10</td><td>Unit</td><td>Message retrieval</td></tr>
+<tr><td></td><td>getConversations</td><td>~10</td><td>Unit</td><td>Conversation list</td></tr>
+<tr><td><strong>Notifications</strong></td><td>notifyMatchingStudents</td><td>~10</td><td>Unit</td><td>Interest-based notification</td></tr>
+<tr><td></td><td>notificationPrefs</td><td>~15</td><td>Unit</td><td>Preference CRUD</td></tr>
+<tr><td></td><td>sendAnnouncement</td><td>~10</td><td>Unit</td><td>Org announcement</td></tr>
+<tr><td></td><td>getAnnouncements</td><td>~10</td><td>Unit</td><td>Announcement retrieval</td></tr>
+<tr><td></td><td>weeklyDigest</td><td>~10</td><td>Unit</td><td>Weekly email scheduling</td></tr>
+<tr><td><strong>Teams</strong></td><td>createTeam</td><td>~15</td><td>Unit</td><td>Team creation, join code</td></tr>
+<tr><td></td><td>joinTeam</td><td>~10</td><td>Unit</td><td>Team joining</td></tr>
+<tr><td></td><td>getMyTeams</td><td>~10</td><td>Unit</td><td>Team list</td></tr>
+<tr><td><strong>Utilities</strong></td><td>emailService</td><td>~10</td><td>Unit</td><td>SMTP sending, HTML escape</td></tr>
+<tr><td></td><td>pdfGenerator</td><td>~10</td><td>Unit</td><td>Certificate PDF</td></tr>
+<tr><td></td><td>certificateFields</td><td>~10</td><td>Unit</td><td>Certificate field mapping</td></tr>
+</table>
+
+<h3 id="web-portal--8-suites-92-tests">Web Portal — 8 Suites, 92 Tests</h3>
+
+<table>
+<tr><th>Suite</th><th>Tests</th><th>Type</th><th>Covers</th></tr>
+<tr><td>App</td><td>7</td><td>Integration</td><td>Routing, role-based redirects</td></tr>
+<tr><td>Layout</td><td>10</td><td>Unit</td><td>Sidebar, nav links, role-based menus</td></tr>
+<tr><td>AdminDashboard</td><td>15</td><td>Integration</td><td>Stats cards, pending verifications, approve/reject</td></tr>
+<tr><td>SchoolDashboard</td><td>11</td><td>Integration</td><td>Stats, student table, compliance</td></tr>
+<tr><td>DataTable</td><td>9</td><td>Unit</td><td>Sorting, pagination, filtering</td></tr>
+<tr><td>StatsCard</td><td>6</td><td>Unit</td><td>Metric display, formatting</td></tr>
+<tr><td>useAuth</td><td>10</td><td>Unit</td><td>Auth state, login, logout, token handling</td></tr>
+<tr><td>api</td><td>31</td><td>Unit</td><td>All 37 API function declarations</td></tr>
+</table>
+
+<h3 id="android--14-suites-336-tests">Android — 14 Suites, 336 Tests</h3>
+
+<table>
+<tr><th>Suite</th><th>Tests</th><th>Type</th><th>Covers</th></tr>
+<tr><td>LoginScreen</td><td>26</td><td>Unit</td><td>Email/password, Google, Clever SSO, error handling, forgot password</td></tr>
+<tr><td>HomeScreen</td><td>28</td><td>Integration</td><td>Event listing, category filter, distance (miles), search</td></tr>
+<tr><td>EventDetailScreen</td><td>~25</td><td>Integration</td><td>Detail view, registration, address</td></tr>
+<tr><td>CheckInScreen</td><td>~20</td><td>Unit</td><td>GPS/PIN check-in, validation</td></tr>
+<tr><td>HoursScreen</td><td>~25</td><td>Integration</td><td>Dashboard, monthly view, self-report</td></tr>
+<tr><td>ProfileScreen</td><td>~25</td><td>Integration</td><td>Profile info, settings, badges</td></tr>
+<tr><td>SettingsScreen</td><td>~20</td><td>Unit</td><td>Settings persistence, privacy</td></tr>
+<tr><td>LeaderboardScreen</td><td>~20</td><td>Integration</td><td>Global/school/friends leaderboard</td></tr>
+<tr><td>NotificationsScreen</td><td>~20</td><td>Integration</td><td>Notification list, unread badge</td></tr>
+<tr><td>ConversationsListScreen</td><td>~20</td><td>Integration</td><td>Chat list, message preview</td></tr>
+<tr><td>AppNavigator</td><td>~20</td><td>Integration</td><td>Role-based tabs, deep linking</td></tr>
+<tr><td>useAuth</td><td>~25</td><td>Unit</td><td>Auth hook, state management</td></tr>
+<tr><td>api</td><td>~30</td><td>Unit</td><td>API service functions</td></tr>
+<tr><td>SelfReportScreen</td><td>0</td><td>Skipped</td><td>Pre-existing react-native-view-shot mock issue</td></tr>
+</table>
+
+<h3 id="ios--22-suites-679-tests">iOS — 22 Suites, 679 Tests</h3>
+
+<table>
+<tr><th>Suite</th><th>Tests</th><th>Type</th><th>Covers</th></tr>
+<tr><td><strong>Models (7 suites)</strong></td><td></td><td></td><td></td></tr>
+<tr><td>StudentTests</td><td>~40</td><td>Unit</td><td>Codable decoding, optional fields, Firestore decoder</td></tr>
+<tr><td>EventTests</td><td>~35</td><td>Unit</td><td>Event model, date formatting, duration, slots</td></tr>
+<tr><td>HourLogTests</td><td>~30</td><td>Unit</td><td>Hour log decoding, monthly grouping</td></tr>
+<tr><td>OrganizationTests</td><td>~22</td><td>Unit</td><td>Org model, optional fields</td></tr>
+<tr><td>NonprofitTests</td><td>~20</td><td>Unit</td><td>Nonprofit model</td></tr>
+<tr><td>ShiftTests</td><td>~20</td><td>Unit</td><td>Shift model, capacity</td></tr>
+<tr><td>TeamInfoTests</td><td>~11</td><td>Unit</td><td>Team model, join code</td></tr>
+<tr><td><strong>ViewModels (8 suites)</strong></td><td></td><td></td><td></td></tr>
+<tr><td>AuthViewModelTests</td><td>~30</td><td>Unit</td><td>Sign in, sign up, error handling, forgot password</td></tr>
+<tr><td>EventsViewModelTests</td><td>~25</td><td>Unit</td><td>Location, geo-query, recommendations, filtering</td></tr>
+<tr><td>CheckInViewModelTests</td><td>~25</td><td>Unit</td><td>GPS/PIN check-in, location permissions, auto-verify badge</td></tr>
+<tr><td>HoursViewModelTests</td><td>~25</td><td>Unit</td><td>Dashboard, monthly grouping, computed stats</td></tr>
+<tr><td>LeaderboardViewModelTests</td><td>~25</td><td>Unit</td><td>Global/school scope, rank calculation</td></tr>
+<tr><td>LeaderboardFriendsTests</td><td>~11</td><td>Unit</td><td>Friends scope, state management</td></tr>
+<tr><td>NotificationsViewModelTests</td><td>~20</td><td>Unit</td><td>Notification types, unread count</td></tr>
+<tr><td>ProfileViewModelTests</td><td>~20</td><td>Unit</td><td>Profile data, registrations</td></tr>
+<tr><td><strong>Services (6 suites)</strong></td><td></td><td></td><td></td></tr>
+<tr><td>ErrorFormatterTests</td><td>~20</td><td>Unit</td><td>Firebase error → user message</td></tr>
+<tr><td>FeatureFlagsTests</td><td>~13</td><td>Unit</td><td>Remote config, flag accessors</td></tr>
+<tr><td>OfflineCacheServiceTests</td><td>~15</td><td>Unit</td><td>Event caching, retrieval</td></tr>
+<tr><td>AchievementCardRendererTests</td><td>~10</td><td>Unit</td><td>Badge card rendering</td></tr>
+<tr><td>CalendarServiceTests</td><td>~15</td><td>Unit</td><td>Calendar event creation</td></tr>
+<tr><td>CertificatePDFTests</td><td>~10</td><td>Unit</td><td>PDF generation</td></tr>
+<tr><td><strong>Views (1 suite)</strong></td><td></td><td></td><td></td></tr>
+<tr><td>ColorHexTests</td><td>~10</td><td>Unit</td><td>Hex color parsing, tealPrimary, accentOrange</td></tr>
+</table>
+
+<hr>
+
+<h2 id="integration-test-coverage">Integration Test Coverage</h2>
+
+<h3 id="backend-integration-tested-via-cloud-functions-calling-firestore">Backend Integration (tested via Cloud Functions calling Firestore)</h3>
+<table>
+<tr><th>Flow</th><th>Covered By</th><th>Status</th></tr>
+<tr><td>Student signup → profile creation</td><td>auth.test.ts</td><td>Tested</td></tr>
+<tr><td>Event creation → geo-index</td><td>createEvent.test.ts</td><td>Tested</td></tr>
+<tr><td>Registration → capacity check → waitlist</td><td>registerForEvent.test.ts</td><td>Tested</td></tr>
+<tr><td>GPS check-in → distance validation</td><td>checkIn.test.ts</td><td>Tested</td></tr>
+<tr><td>Checkout → hours calc → XP → badges → email</td><td>checkOut.test.ts</td><td>Tested</td></tr>
+<tr><td>Auto-verify (GPS) → skip manual approval</td><td>autoVerify.test.ts</td><td>Tested</td></tr>
+<tr><td>Self-report → signature → admin review</td><td>verifyHours.test.ts</td><td>Tested</td></tr>
+<tr><td>Clever SSO → account linking → email preservation</td><td>cleverLinking.test.ts</td><td>Tested</td></tr>
+<tr><td>Parent link → child dashboard → permissions</td><td>parentPermissions.test.ts</td><td>Tested</td></tr>
+<tr><td>Challenge join → progress → reward</td><td>challenges.test.ts</td><td>Tested</td></tr>
+<tr><td>School compliance → graduation tracking</td><td>schools.test.ts</td><td>Tested</td></tr>
+<tr><td>Weekly digest → email sending</td><td>weeklyDigest.test.ts</td><td>Tested</td></tr>
+</table>
+
+<h3 id="web-portal-integration">Web Portal Integration</h3>
+<table>
+<tr><th>Flow</th><th>Covered By</th><th>Status</th></tr>
+<tr><td>Login → role-based routing</td><td>App.test.tsx</td><td>Tested</td></tr>
+<tr><td>Admin dashboard → pending verifications → approve</td><td>AdminDashboard.test.tsx</td><td>Tested</td></tr>
+<tr><td>School dashboard → student list → compliance</td><td>SchoolDashboard.test.tsx</td><td>Tested</td></tr>
+</table>
+
+<h3 id="mobile-integration-android">Mobile Integration (Android)</h3>
+<table>
+<tr><th>Flow</th><th>Covered By</th><th>Status</th></tr>
+<tr><td>Login → role-based tabs</td><td>AppNavigator.test.tsx</td><td>Tested</td></tr>
+<tr><td>Home → events → distance (miles)</td><td>HomeScreen.test.tsx</td><td>Tested</td></tr>
+<tr><td>Event detail → register</td><td>EventDetailScreen.test.tsx</td><td>Tested</td></tr>
+<tr><td>Check-in → PIN/GPS</td><td>CheckInScreen.test.tsx</td><td>Tested</td></tr>
+<tr><td>Hours dashboard → self-report</td><td>HoursScreen.test.tsx</td><td>Tested</td></tr>
+<tr><td>Profile → settings → logout</td><td>ProfileScreen.test.tsx, SettingsScreen.test.tsx</td><td>Tested</td></tr>
+</table>
+
+<hr>
+
+<h2 id="regression-test-coverage">Regression Test Coverage</h2>
+
+<h3 id="features-verified-across-all-3-rounds">Features Verified Across All 3 Rounds</h3>
+
+<table>
+<tr><th>Feature</th><th>Backend</th><th>iOS</th><th>Android</th><th>Web</th><th>Rounds</th></tr>
+<tr><td>Email/Password auth</td><td>auth</td><td>AuthVM</td><td>LoginScreen</td><td>useAuth</td><td>3x</td></tr>
+<tr><td>Google Sign-In</td><td>auth</td><td>AuthVM</td><td>LoginScreen</td><td>—</td><td>3x</td></tr>
+<tr><td>Apple Sign-In</td><td>auth</td><td>AuthVM</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Clever SSO + linking</td><td>cleverLinking</td><td>—</td><td>LoginScreen</td><td>—</td><td>3x</td></tr>
+<tr><td>Forgot Password</td><td>—</td><td>AuthVM</td><td>LoginScreen</td><td>—</td><td>3x</td></tr>
+<tr><td>Event discovery (geo)</td><td>getEventsNearby</td><td>EventsVM</td><td>HomeScreen</td><td>—</td><td>3x</td></tr>
+<tr><td>Category filtering</td><td>getEventsNearby</td><td>EventsVM</td><td>HomeScreen</td><td>—</td><td>3x</td></tr>
+<tr><td>AI recommendations</td><td>getRecommendedEvents</td><td>EventsVM</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Event registration</td><td>registerForEvent</td><td>—</td><td>EventDetail</td><td>—</td><td>3x</td></tr>
+<tr><td>GPS check-in</td><td>checkIn</td><td>CheckInVM</td><td>CheckIn</td><td>—</td><td>3x</td></tr>
+<tr><td>PIN check-in</td><td>verifyCheckInPIN</td><td>CheckInVM</td><td>CheckIn</td><td>—</td><td>3x</td></tr>
+<tr><td>Checkout + hours</td><td>checkOut</td><td>CheckInVM</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Auto-verify (GPS)</td><td>autoVerify</td><td>CheckInVM</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Hours dashboard</td><td>—</td><td>HoursVM</td><td>HoursScreen</td><td>—</td><td>3x</td></tr>
+<tr><td>Self-reported hours</td><td>verifyHours</td><td>—</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Bulk verification</td><td>bulkVerifyHours</td><td>—</td><td>—</td><td>AdminDash</td><td>3x</td></tr>
+<tr><td>XP / levels</td><td>getLevelInfo</td><td>—</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Badges</td><td>awardBadges</td><td>—</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Streaks</td><td>awardStreakBadges, checkOut</td><td>—</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Leaderboard</td><td>leaderboard</td><td>LeaderboardVM</td><td>Leaderboard</td><td>—</td><td>3x</td></tr>
+<tr><td>Challenges</td><td>challenges</td><td>—</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Referrals</td><td>referrals</td><td>—</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Follow/unfollow</td><td>followStudent, unfollow</td><td>—</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Messaging</td><td>sendMessage, getMessages</td><td>—</td><td>Conversations</td><td>—</td><td>3x</td></tr>
+<tr><td>Notifications</td><td>notifyMatching, prefs</td><td>NotificationsVM</td><td>Notifications</td><td>—</td><td>3x</td></tr>
+<tr><td>Reviews</td><td>submitReview, getReviews</td><td>—</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Shareable stories</td><td>shareableStories</td><td>—</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Parent linking</td><td>generateLinkCode, linkParent</td><td>—</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Parent dashboard</td><td>getChildDashboard</td><td>—</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Parent permissions</td><td>parentPermissions</td><td>—</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>School students</td><td>getSchoolStudents</td><td>—</td><td>—</td><td>SchoolDash</td><td>3x</td></tr>
+<tr><td>Compliance report</td><td>schools</td><td>—</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>District report</td><td>getDistrictReport</td><td>—</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>CSV exports</td><td>exportSchoolHoursCSV, exportDistrictCSV</td><td>—</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Portfolio/college export</td><td>generatePortfolioCall</td><td>—</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Certificate PDF</td><td>pdfGenerator, certificateFields</td><td>CertPDF</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Email service</td><td>emailService</td><td>—</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Offline caching</td><td>—</td><td>OfflineCache</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Feature flags</td><td>—</td><td>FeatureFlags</td><td>—</td><td>—</td><td>3x</td></tr>
+<tr><td>Distance (miles)</td><td>—</td><td>—</td><td>HomeScreen</td><td>—</td><td>3x</td></tr>
+<tr><td>Error formatting</td><td>—</td><td>ErrorFormatter</td><td>—</td><td>—</td><td>3x</td></tr>
+</table>
+
+<hr>
+
+<h2 id="coverage-gaps-areas-without-automated-tests">Coverage Gaps (Areas Without Automated Tests)</h2>
+
+<table>
+<tr><th>Area</th><th>Platform</th><th>Risk</th><th>Reason</th></tr>
+<tr><td>Apple Watch check-in</td><td>iOS</td><td>Low</td><td>Requires physical Watch device</td></tr>
+<tr><td>Home Screen Widget</td><td>iOS</td><td>Low</td><td>Widget extension not testable in XCTest</td></tr>
+<tr><td>Deep linking</td><td>Android</td><td>Low</td><td>Requires Detox E2E setup</td></tr>
+<tr><td>NL Search</td><td>Backend</td><td>Low</td><td>No unit test, but function exists</td></tr>
+<tr><td>Similar Events</td><td>Backend</td><td>Low</td><td>No unit test</td></tr>
+<tr><td>Shift management</td><td>Backend</td><td>Medium</td><td>CRUD tests missing</td></tr>
+<tr><td>Group messaging</td><td>Backend</td><td>Low</td><td>No unit test</td></tr>
+<tr><td>Profile photo upload</td><td>All</td><td>Low</td><td>Requires Storage emulator</td></tr>
+<tr><td>Webhook listener</td><td>Backend</td><td>Medium</td><td>No integration test</td></tr>
+<tr><td>VolunteerMatch import</td><td>Backend</td><td>Low</td><td>Scheduled job, no test</td></tr>
+</table>
+
+<hr>
+
+<h2 id="test-infrastructure">Test Infrastructure</h2>
+
+<table>
+<tr><th>Platform</th><th>Framework</th><th>Runner</th><th>Mocking</th><th>Coverage Tool</th></tr>
+<tr><td>Backend</td><td>Jest 29 + ts-jest</td><td>npm test</td><td>Manual mocks</td><td>Jest --coverage</td></tr>
+<tr><td>Web</td><td>Vitest 4.1 + Testing Library</td><td>npm test</td><td>vi.fn()</td><td>Vitest coverage</td></tr>
+<tr><td>Android</td><td>Jest 29 + React Testing Library</td><td>npx jest</td><td>jest.mock()</td><td>Jest --coverage</td></tr>
+<tr><td>iOS</td><td>XCTest</td><td>xcodebuild test</td><td>Protocol-based mocks</td><td>Xcode coverage</td></tr>
+</table>
+
+<hr>
+
+<p><em>Generated July 5, 2026 — ImpactBadge Test Coverage Report</em></p>
+
+<hr>
+<p style="text-align:center;color:#aaa;font-size:12px;margin-top:40px">ImpactBadge LLC &nbsp;|&nbsp; <a href="index.html">Documentation Hub</a> &nbsp;|&nbsp; July 2026</p>
+</body>
+</html>
