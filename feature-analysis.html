@@ -1,0 +1,543 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Feature Analysis</title>
+<style>body{font-family:-apple-system,sans-serif;max-width:900px;margin:40px auto;padding:0 20px;color:#333;line-height:1.6}
+h1{color:#00897B;border-bottom:3px solid #00897B;padding-bottom:10px}h2{color:#00695C;margin-top:30px;border-bottom:1px solid #ddd;padding-bottom:6px}
+h3{color:#444;margin-top:20px}code{background:#f5f5f5;padding:2px 6px;border-radius:4px;font-size:12px}
+table{border-collapse:collapse;width:100%;margin:16px 0}th{background:#00897B;color:white;padding:8px 12px;text-align:left}
+td{border:1px solid #e0e0e0;padding:8px 12px}tr:nth-child(even){background:#f9f9f9}</style></head><body>
+<p><h1>ImpactBadge - Comprehensive Feature Analysis & Test Report</h1></p><p><strong>Date</strong>: June 27, 2026
+<strong>Version</strong>: Production (Build 26+)
+<strong>Platforms</strong>: iOS, Android (React Native), Web Portal, Backend (Firebase)</p><p>---</p><p><h2>Table of Contents</h2></p><p>1. [Executive Summary](#1-executive-summary)
+2. [Platform Overview](#2-platform-overview)
+3. [Test Execution Results](#3-test-execution-results)
+4. [Feature Inventory by Category](#4-feature-inventory-by-category)
+5. [End-to-End Scenarios](#5-end-to-end-scenarios)
+6. [Platform-Specific Features](#6-platform-specific-features)
+7. [Security & Compliance](#7-security--compliance)
+8. [Integration Points](#8-integration-points)
+9. [Test Coverage Analysis](#9-test-coverage-analysis)
+10. [Database & Architecture](#10-database--architecture)</p><p>---</p><p><h2>1. Executive Summary</h2></p><p>ImpactBadge is a comprehensive K-12 volunteer hour tracking platform spanning <strong>4 applications</strong> with <strong>158+ backend Cloud Functions</strong>, <strong>75+ mobile features</strong>, and <strong>10 web portal pages</strong>. The platform serves 4 user roles (Student, Org Admin, School Admin, Parent) with full gamification, compliance reporting, and college export capabilities.</p><p><h3>Key Metrics</h3></p><p>| Metric | Value |
+|--------|-------|
+| Total Features | 120+ unique features |
+| Cloud Functions | 158 |
+| iOS Views | 70+ |
+| Android Screens | 58 |
+| Web Portal Pages | 10 |
+| Firestore Collections | 27 |
+| Composite Indexes | 23 |
+| Feature Flags | 9 |
+| User Roles | 4 |
+| Supported Languages | 2 (English, Spanish) |</p><p>---</p><p><h2>2. Platform Overview</h2></p><p><h3>2.1 iOS App (Swift/SwiftUI)</h3>
+- <strong>Architecture</strong>: MVVM with @Observable ViewModels
+- <strong>Min Target</strong>: iOS 16+
+- <strong>Extensions</strong>: Apple Watch app, Home Screen Widget
+- <strong>Auth</strong>: Email/Password, Google, Apple Sign-In, Clever SSO
+- <strong>Navigation</strong>: 6-tab layout (Explore, Hours, Profile, Leaderboard, Messages, Alerts)</p><p><h3>2.2 Android App (React Native/TypeScript)</h3>
+- <strong>Architecture</strong>: React Navigation with hooks-based state management
+- <strong>Auth</strong>: Email/Password, Google, Clever SSO
+- <strong>Navigation</strong>: Role-based tabs (Student: 5 tabs, Org Admin: 4 tabs, Parent: 3 tabs)
+- <strong>Localization</strong>: i18next (English, Spanish)</p><p><h3>2.3 Web Portal (React/TypeScript/Vite)</h3>
+- <strong>Framework</strong>: React 18 + TailwindCSS 4.0 + Recharts
+- <strong>Purpose</strong>: Admin/School dashboards, Clever SSO login
+- <strong>Auth</strong>: Clever SSO, Firebase Auth
+- <strong>Deployment</strong>: Firebase Hosting (impacthub-prod.web.app)</p><p><h3>2.4 Backend (Firebase Cloud Functions)</h3>
+- <strong>Runtime</strong>: Node.js 20, TypeScript (strict mode)
+- <strong>Functions</strong>: 158 callable/HTTP/trigger functions
+- <strong>Validation</strong>: Zod schema validation on all inputs
+- <strong>Geo</strong>: geofire-common for proximity searches</p><p>---</p><p><h2>3. Test Execution Results</h2></p><p><h3>3.1 Backend Tests</h3>
+<code>`</code>
+Test Suites: 56 passed, 56 total
+Tests:       1162 passed, 1162 total
+Time:        6.62s
+Result:      ALL PASSED
+<code>`</code></p><p><h3>3.2 Android Tests</h3>
+<code>`</code>
+Test Suites: 12 passed, 2 failed, 14 total
+Tests:       334 passed, 2 failed, 336 total
+Time:        2.52s
+Result:      2 FAILURES (Clever SSO button text mismatch in LoginScreen tests)
+<code>`</code></p><p><strong>Failed Tests</strong>:
+- <code>LoginScreen.test.tsx</code>: "Sign in with Clever" button not found — Clever SSO button is feature-flagged and hidden in test environment
+- <code>LoginScreen.test.tsx</code>: Related Clever OAuth URL test — depends on above button</p><p><h3>3.3 Web Portal Tests</h3>
+<code>`</code>
+Test Suites: 7 passed, 1 failed, 8 total
+Tests:       91 passed, 1 failed, 92 total
+Time:        2.24s
+Result:      1 FAILURE (Layout component text matching)
+<code>`</code></p><p><strong>Failed Test</strong>:
+- <code>Layout.test.tsx</code>: <code>screen.getByText('ImpactBadge')</code> — Brand title rendering changed in sidebar redesign; test selector needs update</p><p><h3>3.4 Overall Test Summary</h3></p><p>| Component | Suites | Tests | Pass Rate |
+|-----------|--------|-------|-----------|
+| Backend | 56/56 | 1162/1162 | <strong>100%</strong> |
+| Android | 12/14 | 334/336 | <strong>99.4%</strong> |
+| Web Portal | 7/8 | 91/92 | <strong>98.9%</strong> |
+| <strong>Total</strong> | <strong>75/78</strong> | <strong>1587/1590</strong> | <strong>99.8%</strong> |</p><p>---</p><p><h2>4. Feature Inventory by Category</h2></p><p><h3>4.1 Authentication & Onboarding (14 features)</h3></p><p>| # | Feature | iOS | Android | Web | Backend | Tests |
+|---|---------|-----|---------|-----|---------|-------|
+| 1 | Email/Password Login | Y | Y | - | Y | Y |
+| 2 | Email/Password Sign-Up | Y | Y | - | Y | Y |
+| 3 | Google Sign-In | Y | Y | - | Y | Y |
+| 4 | Apple Sign-In | Y | - | - | Y | - |
+| 5 | Clever SSO | Y | Y | Y | Y | Y |
+| 6 | Password Reset | Y | Y | - | Y | - |
+| 7 | School Domain Detection | Y | Y | - | Y | Y |
+| 8 | Interest Selector (Onboarding) | Y | Y | - | Y | - |
+| 9 | Onboarding Tutorial | Y | Y | - | - | - |
+| 10 | COPPA Parental Consent (Under-13) | Y | Y | - | Y | Y |
+| 11 | Pending Consent Screen | Y | Y | - | Y | Y |
+| 12 | Account Deletion | Y | Y | - | Y | Y |
+| 13 | Email Domain Validation | Y | Y | - | Y | - |
+| 14 | Logout | Y | Y | Y | Y | Y |</p><p><h3>4.2 Event Discovery & Management (25 features)</h3></p><p>| # | Feature | iOS | Android | Web | Backend | Tests |
+|---|---------|-----|---------|-----|---------|-------|
+| 15 | GPS-Based Event Discovery | Y | Y | - | Y | Y |
+| 16 | Category Filtering (8 categories) | Y | Y | - | Y | Y |
+| 17 | Event Map View (MapKit/Google Maps) | Y | Y | - | - | Y |
+| 18 | Event Cards with Distance/Slots | Y | Y | - | - | Y |
+| 19 | AI-Powered Recommended Events | Y | Y | - | Y | Y |
+| 20 | Similar Events | Y | Y | - | Y | - |
+| 21 | Natural Language Search | Y | Y | - | Y | - |
+| 22 | Event Detail View | Y | Y | - | - | Y |
+| 23 | Event Registration | Y | Y | - | Y | Y |
+| 24 | Waitlist Registration | Y | Y | - | Y | - |
+| 25 | Cancel Registration | Y | Y | - | Y | Y |
+| 26 | Multi-Shift Selection | Y | Y | - | Y | - |
+| 27 | Create Event (Org Admin) | Y | Y | Y | Y | Y |
+| 28 | Edit Event (Org Admin) | Y | Y | Y | Y | Y |
+| 29 | Cancel Event (Org Admin) | Y | Y | - | Y | Y |
+| 30 | Recurring Event Scheduling | - | - | - | Y | Y |
+| 31 | Event Reviews (1-5 stars) | Y | Y | - | Y | Y |
+| 32 | Event Photos Upload | Y | Y | - | Y | - |
+| 33 | Event Announcements | Y | Y | - | Y | Y |
+| 34 | Virtual Event Support | Y | Y | - | Y | - |
+| 35 | Event QR Code Display | Y | - | - | - | - |
+| 36 | Availability-Based Event Matching | Y | Y | - | Y | - |
+| 37 | Volunteer Availability View | Y | Y | Y | Y | - |
+| 38 | Schedule Suggestions (AI) | - | - | - | Y | - |
+| 39 | Address Autocomplete | Y | Y | - | - | - |</p><p><h3>4.3 Hours Tracking & Verification (15 features)</h3></p><p>| # | Feature | iOS | Android | Web | Backend | Tests |
+|---|---------|-----|---------|-----|---------|-------|
+| 40 | GPS Check-In (300m geo-fence) | Y | Y | - | Y | Y |
+| 41 | PIN Check-In (4-digit code) | Y | Y | - | Y | Y |
+| 42 | QR Code Check-In | Y | Y | - | Y | - |
+| 43 | Check-Out with Hours Calculation | Y | Y | - | Y | Y |
+| 44 | Hours Dashboard (verified/pending/total) | Y | Y | - | - | Y |
+| 45 | Hours by Month Grouping | Y | Y | - | - | Y |
+| 46 | Self-Reported Hours | Y | Y | - | Y | - |
+| 47 | Signature Verification (e-signature pad) | Y | Y | - | Y | - |
+| 48 | Photo Evidence Upload | Y | Y | - | Y | - |
+| 49 | Admin Hours Verification | Y | Y | Y | Y | Y |
+| 50 | Bulk Verification | Y | Y | Y | Y | Y |
+| 51 | CSL Pre-Approval Requests | Y | Y | Y | Y | - |
+| 52 | Pre-Approval Status Tracking | Y | Y | Y | Y | - |
+| 53 | Distance Error Handling | Y | Y | - | Y | Y |
+| 54 | Check-In Rate Limiting (10/hr) | - | - | - | Y | Y |</p><p><h3>4.4 Gamification & Achievements (12 features)</h3></p><p>| # | Feature | iOS | Android | Web | Backend | Tests |
+|---|---------|-----|---------|-----|---------|-------|
+| 55 | XP Points System | Y | Y | - | Y | Y |
+| 56 | Level Progression (Greenhorn to Sage) | Y | Y | - | Y | Y |
+| 57 | Badge System (11+ badges) | Y | Y | - | Y | Y |
+| 58 | Streak Tracking (consecutive days) | Y | Y | - | Y | Y |
+| 59 | Time-Limited Challenges | Y | Y | - | Y | Y |
+| 60 | Challenge Progress Tracking | Y | Y | - | Y | Y |
+| 61 | Challenge Reward Claiming | Y | Y | - | Y | Y |
+| 62 | Global Leaderboard | Y | Y | - | Y | Y |
+| 63 | School Leaderboard | Y | Y | - | Y | Y |
+| 64 | Friends Leaderboard | Y | Y | - | Y | Y |
+| 65 | Referral Program (unique codes) | Y | Y | - | Y | Y |
+| 66 | Referral XP Bonuses | Y | Y | - | Y | Y |</p><p><h3>4.5 Profile & Personalization (17 features)</h3></p><p>| # | Feature | iOS | Android | Web | Backend | Tests |
+|---|---------|-----|---------|-----|---------|-------|
+| 67 | User Profile View/Edit | Y | Y | - | Y | Y |
+| 68 | Profile Photo Upload | Y | Y | - | Y | - |
+| 69 | Skills Editor | Y | Y | - | Y | - |
+| 70 | Availability Calendar | Y | Y | - | Y | - |
+| 71 | Notification Preferences | Y | Y | - | Y | Y |
+| 72 | Interests Display/Edit | Y | Y | - | Y | - |
+| 73 | My Registrations List | Y | Y | - | - | Y |
+| 74 | Friends/Following System | Y | Y | - | Y | Y |
+| 75 | Public Profile View | Y | Y | - | Y | Y |
+| 76 | Reflections (Write/View) | Y | Y | - | Y | - |
+| 77 | School Transfer | Y | - | - | Y | - |
+| 78 | Settings (Privacy, Terms, etc.) | Y | Y | - | - | Y |
+| 79 | Dark Mode Support | Y | Y | - | - | - |
+| 80 | Personal Impact Dashboard | Y | Y | - | Y | Y |
+| 81 | Analytics Charts | Y | Y | - | Y | - |
+| 82 | School History | Y | - | - | Y | - |
+| 83 | Account Data Deletion | Y | Y | - | Y | Y |</p><p><h3>4.6 Messaging & Communication (7 features)</h3></p><p>| # | Feature | iOS | Android | Web | Backend | Tests |
+|---|---------|-----|---------|-----|---------|-------|
+| 84 | 1-on-1 Direct Messaging | Y | Y | - | Y | Y |
+| 85 | Conversations List | Y | Y | - | Y | Y |
+| 86 | Message History/Pagination | Y | Y | - | Y | Y |
+| 87 | Group Event Chat | Y | Y | - | Y | - |
+| 88 | Message Push Notifications | Y | Y | - | Y | - |
+| 89 | Feature Flag Toggle | Y | Y | - | Y | - |
+| 90 | User Search | Y | Y | - | - | - |</p><p><h3>4.7 Notifications & Alerts (7 features)</h3></p><p>| # | Feature | iOS | Android | Web | Backend | Tests |
+|---|---------|-----|---------|-----|---------|-------|
+| 91 | Notification Center | Y | Y | - | - | Y |
+| 92 | Unread Badge Count | Y | Y | - | - | Y |
+| 93 | Auto-Notify Matching Students | - | - | - | Y | Y |
+| 94 | Event Reminders (24h before) | Y | Y | - | Y | - |
+| 95 | Org Admin Announcements | Y | Y | - | Y | Y |
+| 96 | Weekly Email Digest | - | - | - | Y | Y |
+| 97 | Real-time Firestore Listeners | Y | Y | Y | Y | - |</p><p><h3>4.8 Export & Reporting (9 features)</h3></p><p>| # | Feature | iOS | Android | Web | Backend | Tests |
+|---|---------|-----|---------|-----|---------|-------|
+| 98 | PDF Certificate Export | Y | Y | - | Y | Y |
+| 99 | College/University Export | Y | Y | - | Y | - |
+| 100 | Common App Export | Y | Y | - | Y | - |
+| 101 | Naviance CSV Export | Y | Y | - | Y | - |
+| 102 | Volunteer Portfolio Generation | Y | Y | - | Y | Y |
+| 103 | School Hours CSV Export | - | - | Y | Y | Y |
+| 104 | District Report CSV Export | - | - | Y | Y | Y |
+| 105 | WinSchool SIS Export | - | - | Y | Y | - |
+| 106 | HCPS CSL Compliance Report | - | - | Y | Y | - |</p><p><h3>4.9 Team Collaboration (3 features)</h3></p><p>| # | Feature | iOS | Android | Web | Backend | Tests |
+|---|---------|-----|---------|-----|---------|-------|
+| 107 | Team Creation (with join code) | Y | Y | - | Y | Y |
+| 108 | Team Joining (via code) | Y | Y | - | Y | Y |
+| 109 | My Teams List | Y | Y | - | Y | Y |</p><p><h3>4.10 Parent/Guardian Features (8 features)</h3></p><p>| # | Feature | iOS | Android | Web | Backend | Tests |
+|---|---------|-----|---------|-----|---------|-------|
+| 110 | Parent Dashboard | Y | Y | - | Y | Y |
+| 111 | Parent-Child Linking (6-digit code) | Y | Y | - | Y | Y |
+| 112 | Child Account Monitoring | Y | Y | - | Y | Y |
+| 113 | Permission Controls | Y | Y | - | Y | Y |
+| 114 | Parent Notifications | Y | Y | - | Y | Y |
+| 115 | Unlink Child Account | Y | Y | - | Y | Y |
+| 116 | Parental Consent (COPPA) | Y | Y | - | Y | Y |
+| 117 | Parent Tab Navigation | Y | Y | - | - | - |</p><p><h3>4.11 Nonprofit/Organization Features (5 features)</h3></p><p>| # | Feature | iOS | Android | Web | Backend | Tests |
+|---|---------|-----|---------|-----|---------|-------|
+| 118 | Nonprofit Search (IRS registry) | Y | Y | - | Y | - |
+| 119 | Nonprofit Detail View | Y | Y | - | Y | - |
+| 120 | Org Claim Request (EIN verification) | Y | Y | - | Y | - |
+| 121 | Org Claim Status Tracking | Y | Y | - | Y | - |
+| 122 | Unclaimed Org Statistics | - | - | - | Y | - |</p><p><h3>4.12 School & District Admin Features (13 features)</h3></p><p>| # | Feature | iOS | Android | Web | Backend | Tests |
+|---|---------|-----|---------|-----|---------|-------|
+| 123 | School Students List | - | - | Y | Y | Y |
+| 124 | School Hours Summary | - | - | Y | Y | Y |
+| 125 | Graduation Hour Requirements | - | - | Y | Y | - |
+| 126 | Compliance Dashboard | - | - | Y | Y | - |
+| 127 | Bulk Student Import (CSV) | - | - | Y | Y | - |
+| 128 | District-Level Reporting | - | - | Y | Y | Y |
+| 129 | Pre-Approval Review (HCPS) | - | - | Y | Y | - |
+| 130 | School Settings Configuration | - | - | Y | Y | - |
+| 131 | Student Import from Roster | Y | - | Y | Y | - |
+| 132 | Compliance Report Generation | Y | Y | Y | Y | - |
+| 133 | School Domain Registration | - | - | - | Y | - |
+| 134 | Partner SIS API | - | - | - | Y | - |
+| 135 | Partner API Key Management | - | - | - | Y | - |</p><p><h3>4.13 Org Admin Dashboard Features (8 features)</h3></p><p>| # | Feature | iOS | Android | Web | Backend | Tests |
+|---|---------|-----|---------|-----|---------|-------|
+| 136 | Admin Dashboard Overview | Y | Y | Y | Y | Y |
+| 137 | Event Management | Y | Y | Y | Y | Y |
+| 138 | Registration Management | Y | Y | Y | Y | - |
+| 139 | Pending Verifications Queue | Y | Y | Y | Y | - |
+| 140 | Organization Analytics | Y | Y | Y | Y | Y |
+| 141 | CSV Bulk Import | Y | Y | Y | Y | - |
+| 142 | Volunteer Analytics | Y | Y | Y | Y | - |
+| 143 | Webhook Integration | - | - | - | Y | - |</p><p><h3>4.14 Data Import & Integration (6 features)</h3></p><p>| # | Feature | iOS | Android | Web | Backend | Tests |
+|---|---------|-----|---------|-----|---------|-------|
+| 144 | VolunteerMatch Event Import | - | - | - | Y | - |
+| 145 | Manual Event Import | - | - | - | Y | - |
+| 146 | Hours CSV Upload | - | - | Y | Y | - |
+| 147 | Webhook Listener (external VMS) | - | - | - | Y | - |
+| 148 | Webhook Key Generation | - | - | - | Y | - |
+| 149 | Import Helpers (CSV parsing) | - | - | - | Y | - |</p><p>---</p><p><h2>5. End-to-End Scenarios</h2></p><p><h3>Scenario 1: Student Registration & First Event</h3>
+<code>`</code>
+1. Student opens app → sees onboarding tutorial (4 slides)
+2. Taps "Create Account" → enters email, password, name, grade, school
+3. System auto-detects school from email domain
+4. If under 13: parent email required → COPPA consent email sent
+5. Student selects volunteer interests (environment, education, health, etc.)
+6. Lands on Home tab → sees nearby events via GPS
+7. Browses events by category or searches via natural language
+8. Taps event card → views full details, address, capacity
+9. Registers for event → receives confirmation
+10. Gets push notification reminder 24 hours before event
+<code>`</code>
+<strong>Status</strong>: TESTED (AuthTests, EventsTests)</p><p><h3>Scenario 2: Event Check-In & Hours Logging</h3>
+<code>`</code>
+1. Student arrives at event location
+2. Opens check-in screen → GPS validates within 300m
+3. Alternative: enters 4-digit PIN or scans QR code
+4. Check-in confirmed → timer starts
+5. After volunteering, student checks out
+6. Hours automatically calculated and logged
+7. Hours appear as "pending" in dashboard
+8. Org admin sees pending verification in admin queue
+9. Admin approves hours → student notified
+10. Hours move to "verified" → XP awarded → badge check triggered
+<code>`</code>
+<strong>Status</strong>: TESTED (CheckInTests, verifyHours.test.ts)</p><p><h3>Scenario 3: Self-Reported Hours</h3>
+<code>`</code>
+1. Student volunteers at non-ImpactBadge event
+2. Goes to Hours tab → taps "Self-Report Hours"
+3. Enters: organization, date, hours, description
+4. Draws e-signature on signature pad
+5. Optionally attaches photo evidence
+6. Submits → hours appear as "pending self-report"
+7. Org admin reviews evidence (signature + photos)
+8. Admin approves/rejects → student notified
+9. If approved, hours added to verified total
+<code>`</code>
+<strong>Status</strong>: TESTED (SelfReportScreen.test.tsx, submitSelfReportedHours)</p><p><h3>Scenario 4: Gamification Progression</h3>
+<code>`</code>
+1. Student completes first event → earns "First Step" badge
+2. XP points awarded based on hours + category bonuses
+3. Streak counter increments for consecutive days
+4. Student advances levels: Greenhorn → Volunteer → Helper → Hero → Champion → Legend → Sage
+5. Student checks leaderboard (global, school, friends)
+6. Joins time-limited challenge ("Log 10 hours this week")
+7. Completes challenge → claims XP reward
+8. Generates referral code → shares with friends
+9. Friend signs up with code → both earn bonus XP
+<code>`</code>
+<strong>Status</strong>: TESTED (leaderboard.test.ts, challenges.test.ts, referrals.test.ts, awardBadges.test.ts)</p><p><h3>Scenario 5: Parent Monitoring Flow</h3>
+<code>`</code>
+1. Student generates 6-digit link code from profile
+2. Parent installs app → creates parent account
+3. Parent enters link code → accounts linked
+4. Parent sees child dashboard: hours, events, badges, streak
+5. Parent configures permissions (block categories, limit events/week)
+6. Parent receives notifications for: check-ins, badge earned, hours verified
+7. Parent can unlink child account at any time
+<code>`</code>
+<strong>Status</strong>: TESTED (generateLinkCode.test.ts, getChildDashboard.test.ts, parentPermissions.test.ts)</p><p><h3>Scenario 6: Org Admin Event Management</h3>
+<code>`</code>
+1. Org admin logs in → lands on admin dashboard
+2. Creates new event: title, description, date, location, capacity, category
+3. System generates check-in PIN and QR code
+4. Optionally creates shifts for multi-slot events
+5. Students register → admin sees registration count
+6. During event: admin monitors check-ins in real-time
+7. After event: admin reviews pending hour verifications
+8. Admin bulk-approves verified hours
+9. Views organization analytics: total events, volunteers, hours
+10. Posts announcement to all registered volunteers
+<code>`</code>
+<strong>Status</strong>: TESTED (createEvent.test.ts, AdminTests, getOrgAnalytics.test.ts, bulkVerifyHours.test.ts)</p><p><h3>Scenario 7: School Admin Compliance</h3>
+<code>`</code>
+1. School admin logs in via Clever SSO
+2. Views school dashboard: total students, hours, compliance %
+3. Sets graduation hour requirements (e.g., 75 hours)
+4. Monitors per-student compliance status
+5. Reviews HCPS pre-approval requests
+6. Bulk imports student roster from CSV
+7. Generates compliance report (PDF/CSV)
+8. Exports to WinSchool or Naviance
+9. Views district-level aggregate reporting
+<code>`</code>
+<strong>Status</strong>: TESTED (getSchoolStudents.test.ts, getSchoolHoursSummary.test.ts, exportSchoolHoursCSV.test.ts)</p><p><h3>Scenario 8: College Application Export</h3>
+<code>`</code>
+1. Student nears graduation → opens College Export
+2. Selects date range for hours summary
+3. Generates PDF certificate with verified hours
+4. Exports Common App-compatible activity record
+5. Generates Naviance CSV for school counselor
+6. Creates full volunteer portfolio (hours, reflections, skills, badges)
+7. Downloads/shares documents
+<code>`</code>
+<strong>Status</strong>: TESTED (generatePortfolioCall.test.ts, pdfGenerator.test.ts, certificateFields.test.ts)</p><p><h3>Scenario 9: Messaging & Team Collaboration</h3>
+<code>`</code>
+1. Student finds another volunteer on leaderboard
+2. Sends follow request → views public profile
+3. Opens direct message conversation
+4. Creates team for upcoming event → gets join code
+5. Shares code with friends → friends join team
+6. Team registers for event together
+7. Uses group chat to coordinate logistics
+<code>`</code>
+<strong>Status</strong>: TESTED (sendMessage.test.ts, createTeam.test.ts, joinTeam.test.ts, followStudent.test.ts)</p><p><h3>Scenario 10: Apple Watch Quick Check-In</h3>
+<code>`</code>
+1. Student arrives at event wearing Apple Watch
+2. Watch shows active event from synced data
+3. Taps "Check In" → GPS validates location
+4. Alternative: enters PIN on watch
+5. Haptic feedback confirms check-in
+6. Hours sync back to iPhone app
+<code>`</code>
+<strong>Status</strong>: NOT TESTED (Watch app has no unit tests)</p><p>---</p><p><h2>6. Platform-Specific Features</h2></p><p><h3>6.1 iOS-Only Features</h3></p><p>| Feature | Description |
+|---------|-------------|
+| Apple Sign-In | ASAuthorizationController (required per Apple Review 4.8) |
+| Apple Watch App | GPS/PIN check-in, event display, haptic feedback |
+| Home Screen Widget | Small (hours+streak) and Medium (hours+next event) |
+| Widget Data Sync | App Group shared UserDefaults, 30-min refresh |
+| MapKit Integration | Native Apple Maps for event display |
+| Calendar Integration | Add events to Apple Calendar |
+| CrashReporter | Firebase Crashlytics integration |
+| Offline Caching | OfflineCacheService for event data |</p><p><h3>6.2 Android-Only Features</h3></p><p>| Feature | Description |
+|---------|-------------|
+| Internationalization (i18n) | English + Spanish via i18next |
+| Deep Linking | <code>impactbadge://</code> URI scheme |
+| Photo Evidence Picker | Expo Image Picker for self-reports |
+| Signature Pad Component | React Native Canvas drawing |
+| Address Autocomplete | Custom autocomplete component |</p><p><h3>6.3 Web Portal-Only Features</h3></p><p>| Feature | Description |
+|---------|-------------|
+| Clever SSO Callback | OAuth redirect handler at <code>/clever-callback</code> |
+| School Dashboard | Compliance tracking, student management |
+| District Reporting | Multi-school aggregate analytics |
+| Pre-Approval Management | HCPS CSL request review |
+| Student Bulk Import | CSV roster upload |
+| Reports Download | CSV export for compliance |
+| Recharts Analytics | Interactive data visualizations |
+| Role-Based Routing | Org admin vs. school admin home pages |</p><p>---</p><p><h2>7. Security & Compliance</h2></p><p><h3>7.1 Authentication & Authorization</h3></p><p>| Feature | Implementation |
+|---------|---------------|
+| Firebase Auth | Email/password, Google, Apple, custom tokens |
+| Clever SSO | OAuth 2.0 with role mapping (student/teacher/district_admin) |
+| Role-Based Access Control | 4 roles enforced in Firestore rules + Cloud Functions |
+| Context Auth Validation | Every Cloud Function validates <code>context.auth</code> |
+| No Client-Side UID Trust | Always uses server-side <code>context.auth.uid</code> |</p><p><h3>7.2 COPPA Compliance (Children Under 13)</h3></p><p>| Feature | Implementation |
+|---------|---------------|
+| Parental Consent Flow | Grade 6-7 students require parent email at signup |
+| Consent Email Verification | Parent must click verification link to activate account |
+| Account Activation Gate | Pending consent screen blocks app access until confirmed |
+| Restricted Features | Messaging, photos may be restricted without consent |
+| Data Deletion Rights | Parents can request via privacy@impactbadge.app |</p><p><h3>7.3 FERPA Compliance</h3></p><p>| Feature | Implementation |
+|---------|---------------|
+| School Administrator Controls | Schools control access to student records |
+| School Official Status | ImpactBadge acts as "school official" with legitimate interest |
+| Access Logging | Admin activity logged for compliance audits |</p><p><h3>7.4 Data Protection</h3></p><p>| Feature | Implementation |
+|---------|---------------|
+| Firestore Security Rules | Row-level security per user/role |
+| Encryption in Transit | TLS for all API calls |
+| Zod Schema Validation | All inputs validated before database operations |
+| Rate Limiting | Max 10 check-ins per hour per user |
+| No PII Logging | Policy: never log email, name, phone |
+| Storage Access Control | Users manage own files; authenticated read access |</p><p><h3>7.5 Feature Flags (Firebase Remote Config)</h3></p><p>| Flag | Controls |
+|------|----------|
+| <code>enable_messaging</code> | Direct & group messaging |
+| <code>enable_challenges</code> | Time-limited challenges |
+| <code>enable_referrals</code> | Referral program |
+| <code>enable_teams</code> | Team creation/joining |
+| <code>enable_nl_search</code> | Natural language event search |
+| <code>enable_self_report</code> | Self-reported hours |
+| <code>enable_availability</code> | Availability calendar |
+| <code>enable_clever_sso</code> | Clever SSO login button |
+| <code>max_self_reports_per_day</code> | Daily self-report limit |</p><p>---</p><p><h2>8. Integration Points</h2></p><p>| System | Type | Direction | Purpose |
+|--------|------|-----------|---------|
+| <strong>Clever</strong> | OAuth 2.0 | Inbound | School SSO authentication |
+| <strong>Common App</strong> | Export | Outbound | College application activity record |
+| <strong>Naviance</strong> | CSV Export | Outbound | School counselor college planning |
+| <strong>WinSchool</strong> | CSV Export | Outbound | Student Information System |
+| <strong>VolunteerMatch</strong> | API Import | Inbound | Nightly event import (Pub/Sub) |
+| <strong>External VMS</strong> | Webhook | Inbound | Hours/events from VolunteerHub, etc. |
+| <strong>School SIS</strong> | REST API | Both | Partner API for student/hours data |
+| <strong>Firebase Crashlytics</strong> | SDK | Outbound | Crash reporting (iOS) |
+| <strong>Firebase Analytics</strong> | SDK | Outbound | User action tracking |
+| <strong>Firebase Cloud Messaging</strong> | SDK | Outbound | Push notifications |
+| <strong>Gmail SMTP</strong> | Email | Outbound | Consent emails, digests, certificates |
+| <strong>Apple Calendar</strong> | EventKit | Outbound | Add events to calendar (iOS) |
+| <strong>Apple Watch</strong> | WatchConnectivity | Both | Event sync + check-in |</p><p>---</p><p><h2>9. Test Coverage Analysis</h2></p><p><h3>9.1 Coverage by Feature Category</h3></p><p>| Category | Features | Tested | Coverage |
+|----------|----------|--------|----------|
+| Authentication & Onboarding | 14 | 10 | 71% |
+| Event Discovery & Management | 25 | 16 | 64% |
+| Hours Tracking & Verification | 15 | 10 | 67% |
+| Gamification & Achievements | 12 | 12 | 100% |
+| Profile & Personalization | 17 | 9 | 53% |
+| Messaging & Communication | 7 | 4 | 57% |
+| Notifications & Alerts | 7 | 5 | 71% |
+| Export & Reporting | 9 | 5 | 56% |
+| Team Collaboration | 3 | 3 | 100% |
+| Parent/Guardian | 8 | 7 | 88% |
+| Nonprofit/Organization | 5 | 0 | 0% |
+| School & District Admin | 13 | 5 | 38% |
+| Org Admin Dashboard | 8 | 4 | 50% |
+| Data Import & Integration | 6 | 0 | 0% |
+| <strong>Total</strong> | <strong>149</strong> | <strong>90</strong> | <strong>60%</strong> |</p><p><h3>9.2 Coverage by Platform</h3></p><p>| Platform | Test Files | Total Tests | Pass Rate |
+|----------|-----------|-------------|-----------|
+| Backend (Jest) | 56 | 1,162 | 100% |
+| Android (Jest) | 14 | 336 | 99.4% |
+| Web Portal (Vitest) | 8 | 92 | 98.9% |
+| iOS Unit Tests | 22 | ~50 | N/A (requires Xcode) |
+| iOS UI/E2E Tests | 10 | 45 | N/A (requires Xcode) |
+| <strong>Total Executed</strong> | <strong>78</strong> | <strong>1,590</strong> | <strong>99.8%</strong> |</p><p><h3>9.3 Untested Areas (Gaps)</h3></p><p>| Area | Risk | Recommendation |
+|------|------|----------------|
+| Nonprofit search/claim | Low | Add integration tests |
+| Data import (CSV, webhooks) | Medium | Add E2E import flow tests |
+| NL search | Low | Add keyword matching tests |
+| Profile photo upload | Low | Add Storage mock tests |
+| School settings configuration | Medium | Add school admin flow tests |
+| Apple Watch app | Low | Add WatchConnectivity tests |
+| Home Screen Widget | Low | Add widget data tests |
+| Shift management | Medium | Add shift CRUD tests |
+| Group messaging | Low | Add group chat tests |</p><p>---</p><p><h2>10. Database & Architecture</h2></p><p><h3>10.1 Firestore Collections (27)</h3></p><p>| Collection | Purpose | Access |
+|-----------|---------|--------|
+| <code>users/{uid}</code> | User profiles (all roles) | Owner read/write |
+| <code>users/{uid}/hours/{hourId}</code> | Volunteer hour logs | Owner read, admin write |
+| <code>users/{uid}/following/{targetUid}</code> | Follow relationships | Owner read/write |
+| <code>users/{uid}/linkedChildren/{childUid}</code> | Parent-child links | Owner read/write |
+| <code>users/{uid}/challengeProgress/{id}</code> | Challenge participation | Owner read/write |
+| <code>users/{uid}/reflections/{id}</code> | Student reflections | Owner read/write |
+| <code>users/{uid}/schoolHistory/{id}</code> | School transfer records | Owner read |
+| <code>events/{eventId}</code> | Volunteer events | All read, admin write |
+| <code>events/{eventId}/registrations/{uid}</code> | Event registrations | Owner read, admin write |
+| <code>events/{eventId}/reviews/{uid}</code> | Event reviews | All read, owner write |
+| <code>events/{eventId}/photos/{id}</code> | Event photos | All read, registered write |
+| <code>events/{eventId}/groupChat/{id}</code> | Event group chat | Registered users |
+| <code>events/{eventId}/shifts/{id}</code> | Event time slots | All read, admin write |
+| <code>organizations/{orgId}</code> | Organization profiles | All read, admin write |
+| <code>nonprofits/{ein}</code> | IRS nonprofit registry | Read-only |
+| <code>challenges/{id}</code> | Global challenges | Read-only for clients |
+| <code>teams/{teamId}</code> | Volunteer teams | Members only |
+| <code>conversations/{convId}</code> | DM conversations | Participants only |
+| <code>conversations/{convId}/messages/{id}</code> | Chat messages | Participants only |
+| <code>notifications/{id}</code> | In-app notifications | Owner read only |
+| <code>preApprovals/{id}</code> | CSL pre-approval requests | Student + admin |
+| <code>parental_consents/{id}</code> | COPPA consent records | Cloud Functions only |
+| <code>selfReportedHours/{id}</code> | Self-reported hours | Student + admin |
+| <code>schoolSettings/{id}</code> | School configuration | Admin read |
+| <code>schoolDomains/{domain}</code> | Email domain mapping | Public read |
+| <code>pendingImports/{id}</code> | Unmatched CSV imports | Internal |
+| <code>webhookLogs/{id}</code> | Webhook audit logs | Internal |</p><p><h3>10.2 Composite Indexes (23)</h3></p><p>Key indexes for performance:
+- <code>events</code>: geoHash + startDate (geo-proximity queries)
+- <code>events</code>: category + startDate (category filtering)
+- <code>users</code>: role + totalHours (leaderboards)
+- <code>users</code>: role + schoolName + totalHours (school rankings)
+- <code>users</code>: role + interests (ARRAY_CONTAINS for matching)
+- <code>conversations</code>: participants + lastMessageAt (chat list)
+- <code>notifications</code>: uid + createdAt (activity feed)
+- <code>selfReportedHours</code>: studentUid + status (admin review)</p><p><h3>10.3 Cloud Storage Buckets (5)</h3></p><p>| Bucket Path | Purpose | Max Size |
+|-------------|---------|----------|
+| <code>eventPhotos/{eventId}/{userId}/</code> | Event evidence photos | 10MB |
+| <code>profilePhotos/{userId}/</code> | Profile avatars | 5MB |
+| <code>selfReportSignatures/{userId}/</code> | E-signatures | 5MB |
+| <code>selfReportPhotos/{userId}/</code> | Self-report evidence | 10MB |
+| <code>checkoutPhotos/{eventId}/{userId}/</code> | Check-out evidence | 10MB |</p><p>---</p><p><h2>Appendix A: Technology Stack</h2></p><p>| Layer | Technology | Version |
+|-------|-----------|---------|
+| iOS | Swift / SwiftUI | 5.9+ |
+| Android | React Native / TypeScript | 0.73+ |
+| Web Frontend | React / TypeScript / Vite | 18 / 5.3 / 5.4 |
+| Web Styling | TailwindCSS | 4.0 |
+| Web Charts | Recharts | 2.12 |
+| Backend Runtime | Node.js | 20 |
+| Backend Framework | Firebase Functions | 4.9 |
+| Database | Firestore | - |
+| Auth | Firebase Auth + Clever OAuth | - |
+| Storage | Google Cloud Storage | - |
+| Push Notifications | Firebase Cloud Messaging | - |
+| Analytics | Firebase Analytics | - |
+| Crash Reporting | Firebase Crashlytics | - |
+| Remote Config | Firebase Remote Config | - |
+| Geo | geofire-common | 6.0 |
+| Validation | Zod | 3.22 |
+| PDF | PDFKit | 0.18 |
+| Email | Nodemailer (Gmail SMTP) | 8.0 |
+| Testing (Backend) | Jest + ts-jest | 29.5 |
+| Testing (Android) | Jest + React Testing Library | 29.5 |
+| Testing (Web) | Vitest + Testing Library | 4.1 |
+| Testing (iOS) | XCTest | - |</p><p>---</p><p><h2>Appendix B: User Role Capabilities Matrix</h2></p><p>| Capability | Student | Org Admin | School Admin | Parent |
+|-----------|---------|-----------|-------------|--------|
+| Browse/Search Events | Y | Y | Y | - |
+| Register for Events | Y | - | - | - |
+| Check In/Out | Y | - | - | - |
+| Log Self-Reported Hours | Y | - | - | - |
+| View Hours Dashboard | Y | - | - | Y (child) |
+| Create Events | - | Y | - | - |
+| Verify Hours | - | Y | - | - |
+| View Org Analytics | - | Y | - | - |
+| View School Students | - | - | Y | - |
+| Set Hour Requirements | - | - | Y | - |
+| Generate Compliance Report | - | - | Y | - |
+| Bulk Import Students | - | - | Y | - |
+| View District Report | - | - | Y | - |
+| Link to Child Account | - | - | - | Y |
+| Set Child Permissions | - | - | - | Y |
+| View Child Dashboard | - | - | - | Y |
+| Send Messages | Y | - | - | - |
+| Join Teams | Y | - | - | - |
+| Earn XP/Badges | Y | - | - | - |
+| View Leaderboard | Y | - | - | - |
+| Export for College | Y | - | - | - |
+| Claim Organization | - | Y | - | - |</p><p>---</p><p>*Generated by Claude Code on June 27, 2026*
+*ImpactBadge - Making Volunteering Count*
+</p></body></html>

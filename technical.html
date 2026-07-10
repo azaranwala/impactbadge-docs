@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ImpactBadge — Technical Documentation</title>
+<style>
+body{font-family:'Segoe UI',Calibri,Arial,sans-serif;max-width:900px;margin:40px auto;padding:0 20px;color:#333;line-height:1.6}
+h1{color:#00897B;border-bottom:3px solid #00897B;padding-bottom:10px}
+h2{color:#00695C;margin-top:36px;border-bottom:1px solid #e0e0e0;padding-bottom:6px}
+h3{color:#444;margin-top:24px}
+table{border-collapse:collapse;width:100%;margin:16px 0}
+th{background:#00897B;color:white;padding:10px 14px;text-align:left;font-size:13px}
+td{border:1px solid #e0e0e0;padding:8px 14px;font-size:13px}
+tr:nth-child(even){background:#f9f9f9}
+code{background:#f5f5f5;padding:2px 6px;border-radius:4px;font-size:12px;font-family:'SF Mono',Consolas,monospace}
+pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:auto;font-size:12px}
+.header-bar{background:linear-gradient(135deg,#00897B,#00695C);color:white;padding:30px 32px;border-radius:12px;margin-bottom:30px}
+.header-bar h1{color:white;border:none;margin:0;padding:0}
+.header-bar p{color:rgba(255,255,255,0.85);margin:6px 0 0 0}
+.badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:600}
+.badge-green{background:#e8f5e9;color:#2e7d32}
+.badge-blue{background:#e3f2fd;color:#1565c0}
+.badge-orange{background:#fff3e0;color:#e65100}
+.meta{color:#888;font-size:13px}
+.card{background:white;border:1px solid #e0e0e0;border-radius:12px;padding:20px;margin:16px 0;box-shadow:0 1px 3px rgba(0,0,0,0.08)}
+@media print{.header-bar{-webkit-print-color-adjust:exact;print-color-adjust:exact}th{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+</head>
+<body>
+
+<div class="header-bar">
+<h1>ImpactBadge — Technical Documentation</h1>
+<p>Complete technical reference for the ImpactBadge volunteer tracking platform</p>
+</div>
+
+<p class="meta"><strong>Version:</strong> 1.2.0 &nbsp;|&nbsp; <strong>Date:</strong> July 9, 2026 &nbsp;|&nbsp; <strong>Project:</strong> impacthub-prod</p>
+
+<h2>1. Architecture Overview</h2>
+<table>
+<tr><th>Layer</th><th>Technology</th><th>Version</th><th>Location</th></tr>
+<tr><td>iOS</td><td>Swift / SwiftUI</td><td>6.0, iOS 17+</td><td>impacthub-ios/</td></tr>
+<tr><td>Android</td><td>React Native / Expo / TypeScript</td><td>0.83.6 / 55 / 5.9</td><td>impactbadge-android/</td></tr>
+<tr><td>Web Portal</td><td>React / Vite / Tailwind CSS</td><td>18 / 5.4 / 4.0</td><td>impacthub-backend/web/</td></tr>
+<tr><td>Backend</td><td>Firebase Cloud Functions / TypeScript</td><td>Node.js 22</td><td>impacthub-backend/functions/</td></tr>
+<tr><td>Database</td><td>Cloud Firestore</td><td>—</td><td>impacthub-prod</td></tr>
+<tr><td>Auth</td><td>Firebase Auth + Clever OAuth 2.0</td><td>v3.1 API</td><td>—</td></tr>
+<tr><td>Storage</td><td>Firebase Storage</td><td>—</td><td>5 bucket paths</td></tr>
+<tr><td>Push</td><td>Firebase Cloud Messaging</td><td>—</td><td>FCM</td></tr>
+<tr><td>Email</td><td>Zoho SMTP</td><td>—</td><td>impact@impactbadge.app</td></tr>
+<tr><td>Validation</td><td>Zod</td><td>3.22</td><td>All callables</td></tr>
+<tr><td>PDF</td><td>PDFKit</td><td>0.18</td><td>Certificates + Reports</td></tr>
+<tr><td>Geo</td><td>geofire-common</td><td>6.0</td><td>Event proximity queries</td></tr>
+</table>
+
+<h2>2. Backend — Cloud Functions (130+)</h2>
+
+<h3>2.1 Auth & User Management (9 functions)</h3>
+<table>
+<tr><th>Function</th><th>Type</th><th>File</th><th>Purpose</th></tr>
+<tr><td>createUserTrigger</td><td>Auth onCreate</td><td>auth/userTriggers.ts</td><td>Create Firestore user doc, merge pendingStudents</td></tr>
+<tr><td>deleteUserTrigger</td><td>Auth onDelete</td><td>auth/userTriggers.ts</td><td>Delete user doc + hours subcollection</td></tr>
+<tr><td>deleteAccountCall</td><td>onCall</td><td>auth/deleteAccount.ts</td><td>Student-initiated account deletion</td></tr>
+<tr><td>sendParentalConsentEmailCall</td><td>onCall</td><td>auth/sendParentalConsentEmail.ts</td><td>COPPA consent email to parent</td></tr>
+<tr><td>verifyParentalConsent</td><td>onRequest</td><td>auth/verifyParentalConsent.ts</td><td>Parent clicks approve/reject link</td></tr>
+<tr><td>lookupSchoolDomain</td><td>onCall</td><td>auth/lookupSchoolDomain.ts</td><td>Pre-auth school domain check (no auth required)</td></tr>
+<tr><td>cleverOAuthCallback</td><td>onRequest</td><td>auth/cleverOAuthCallback.ts</td><td>Clever OAuth 2.0 code exchange + account link</td></tr>
+<tr><td>detectSchoolDomainCall</td><td>onCall</td><td>auth/detectSchoolDomain.ts</td><td>Post-login school auto-detect from email</td></tr>
+<tr><td>registerSchoolDomainCall</td><td>onCall</td><td>auth/registerSchoolDomain.ts</td><td>Register new school email domain</td></tr>
+</table>
+
+<h3>2.2 Events (22 functions)</h3>
+<table>
+<tr><th>Function</th><th>Type</th><th>Purpose</th></tr>
+<tr><td>getEventsNearbyCall</td><td>onCall</td><td>Geo-based event discovery with geoHash</td></tr>
+<tr><td>getRecommendedEventsCall</td><td>onCall</td><td>AI-powered event recommendations by interests</td></tr>
+<tr><td>createEventCall</td><td>onCall</td><td>Org admin creates event with shifts</td></tr>
+<tr><td>editEventCall</td><td>onCall</td><td>Org admin edits event details</td></tr>
+<tr><td>cancelEventCall</td><td>onCall</td><td>Cancel event + notify registered volunteers</td></tr>
+<tr><td>registerForEventCall</td><td>onCall</td><td>Student registers (or gets waitlisted)</td></tr>
+<tr><td>cancelRegistrationCall</td><td>onCall</td><td>Student cancels registration</td></tr>
+<tr><td>searchEventsNLCall</td><td>onCall</td><td>Natural language event search with parseSearchQuery</td></tr>
+<tr><td>getSimilarEventsCall</td><td>onCall</td><td>Category-based similar events</td></tr>
+<tr><td>getScheduleSuggestionsCall</td><td>onCall</td><td>Schedule suggestion based on availability</td></tr>
+<tr><td>getAvailabilityMatchesCall</td><td>onCall</td><td>Match events to volunteer availability slots</td></tr>
+<tr><td>getVolunteerAvailabilityCall</td><td>onCall</td><td>Org admin views volunteer availability</td></tr>
+<tr><td>uploadEventPhotoCall</td><td>onCall</td><td>Upload event photo to Storage</td></tr>
+<tr><td>getEventPhotosCall</td><td>onCall</td><td>List event photos</td></tr>
+<tr><td>submitReviewCall</td><td>onCall</td><td>Submit 1-5 star review</td></tr>
+<tr><td>getEventReviewsCall</td><td>onCall</td><td>List reviews for an event</td></tr>
+<tr><td>getOrgAnalyticsCall</td><td>onCall</td><td>Org dashboard analytics</td></tr>
+<tr><td>getOrgVolunteersCall</td><td>onCall</td><td>Volunteer CRM — per-volunteer tracking</td></tr>
+<tr><td>getVolunteerHistoryCall</td><td>onCall</td><td>Per-volunteer event history</td></tr>
+<tr><td>generateOrgImpactReportCall</td><td>onCall</td><td>Grant-ready PDF impact report</td></tr>
+<tr><td>scheduleNextOccurrenceFunction</td><td>Firestore trigger</td><td>Auto-create next recurring event</td></tr>
+<tr><td>updateUserInterestsCall</td><td>onCall</td><td>Update student interest categories</td></tr>
+</table>
+
+<h3>2.3 Shifts (4), Hours (10), Students (18), Schools (12), Parents (6), Messaging (5), Challenges (4), Referrals (2), Import (5), Nonprofits/Orgs (6), Partner API (2)</h3>
+<p>See <code>functions/src/index.ts</code> for the complete export list of all 130+ functions organized by category.</p>
+
+<h3>2.4 Clever Complete (12 functions)</h3>
+<table>
+<tr><th>Function</th><th>Type</th><th>File</th><th>Purpose</th></tr>
+<tr><td>cleverOAuthCallback</td><td>onRequest</td><td>auth/cleverOAuthCallback.ts</td><td>SSO OAuth 2.0 flow (v3.1 API)</td></tr>
+<tr><td>cleverRosterSyncJob</td><td>Pub/Sub daily 2AM</td><td>clever/cleverRosterSync.ts</td><td>Full roster sync (students, teachers, sections, schools)</td></tr>
+<tr><td>cleverEventsPollJob</td><td>Pub/Sub every 15min</td><td>clever/cleverEventsPoll.ts</td><td>Incremental roster change polling</td></tr>
+<tr><td>connectCleverDistrictCall</td><td>onCall</td><td>clever/cleverAdminSetup.ts</td><td>Connect district with app token</td></tr>
+<tr><td>getCleverSyncStatusCall</td><td>onCall</td><td>clever/cleverAdminSetup.ts</td><td>Sync status for dashboard</td></tr>
+<tr><td>triggerCleverSyncCall</td><td>onCall</td><td>clever/cleverAdminSetup.ts</td><td>Manual sync trigger (rate limited 1/hr)</td></tr>
+<tr><td>createLMSAssignmentCall</td><td>onCall</td><td>clever/cleverLMSConnect.ts</td><td>Push volunteer requirement to LMS</td></tr>
+<tr><td>pushLMSGradeCall</td><td>onCall</td><td>clever/cleverLMSConnect.ts</td><td>Push hours as grade to LMS gradebook</td></tr>
+<tr><td>getLMSAssignmentsCall</td><td>onCall</td><td>clever/cleverLMSConnect.ts</td><td>List assignments by section</td></tr>
+<tr><td>getLMSSubmissionsCall</td><td>onCall</td><td>clever/cleverLMSConnect.ts</td><td>List grade submissions</td></tr>
+<tr><td>ltiLaunchHandler</td><td>onRequest POST</td><td>clever/cleverLTILaunch.ts</td><td>LTI 1.3 launch from district LMS</td></tr>
+<tr><td>autoPushGradeIfLMSConnected</td><td>Internal</td><td>clever/cleverLMSConnect.ts</td><td>Auto-push grades on hour verification</td></tr>
+</table>
+
+<h2>3. Firestore Data Model</h2>
+<table>
+<tr><th>Collection</th><th>Key Fields</th><th>Access</th></tr>
+<tr><td>users/{uid}</td><td>name, email, role, schoolName, districtName, studentId, totalHours, xpPoints, streakDays, cleverUserId, cleverDataType</td><td>Owner read/write (role/orgId blocked)</td></tr>
+<tr><td>users/{uid}/hours/{id}</td><td>eventId, hoursLogged, verified, date, orgName, ein</td><td>Owner read, org admin write</td></tr>
+<tr><td>events/{eventId}</td><td>title, orgId, lat, lng, geoHash, startDate, category, maxSlots, registeredCount</td><td>All read, org admin write</td></tr>
+<tr><td>events/{eventId}/registrations/{uid}</td><td>status, checkInAt, checkOutAt, hoursLogged, checkInMethod</td><td>Owner + org admin</td></tr>
+<tr><td>organizations/{orgId}</td><td>name, ein, webhookKey, claimedByOrgId</td><td>All read, org admin write</td></tr>
+<tr><td>notifications/{id}</td><td>uid, type, title, body, read, createdAt</td><td>Owner read only</td></tr>
+<tr><td>selfReportedHours/{id}</td><td>studentUid, supervisorEmail, hoursLogged, status, verificationToken</td><td>Owner read, Cloud Functions write</td></tr>
+<tr><td>conversations/{id}/messages/{id}</td><td>senderUid, text, createdAt</td><td>Participants only (H-1 fix)</td></tr>
+<tr><td>challenges/{id}</td><td>title, metric, targetValue, scope, rewardXP, startsAt, endsAt</td><td>All read, Cloud Functions write</td></tr>
+<tr><td>schoolSettings/{id}</td><td>graduationMinHours, perGradeMinHours, seniorDeadline, requiresPreApproval</td><td>Teacher/school admin read</td></tr>
+<tr><td>cleverDistricts/{id}</td><td>districtAppToken, syncEnabled, lastSyncAt, syncedStudents</td><td>Deny all client access</td></tr>
+<tr><td>cleverSchools/{id}</td><td>name, ncesId, address, districtId</td><td>Teacher/school admin read</td></tr>
+<tr><td>cleverSections/{id}</td><td>name, teacherIds, studentIds, subject, grade</td><td>Teacher/school admin read</td></tr>
+<tr><td>lmsAssignments/{id}</td><td>cleverAssignmentId, title, sectionId, requiredHours, pointsPossible</td><td>Teacher/school admin read</td></tr>
+<tr><td>lmsSubmissions/{id}</td><td>assignmentId, studentUid, hoursCompleted, grade, status</td><td>Teacher/school admin read</td></tr>
+</table>
+
+<h2>4. Security Implementation</h2>
+
+<h3>4.1 Firestore Rules — Key Protections</h3>
+<table>
+<tr><th>Rule</th><th>Protection</th></tr>
+<tr><td>users/{uid} update</td><td>Blocks self-modification of <code>role</code> and <code>orgId</code> fields (C-1 fix)</td></tr>
+<tr><td>conversations/messages</td><td>Scoped to conversation participants via parent doc lookup (H-1 fix)</td></tr>
+<tr><td>preApprovals create</td><td>Enforces <code>studentUid == request.auth.uid</code></td></tr>
+<tr><td>selfReportedHours create</td><td>Enforces <code>studentUid == request.auth.uid</code></td></tr>
+<tr><td>cleverDistricts</td><td>Deny all client read/write (tokens are sensitive)</td></tr>
+<tr><td>_rateLimits</td><td>Deny all client access</td></tr>
+</table>
+
+<h3>4.2 Rate Limiting</h3>
+<table>
+<tr><th>Function</th><th>Limit</th><th>Mechanism</th></tr>
+<tr><td>checkIn</td><td>10/hour per user</td><td>_rateLimits collection</td></tr>
+<tr><td>submitSelfReportedHours</td><td>3/day, 5 pending max</td><td>Firestore query count</td></tr>
+<tr><td>webhookListener</td><td>10/hour per org</td><td>webhookLogs query</td></tr>
+<tr><td>triggerCleverSync</td><td>1/hour per district</td><td>lastSyncAt timestamp check</td></tr>
+</table>
+
+<h3>4.3 Input Validation</h3>
+<p>All onCall functions use Zod schemas. Key change: <code>z.string().datetime({ offset: true })</code> accepts timezone offsets from iOS (previously rejected <code>-04:00</code> format).</p>
+
+<h2>5. Clever Complete Integration</h2>
+
+<h3>5.1 SSO Flow (Phase 1)</h3>
+<pre>
+Client → https://clever.com/oauth/authorize?client_id=...&redirect_uri=...
+Clever → callback with ?code=...
+cleverOAuthCallback:
+  1. Exchange code for access_token (Basic auth)
+  2. GET /v3.1/me → cleverId
+  3. GET /v3.1/users/{id} → roles, name, email, school, grade
+  4. Match: cleverUserId → studentId+school → email → create new
+  5. Merge fields (non-destructive: never blank existing data)
+  6. Create Firebase custom token → redirect/return
+</pre>
+
+<h3>5.2 Account Matching Priority</h3>
+<ol>
+<li><strong>cleverUserId</strong> — Firestore query (works for returning Clever users)</li>
+<li><strong>studentId + schoolName</strong> — Clever Complete only (Library has no studentId)</li>
+<li><strong>email</strong> — Firebase Auth getUserByEmail</li>
+<li><strong>Create new</strong> — Firebase Auth createUser (no email for Library students)</li>
+</ol>
+
+<h3>5.3 Non-Destructive Merge Rules</h3>
+<table>
+<tr><th>Field</th><th>Clever has value</th><th>Clever is blank</th></tr>
+<tr><td>schoolName</td><td>Overwrite (source of truth)</td><td>Preserve existing</td></tr>
+<tr><td>studentId</td><td>Overwrite</td><td>Preserve existing</td></tr>
+<tr><td>displayName</td><td>Overwrite (if not "Student")</td><td>Preserve existing</td></tr>
+<tr><td>email</td><td>Never overwrite for existing users</td><td>N/A</td></tr>
+</table>
+
+<h3>5.4 Roster Sync (Phase 2)</h3>
+<pre>
+Daily 2:00 AM EST — cleverRosterSyncJob:
+  For each enabled district:
+    1. Fetch all schools via district app token
+    2. Fetch all students → upsert (match or pendingStudents)
+    3. Fetch all teachers → upsert
+    4. Fetch all sections → upsert
+    5. Archive removed users (cleverArchived: true, never delete)
+
+Every 15 min — cleverEventsPollJob:
+  Poll /v3.1/events → process users.created/updated/deleted, sections.*
+</pre>
+
+<h3>5.5 LMS Connect (Phase 3)</h3>
+<pre>
+Grade Calculation:
+  grade = min((hoursCompleted / requiredHours) × pointsPossible, pointsPossible)
+
+Auto-push: When hours are verified → autoPushGradeIfLMSConnected()
+  → finds matching LMS assignments for student's sections
+  → pushes grade to Clever Resources API → Clever pushes to LMS
+
+LTI 1.3 Launch: POST /ltiLaunchHandler
+  → decode JWT id_token → extract Clever user ID
+  → create/link Firebase Auth → redirect to web app with token
+</pre>
+
+<h2>6. Email System</h2>
+<table>
+<tr><th>#</th><th>Template</th><th>Subject</th><th>Branding</th></tr>
+<tr><td>1</td><td>checkIn.ts</td><td>ImpactBadge: Checked In — {event}</td><td>✅</td></tr>
+<tr><td>2</td><td>checkOut.ts</td><td>ImpactBadge: {X} Hours Verified</td><td>✅</td></tr>
+<tr><td>3</td><td>verifyHours.ts</td><td>ImpactBadge: Your Hours Are Verified!</td><td>✅</td></tr>
+<tr><td>4</td><td>registerForEvent.ts</td><td>ImpactBadge: Registration Confirmed</td><td>✅</td></tr>
+<tr><td>5</td><td>cancelRegistration.ts</td><td>ImpactBadge: Registration Cancelled</td><td>✅</td></tr>
+<tr><td>6</td><td>submitSelfReportedHours.ts</td><td>Verify Volunteer Hours for {name}</td><td>✅ (fixed)</td></tr>
+<tr><td>7</td><td>sendParentalConsentEmail.ts</td><td>Parental Consent Required: {name}</td><td>✅ (fixed)</td></tr>
+<tr><td>8</td><td>generateOrgImpactReport.ts</td><td>ImpactBadge: Impact Report</td><td>✅</td></tr>
+<tr><td>9</td><td>requestOrgClaim.ts</td><td>Verify Your Organization</td><td>✅</td></tr>
+<tr><td>10</td><td>graduationNudgeJob.ts</td><td>ImpactBadge: Monthly Compliance</td><td>✅</td></tr>
+<tr><td>11</td><td>weeklyDigest.ts</td><td>Your Week in Review</td><td>✅</td></tr>
+<tr><td>12</td><td>devVerifyHours.ts</td><td>ImpactBadge: Hours Verified (dev)</td><td>✅</td></tr>
+</table>
+
+<h2>7. Production Monitoring</h2>
+
+<h3>7.1 Alert Policies (6)</h3>
+<table>
+<tr><th>Alert</th><th>Condition</th><th>Notify</th></tr>
+<tr><td>5xx Error Spike</td><td>> 5 errors in 5 min</td><td>ops@impactbadge.app</td></tr>
+<tr><td>High 4xx Rate</td><td>> 20 client errors in 10 min</td><td>ops@impactbadge.app</td></tr>
+<tr><td>High Latency</td><td>p95 > 10s for 5 min</td><td>ops@impactbadge.app</td></tr>
+<tr><td>Missing Firestore Index</td><td>Any "requires an index" log</td><td>ops@impactbadge.app</td></tr>
+<tr><td>New Error Group</td><td>New ERROR log (1/hr rate limit)</td><td>ops@impactbadge.app</td></tr>
+<tr><td>Endpoint Down</td><td>Uptime check failing 5+ min</td><td>ops@impactbadge.app</td></tr>
+</table>
+
+<h3>7.2 Uptime Checks (8) — every 5 min from US, EU, APAC</h3>
+<p>Web Portal, Clever OAuth, Public Story, Webhook Listener, Partner API, Parental Consent, Self-Report Verify, Org Claim Verify</p>
+
+<h3>7.3 Billing Budgets</h3>
+<p>$25/month (50%, 80%, 100%, 150%) | $100/month (50%, 80%, 100%) | $500/month (80%, 100%)</p>
+
+<h2>8. Testing</h2>
+<table>
+<tr><th>Platform</th><th>Framework</th><th>Suites</th><th>Tests</th></tr>
+<tr><td>Backend</td><td>Jest + ts-jest</td><td>71</td><td>1,504</td></tr>
+<tr><td>Web</td><td>Vitest + Testing Library</td><td>8</td><td>92</td></tr>
+<tr><td>Android</td><td>Jest + React Testing Library</td><td>14</td><td>336</td></tr>
+<tr><td><strong>Total</strong></td><td></td><td><strong>93</strong></td><td><strong>1,932</strong></td></tr>
+</table>
+<p><strong>Test accounts:</strong> student@test.impactbadge.app / admin@test.impactbadge.app / school@test.impactbadge.app — all use password <code>Test1234!</code></p>
+
+<h2>9. iOS Architecture</h2>
+<ul>
+<li><strong>Pattern:</strong> MVVM with @Observable/@StateObject ViewModels</li>
+<li><strong>Navigation:</strong> NavigationStack, 6-tab MainTabView</li>
+<li><strong>Services:</strong> FirebaseService singleton + 43 extensions</li>
+<li><strong>Auth:</strong> AppState enum (loading → unauthenticated → onboarding → authenticated/admin/parent)</li>
+<li><strong>Localization:</strong> 83+ NSLocalizedString keys in EN + ES Localizable.strings</li>
+<li><strong>Feature Flags:</strong> Firebase Remote Config (9 flags)</li>
+<li><strong>Targets:</strong> ImpactHub, ImpactHubTests (22 files), ImpactHubUITests (10 files), ImpactHubWatch, ImpactHubWidget</li>
+</ul>
+
+<h2>10. Android Architecture</h2>
+<ul>
+<li><strong>Stack:</strong> React Native 0.83.6, Expo 55, TypeScript 5.9</li>
+<li><strong>Navigation:</strong> React Navigation 7, role-based tabs (Student 5, Org 4, Parent 3)</li>
+<li><strong>API:</strong> api.ts service wrapping 60+ Cloud Functions via httpsCallable</li>
+<li><strong>Screens:</strong> 54 total</li>
+<li><strong>i18n:</strong> i18next (English + Spanish)</li>
+</ul>
+
+<h2>11. Web Portal Architecture</h2>
+<ul>
+<li><strong>Stack:</strong> React 18, Vite 5, Tailwind CSS 4, Recharts 2.12</li>
+<li><strong>Design:</strong> Material Icons Round, gradient teal sidebar, professional StatsCards</li>
+<li><strong>Pages:</strong> Org Admin (5), School Admin (8 including Clever Sync), Teacher (1)</li>
+<li><strong>Hosting:</strong> Firebase Hosting at impacthub-prod.web.app, SPA rewrite</li>
+</ul>
+
+<h2>12. Deployment</h2>
+<pre>
+# Deploy all functions + rules + indexes + web
+firebase deploy --only functions,firestore:rules,firestore:indexes,hosting
+
+# Deploy single function
+firebase deploy --only functions:FUNCTION_NAME
+
+# Deploy web only
+cd web && npm run build && cd .. && firebase deploy --only hosting
+</pre>
+
+<h3>Git Repositories</h3>
+<table>
+<tr><th>Repo</th><th>URL</th></tr>
+<tr><td>Backend + Web</td><td>github.com/azaranwala/impacthub-backend</td></tr>
+<tr><td>iOS</td><td>github.com/azaranwala/impacthub-ios</td></tr>
+<tr><td>Android</td><td>github.com/azaranwala/impactbadge-android</td></tr>
+</table>
+
+<h3>Environment Variables (functions/.env)</h3>
+<pre>
+SMTP_USER=impact@impactbadge.app
+SMTP_PASSWORD=***
+CLEVER_CLIENT_ID=***
+CLEVER_CLIENT_SECRET=***
+CLEVER_WEB_APP_URL=https://impacthub-prod.web.app
+</pre>
+
+<br>
+<p class="meta" style="text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid #e0e0e0;">
+ImpactBadge LLC &nbsp;|&nbsp; Technical Documentation &nbsp;|&nbsp; July 2026<br>
+Generated by Claude Code
+</p>
+</body>
+</html>

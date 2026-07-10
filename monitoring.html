@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ImpactBadge — Production Monitoring Guide</title>
+<style>
+  body { font-family: 'Segoe UI', Calibri, Arial, sans-serif; max-width: 850px; margin: 40px auto; padding: 0 20px; color: #333; line-height: 1.6; }
+  h1 { color: #00897B; border-bottom: 3px solid #00897B; padding-bottom: 10px; }
+  h2 { color: #00695C; margin-top: 36px; border-bottom: 1px solid #e0e0e0; padding-bottom: 6px; }
+  h3 { color: #444; margin-top: 24px; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+  th { background: #00897B; color: white; padding: 10px 14px; text-align: left; font-size: 14px; }
+  td { border: 1px solid #e0e0e0; padding: 8px 14px; font-size: 13px; }
+  tr:nth-child(even) { background: #f9f9f9; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .badge-green { background: #e8f5e9; color: #2e7d32; }
+  .badge-orange { background: #fff3e0; color: #e65100; }
+  .badge-red { background: #ffebee; color: #c62828; }
+  .badge-blue { background: #e3f2fd; color: #1565c0; }
+  .url-box { background: #f5f5f5; border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px 16px; margin: 8px 0; font-family: monospace; font-size: 13px; word-break: break-all; }
+  .section-card { background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .header-bar { background: #00897B; color: white; padding: 30px 32px; border-radius: 12px; margin-bottom: 30px; }
+  .header-bar h1 { color: white; border: none; margin: 0; padding: 0; }
+  .header-bar p { color: rgba(255,255,255,0.85); margin: 6px 0 0 0; }
+  .meta { color: #888; font-size: 13px; }
+  .toc a { text-decoration: none; color: #00897B; }
+  .toc a:hover { text-decoration: underline; }
+  .toc li { margin: 6px 0; }
+  .important { background: #fff8e1; border-left: 4px solid #f9a825; padding: 12px 16px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+  @media print { .header-bar { background: #00897B !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } th { background: #00897B !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+
+<div class="header-bar">
+  <h1>ImpactBadge — Production Monitoring Guide</h1>
+  <p>Complete observability setup for impacthub-prod</p>
+</div>
+
+<p class="meta"><strong>Project:</strong> impacthub-prod &nbsp;|&nbsp; <strong>Region:</strong> us-central1 &nbsp;|&nbsp; <strong>Date:</strong> July 9, 2026 &nbsp;|&nbsp; <strong>Version:</strong> 1.0</p>
+
+<h2>Table of Contents</h2>
+<ol class="toc">
+  <li><a href="#overview">Overview</a></li>
+  <li><a href="#alerts">Alert Policies</a></li>
+  <li><a href="#uptime">Uptime Checks</a></li>
+  <li><a href="#dashboard">Monitoring Dashboard</a></li>
+  <li><a href="#errors">Cloud Error Reporting</a></li>
+  <li><a href="#billing">Billing Budgets</a></li>
+  <li><a href="#urls">Console URLs & Bookmarks</a></li>
+  <li><a href="#crashlytics">Firebase Crashlytics (iOS)</a></li>
+  <li><a href="#runbook">Incident Runbook</a></li>
+</ol>
+
+<!-- ===== OVERVIEW ===== -->
+<h2 id="overview">1. Overview</h2>
+
+<div class="section-card">
+<p>ImpactBadge production monitoring covers 5 layers:</p>
+<table>
+  <tr><th>Layer</th><th>Tool</th><th>What It Monitors</th></tr>
+  <tr><td>Backend (Cloud Functions)</td><td>Google Cloud Monitoring + Cloud Logging</td><td>Invocations, errors, latency, memory</td></tr>
+  <tr><td>HTTP Endpoints</td><td>Uptime Checks (8 endpoints)</td><td>Availability from 3 global regions</td></tr>
+  <tr><td>Error Grouping</td><td>Cloud Error Reporting</td><td>Auto-groups and counts unique errors</td></tr>
+  <tr><td>iOS App</td><td>Firebase Crashlytics</td><td>Crashes, non-fatal errors, breadcrumbs</td></tr>
+  <tr><td>Billing</td><td>Cloud Billing Budgets</td><td>Spending thresholds at $25, $100, $500</td></tr>
+</table>
+
+<p><strong>Notification Channel:</strong> All alerts are sent to <code>ops@impactbadge.app</code></p>
+</div>
+
+<!-- ===== ALERT POLICIES ===== -->
+<h2 id="alerts">2. Alert Policies</h2>
+
+<p>6 alert policies are configured. All send email notifications to ops@impactbadge.app.</p>
+
+<div class="section-card">
+<h3>2.1 Cloud Functions — 5xx Error Spike</h3>
+<table>
+  <tr><td><strong>Condition</strong></td><td>More than <strong>5 server errors</strong> (status = "error") in a <strong>5-minute</strong> window</td></tr>
+  <tr><td><strong>Severity</strong></td><td><span class="badge badge-red">CRITICAL</span></td></tr>
+  <tr><td><strong>What It Catches</strong></td><td>Unhandled exceptions, Firestore failures, crashed functions, timeout errors</td></tr>
+  <tr><td><strong>Auto-Close</strong></td><td>30 minutes after condition clears</td></tr>
+  <tr><td><strong>Action</strong></td><td>Check Cloud Functions logs → filter by severity=ERROR → identify failing function → fix and redeploy</td></tr>
+</table>
+</div>
+
+<div class="section-card">
+<h3>2.2 Cloud Functions — High 4xx Error Rate</h3>
+<table>
+  <tr><td><strong>Condition</strong></td><td>More than <strong>20 client errors</strong> (non-ok, non-error status) in a <strong>10-minute</strong> window</td></tr>
+  <tr><td><strong>Severity</strong></td><td><span class="badge badge-orange">WARNING</span></td></tr>
+  <tr><td><strong>What It Catches</strong></td><td>Bad input patterns from a broken app update, validation failures, potential abuse/attacks</td></tr>
+  <tr><td><strong>Auto-Close</strong></td><td>30 minutes</td></tr>
+  <tr><td><strong>Action</strong></td><td>Check which function is receiving 4xx → review input validation → check if a new app version has a bug</td></tr>
+</table>
+</div>
+
+<div class="section-card">
+<h3>2.3 Cloud Functions — High Latency (p95 > 10s)</h3>
+<table>
+  <tr><td><strong>Condition</strong></td><td>95th percentile execution time exceeds <strong>10 seconds</strong> for <strong>5 minutes</strong></td></tr>
+  <tr><td><strong>Severity</strong></td><td><span class="badge badge-orange">WARNING</span></td></tr>
+  <tr><td><strong>What It Catches</strong></td><td>Slow Firestore queries, cold start storms, missing indexes, downstream service delays</td></tr>
+  <tr><td><strong>Auto-Close</strong></td><td>30 minutes</td></tr>
+  <tr><td><strong>Action</strong></td><td>Check dashboard for which function is slow → review Firestore query patterns → add indexes if needed</td></tr>
+</table>
+</div>
+
+<div class="section-card">
+<h3>2.4 Firestore — Missing Index Error</h3>
+<table>
+  <tr><td><strong>Condition</strong></td><td>Any log entry containing <strong>"requires an index"</strong> at ERROR severity</td></tr>
+  <tr><td><strong>Severity</strong></td><td><span class="badge badge-red">CRITICAL</span></td></tr>
+  <tr><td><strong>What It Catches</strong></td><td>Missing composite Firestore index — completely blocks the affected feature</td></tr>
+  <tr><td><strong>Rate Limit</strong></td><td>Max 1 notification per hour</td></tr>
+  <tr><td><strong>Action</strong></td><td>Click the index creation link in the log entry → wait 1-3 min for index to build → add index to firestore.indexes.json → deploy</td></tr>
+</table>
+</div>
+
+<div class="section-card">
+<h3>2.5 Error Reporting — New Error Group Detected</h3>
+<table>
+  <tr><td><strong>Condition</strong></td><td>Any new <strong>ERROR-level log</strong> from a Cloud Function (excludes DEBUG logs)</td></tr>
+  <tr><td><strong>Severity</strong></td><td><span class="badge badge-blue">INFO</span></td></tr>
+  <tr><td><strong>What It Catches</strong></td><td>New types of failures appearing in production for the first time</td></tr>
+  <tr><td><strong>Rate Limit</strong></td><td>Max 1 notification per hour</td></tr>
+  <tr><td><strong>Action</strong></td><td>Review in Cloud Error Reporting → assess severity → fix if user-impacting</td></tr>
+</table>
+</div>
+
+<div class="section-card">
+<h3>2.6 Uptime Check — Endpoint Down</h3>
+<table>
+  <tr><td><strong>Condition</strong></td><td>Any uptime check <strong>fails from multiple regions</strong> for <strong>5+ minutes</strong></td></tr>
+  <tr><td><strong>Severity</strong></td><td><span class="badge badge-red">CRITICAL</span></td></tr>
+  <tr><td><strong>What It Catches</strong></td><td>Entire endpoint unreachable — outage, DNS failure, deployment error</td></tr>
+  <tr><td><strong>Auto-Close</strong></td><td>30 minutes</td></tr>
+  <tr><td><strong>Action</strong></td><td>Check Firebase Console → verify deployment → check Cloud Functions status → redeploy if needed</td></tr>
+</table>
+</div>
+
+<!-- ===== UPTIME CHECKS ===== -->
+<h2 id="uptime">3. Uptime Checks</h2>
+
+<p>8 endpoints are monitored every <strong>5 minutes</strong> from <strong>3 regions</strong> (USA, Europe, Asia Pacific).</p>
+
+<table>
+  <tr><th>#</th><th>Check Name</th><th>Host</th><th>Path</th><th>Method</th><th>Expected Codes</th></tr>
+  <tr><td>1</td><td>Web Portal</td><td>impacthub-prod.web.app</td><td>/</td><td>GET</td><td>2xx</td></tr>
+  <tr><td>2</td><td>Clever OAuth Callback</td><td>us-central1-impacthub-prod.cloudfunctions.net</td><td>/cleverOAuthCallback</td><td>GET</td><td>2xx, 302, 400</td></tr>
+  <tr><td>3</td><td>Public Story Endpoint</td><td>us-central1-impacthub-prod.cloudfunctions.net</td><td>/getPublicStory</td><td>GET</td><td>2xx, 400</td></tr>
+  <tr><td>4</td><td>Webhook Listener</td><td>us-central1-impacthub-prod.cloudfunctions.net</td><td>/webhookListener</td><td>GET</td><td>2xx, 400, 405</td></tr>
+  <tr><td>5</td><td>Partner REST API</td><td>us-central1-impacthub-prod.cloudfunctions.net</td><td>/partnerAPI</td><td>GET</td><td>2xx, 400, 401</td></tr>
+  <tr><td>6</td><td>Parental Consent Verify</td><td>us-central1-impacthub-prod.cloudfunctions.net</td><td>/verifyParentalConsent</td><td>GET</td><td>2xx, 400</td></tr>
+  <tr><td>7</td><td>Self-Report Verify Hours</td><td>us-central1-impacthub-prod.cloudfunctions.net</td><td>/verifySelfReportedHours</td><td>GET</td><td>2xx, 400</td></tr>
+  <tr><td>8</td><td>Org Claim Verify</td><td>us-central1-impacthub-prod.cloudfunctions.net</td><td>/verifyOrgClaim</td><td>GET</td><td>2xx, 400</td></tr>
+</table>
+
+<div class="important">
+  <strong>Note:</strong> Endpoints 2-8 are Cloud Functions that return 400 when called without parameters — this is expected and confirms the function is running. A 5xx or timeout indicates the function is down.
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<h2 id="dashboard">4. Monitoring Dashboard</h2>
+
+<p><strong>Dashboard Name:</strong> ImpactBadge — Production Health</p>
+
+<table>
+  <tr><th>Row</th><th>Widget</th><th>Metric</th><th>What to Watch For</th></tr>
+  <tr><td>1</td><td>Function Invocations (per min)</td><td>execution_count by status</td><td>Traffic patterns, sudden drops (outage) or spikes (viral/attack)</td></tr>
+  <tr><td>1</td><td>Error Rate by Function</td><td>execution_count where status=error</td><td>Which specific functions are failing</td></tr>
+  <tr><td>2</td><td>Latency p50 / p95 / p99</td><td>execution_times percentiles</td><td>p95 should stay under 3s; p99 under 10s</td></tr>
+  <tr><td>2</td><td>Active Instances</td><td>active_instances</td><td>Concurrent function instances — cost indicator</td></tr>
+  <tr><td>3</td><td>Top Functions by Invocations</td><td>execution_count by function_name</td><td>Most-used endpoints — optimization targets</td></tr>
+  <tr><td>3</td><td>Firestore Document Reads</td><td>document/read_count</td><td>Biggest cost driver — watch for read spikes</td></tr>
+  <tr><td>3</td><td>Firestore Document Writes</td><td>document/write_count</td><td>Write rate correlation with user activity</td></tr>
+  <tr><td>4</td><td>Memory Usage by Function</td><td>user_memory_bytes p95</td><td>Functions approaching 256MB limit need optimization</td></tr>
+  <tr><td>4</td><td>Firebase Auth — Active Users</td><td>authenticated/users</td><td>User growth over time</td></tr>
+  <tr><td>5</td><td>Slowest Functions — p95 Latency</td><td>execution_times p95 by function</td><td>Which functions need query optimization</td></tr>
+</table>
+
+<!-- ===== ERROR REPORTING ===== -->
+<h2 id="errors">5. Cloud Error Reporting</h2>
+
+<div class="section-card">
+<p>Cloud Error Reporting automatically groups, counts, and tracks errors from all Cloud Functions.</p>
+
+<table>
+  <tr><td><strong>API</strong></td><td>clouderrorreporting.googleapis.com — <span class="badge badge-green">ENABLED</span></td></tr>
+  <tr><td><strong>Source</strong></td><td>All Cloud Functions (auto-captured from stderr/ERROR logs)</td></tr>
+  <tr><td><strong>Grouping</strong></td><td>Automatic — groups identical stack traces into a single error group</td></tr>
+  <tr><td><strong>Retention</strong></td><td>30 days</td></tr>
+  <tr><td><strong>Alert</strong></td><td>New error groups trigger the "New Error Group Detected" alert policy</td></tr>
+</table>
+
+<h3>Error Groups at Setup (July 9, 2026)</h3>
+<table>
+  <tr><th>Count</th><th>Error</th><th>Status</th></tr>
+  <tr><td>198x</td><td>FAILED_PRECONDITION: The query requires an index (selfReportedHours)</td><td><span class="badge badge-green">FIXED</span> — Index deployed</td></tr>
+  <tr><td>1x</td><td>getPublicProfile error</td><td>Investigating</td></tr>
+  <tr><td>1x</td><td>FirebaseAuthError: No user record corresponding to provided identifier</td><td>Expected (deleted user)</td></tr>
+</table>
+</div>
+
+<!-- ===== BILLING ===== -->
+<h2 id="billing">6. Billing Budgets</h2>
+
+<p><strong>Billing Account:</strong> 016627-E39D0C-60D9FD</p>
+
+<table>
+  <tr><th>Budget</th><th>Monthly Limit</th><th>Alert Thresholds</th><th>Purpose</th></tr>
+  <tr>
+    <td>ImpactBadge Monthly</td>
+    <td><strong>$25</strong></td>
+    <td>50% ($12.50), 80% ($20), 100% ($25), 150% ($37.50)</td>
+    <td>Early warning during beta/testing phase</td>
+  </tr>
+  <tr>
+    <td>ImpactBadge Growth Alert</td>
+    <td><strong>$100</strong></td>
+    <td>50% ($50), 80% ($80), 100% ($100)</td>
+    <td>Growth phase — when schools start onboarding</td>
+  </tr>
+  <tr>
+    <td>ImpactBadge Emergency Alert</td>
+    <td><strong>$500</strong></td>
+    <td>80% ($400), 100% ($500)</td>
+    <td>Emergency — something is very wrong</td>
+  </tr>
+</table>
+
+<div class="important">
+  <strong>Important:</strong> Billing alerts are notifications only — they do <strong>not</strong> automatically stop services. If spending exceeds a budget, you'll receive an email but Firebase will continue running.
+</div>
+
+<!-- ===== URLS ===== -->
+<h2 id="urls">7. Console URLs & Bookmarks</h2>
+
+<div class="section-card">
+<table>
+  <tr><th>Tool</th><th>URL</th></tr>
+  <tr><td><strong>Monitoring Dashboard</strong></td><td><div class="url-box">https://console.cloud.google.com/monitoring/dashboards?project=impacthub-prod</div></td></tr>
+  <tr><td><strong>Alert Policies</strong></td><td><div class="url-box">https://console.cloud.google.com/monitoring/alerting?project=impacthub-prod</div></td></tr>
+  <tr><td><strong>Error Reporting</strong></td><td><div class="url-box">https://console.cloud.google.com/errors?project=impacthub-prod</div></td></tr>
+  <tr><td><strong>Uptime Checks</strong></td><td><div class="url-box">https://console.cloud.google.com/monitoring/uptime?project=impacthub-prod</div></td></tr>
+  <tr><td><strong>Cloud Functions Logs</strong></td><td><div class="url-box">https://console.cloud.google.com/logs/query?project=impacthub-prod</div></td></tr>
+  <tr><td><strong>Billing Budgets</strong></td><td><div class="url-box">https://console.cloud.google.com/billing/016627-E39D0C-60D9FD/budgets</div></td></tr>
+  <tr><td><strong>Firebase Crashlytics</strong></td><td><div class="url-box">https://console.firebase.google.com/project/impacthub-prod/crashlytics</div></td></tr>
+  <tr><td><strong>Firebase Console</strong></td><td><div class="url-box">https://console.firebase.google.com/project/impacthub-prod/overview</div></td></tr>
+</table>
+</div>
+
+<!-- ===== CRASHLYTICS ===== -->
+<h2 id="crashlytics">8. Firebase Crashlytics (iOS)</h2>
+
+<div class="section-card">
+<table>
+  <tr><td><strong>Status</strong></td><td><span class="badge badge-green">INTEGRATED</span> — Firebase Crashlytics SDK in iOS app</td></tr>
+  <tr><td><strong>Captures</strong></td><td>Crashes (automatic), non-fatal errors (via CrashReporter.swift), breadcrumbs</td></tr>
+  <tr><td><strong>Console</strong></td><td>Firebase Console → Crashlytics</td></tr>
+  <tr><td><strong>Key Metric</strong></td><td>Crash-free user rate — target: > 99.5%</td></tr>
+</table>
+</div>
+
+<!-- ===== RUNBOOK ===== -->
+<h2 id="runbook">9. Incident Runbook</h2>
+
+<div class="section-card">
+<h3>When You Get a 5xx Error Alert</h3>
+<ol>
+  <li>Go to <strong>Cloud Functions Logs</strong> → filter: <code>severity>=ERROR</code></li>
+  <li>Identify the failing function name and error message</li>
+  <li>Check <strong>Error Reporting</strong> for error group count and first/last occurrence</li>
+  <li>If "requires an index" → click the link in the log to create the index</li>
+  <li>If code bug → fix locally, run tests, deploy: <code>firebase deploy --only functions</code></li>
+  <li>Verify the fix in logs (status should change from 500 to 200)</li>
+</ol>
+</div>
+
+<div class="section-card">
+<h3>When You Get an Uptime Alert</h3>
+<ol>
+  <li>Go to <strong>Uptime Checks</strong> → check which endpoint is down</li>
+  <li>If web portal → check Firebase Hosting status</li>
+  <li>If Cloud Function → check deployment status in Firebase Console</li>
+  <li>Try calling the endpoint manually: <code>curl https://us-central1-impacthub-prod.cloudfunctions.net/FUNCTION_NAME</code></li>
+  <li>If all endpoints are down → check Google Cloud Status Dashboard for regional outage</li>
+</ol>
+</div>
+
+<div class="section-card">
+<h3>When You Get a Billing Alert</h3>
+<ol>
+  <li>Go to <strong>Billing Budgets</strong> → check which services are driving cost</li>
+  <li>Check <strong>Firestore Document Reads</strong> on the dashboard — this is usually the biggest cost driver</li>
+  <li>If Firestore reads are spiking → check for missing query limits or runaway listeners</li>
+  <li>If Cloud Functions are spiking → check for infinite loops or retry storms</li>
+  <li>At $500 → consider enabling budget-based Cloud Function disabling</li>
+</ol>
+</div>
+
+<div class="section-card">
+<h3>CLI Quick Reference</h3>
+<table>
+  <tr><th>Task</th><th>Command</th></tr>
+  <tr><td>View function logs</td><td><code>firebase functions:log --only FUNCTION_NAME</code></td></tr>
+  <tr><td>View all error logs</td><td><code>gcloud logging read 'severity>=ERROR resource.type="cloud_function"' --project=impacthub-prod --limit=20</code></td></tr>
+  <tr><td>List alert policies</td><td><code>gcloud monitoring policies list --project=impacthub-prod</code></td></tr>
+  <tr><td>List uptime checks</td><td><code>gcloud monitoring uptime list-configs --project=impacthub-prod</code></td></tr>
+  <tr><td>Deploy functions</td><td><code>firebase deploy --only functions</code></td></tr>
+  <tr><td>Deploy single function</td><td><code>firebase deploy --only functions:FUNCTION_NAME</code></td></tr>
+  <tr><td>Deploy indexes</td><td><code>firebase deploy --only firestore:indexes</code></td></tr>
+</table>
+</div>
+
+<br>
+<p class="meta" style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+  ImpactBadge LLC &nbsp;|&nbsp; Production Monitoring Guide &nbsp;|&nbsp; July 2026<br>
+  Generated by Claude Code
+</p>
+
+</body>
+</html>

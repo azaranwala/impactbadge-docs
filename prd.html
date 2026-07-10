@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ImpactBadge — Product Requirements Document</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.65;
+      color: #212121;
+      background: #fafafa;
+    }
+
+    /* ── Header ── */
+    .doc-header {
+      background: #00897B;
+      color: #fff;
+      padding: 36px 48px 28px;
+    }
+    .doc-header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.3px; }
+    .doc-header .subtitle { font-size: 14px; opacity: 0.85; margin-top: 4px; }
+    .doc-header .meta {
+      display: flex; gap: 32px; margin-top: 16px;
+      font-size: 12px; opacity: 0.75;
+    }
+    .doc-header .meta span strong { opacity: 1; }
+
+    /* ── Layout ── */
+    .wrapper {
+      display: flex;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    /* ── Sidebar TOC ── */
+    .toc {
+      width: 240px;
+      flex-shrink: 0;
+      background: #fff;
+      border-right: 1px solid #e0e0e0;
+      padding: 28px 16px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .toc h2 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #00897B;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .toc ol { list-style: none; counter-reset: toc-counter; }
+    .toc ol li { counter-increment: toc-counter; margin-bottom: 2px; }
+    .toc ol li a {
+      display: block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: #424242;
+      text-decoration: none;
+      font-size: 12px;
+      line-height: 1.5;
+      transition: background 0.15s;
+    }
+    .toc ol li a:hover { background: #E0F2F1; color: #00695C; }
+    .toc ol li a::before {
+      content: counter(toc-counter) ". ";
+      color: #00897B;
+      font-weight: 600;
+    }
+    .toc .toc-sub { list-style: none; padding-left: 16px; }
+    .toc .toc-sub li a::before { content: none; }
+    .toc .toc-sub li a { color: #616161; font-size: 11.5px; }
+
+    /* ── Main content ── */
+    .main {
+      flex: 1;
+      padding: 36px 48px 80px;
+      min-width: 0;
+    }
+
+    /* ── Section headings ── */
+    h2.section {
+      font-size: 20px;
+      font-weight: 700;
+      color: #00695C;
+      border-bottom: 2px solid #B2DFDB;
+      padding-bottom: 6px;
+      margin-top: 48px;
+      margin-bottom: 20px;
+    }
+    h2.section:first-of-type { margin-top: 0; }
+
+    h3.sub {
+      font-size: 15px;
+      font-weight: 700;
+      color: #00897B;
+      margin-top: 28px;
+      margin-bottom: 10px;
+    }
+
+    h4.sub2 {
+      font-size: 13px;
+      font-weight: 700;
+      color: #37474F;
+      margin-top: 18px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    p { margin-bottom: 10px; }
+    ul, ol { margin-left: 20px; margin-bottom: 10px; }
+    li { margin-bottom: 3px; }
+
+    /* ── Tables ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 13px;
+    }
+    thead th {
+      background: #00897B;
+      color: #fff;
+      text-align: left;
+      padding: 9px 12px;
+      font-weight: 600;
+    }
+    tbody tr:nth-child(even) { background: #F5F5F5; }
+    tbody td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #E0E0E0;
+      vertical-align: top;
+    }
+    tbody tr:hover { background: #E8F5E9; }
+
+    /* ── Priority badges ── */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .badge-p0 { background: #FFEBEE; color: #C62828; }
+    .badge-p1 { background: #FFF3E0; color: #E65100; }
+    .badge-p2 { background: #E3F2FD; color: #1565C0; }
+    .badge-p3 { background: #F3E5F5; color: #6A1B9A; }
+
+    /* ── Platform badges ── */
+    .plat {
+      display: inline-block;
+      margin: 1px;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 10px;
+      font-weight: 600;
+      background: #E0F2F1;
+      color: #004D40;
+      border: 1px solid #B2DFDB;
+    }
+
+    /* ── Callout boxes ── */
+    .callout {
+      border-left: 4px solid #00897B;
+      background: #E0F2F1;
+      padding: 12px 16px;
+      border-radius: 0 6px 6px 0;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+    .callout.warning {
+      border-color: #F57C00;
+      background: #FFF3E0;
+    }
+    .callout.info {
+      border-color: #1976D2;
+      background: #E3F2FD;
+    }
+
+    /* ── Persona cards ── */
+    .persona-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .persona-card {
+      background: #fff;
+      border: 1px solid #B2DFDB;
+      border-top: 4px solid #00897B;
+      border-radius: 6px;
+      padding: 16px;
+    }
+    .persona-card h4 { font-size: 13px; font-weight: 700; color: #00695C; margin-bottom: 4px; }
+    .persona-card .role-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #00897B;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .persona-card ul { font-size: 12px; color: #424242; margin-left: 14px; }
+
+    /* ── Metrics row ── */
+    .metrics-row {
+      display: flex; gap: 16px; flex-wrap: wrap; margin: 20px 0;
+    }
+    .metric-card {
+      background: #fff;
+      border: 1px solid #B2DFDB;
+      border-radius: 8px;
+      padding: 14px 20px;
+      min-width: 150px;
+      text-align: center;
+    }
+    .metric-card .num { font-size: 28px; font-weight: 700; color: #00897B; }
+    .metric-card .label { font-size: 11px; color: #757575; margin-top: 2px; }
+
+    /* ── Phase timeline ── */
+    .phase-row {
+      display: flex; gap: 0; margin-bottom: 24px; flex-wrap: wrap;
+    }
+    .phase-box {
+      flex: 1; min-width: 180px;
+      border: 1px solid #B2DFDB;
+      padding: 14px 16px;
+      background: #fff;
+    }
+    .phase-box:first-child { border-radius: 8px 0 0 8px; }
+    .phase-box:last-child { border-radius: 0 8px 8px 0; }
+    .phase-box .phase-label {
+      font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px;
+      color: #00897B; font-weight: 700; margin-bottom: 4px;
+    }
+    .phase-box .phase-name { font-size: 13px; font-weight: 700; color: #212121; margin-bottom: 6px; }
+    .phase-box .phase-status {
+      display: inline-block; padding: 2px 8px; border-radius: 10px;
+      font-size: 10px; font-weight: 700;
+    }
+    .status-done { background: #E8F5E9; color: #2E7D32; }
+    .status-pending { background: #FFF3E0; color: #E65100; }
+
+    code {
+      font-family: "SF Mono", "Fira Code", Consolas, monospace;
+      font-size: 12px;
+      background: #ECEFF1;
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: #37474F;
+    }
+
+    .divider { border: none; border-top: 1px solid #E0E0E0; margin: 32px 0; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     HEADER
+════════════════════════════════════════════════════ -->
+<div class="doc-header">
+  <h1>ImpactBadge — Product Requirements Document</h1>
+  <div class="subtitle">Definitive specification for iOS, Android, Web Portal, and Backend</div>
+  <div class="meta">
+    <span><strong>Version:</strong> 1.0</span>
+    <span><strong>Date:</strong> July 7, 2026</span>
+    <span><strong>Author:</strong> Mustufa Zaranwala, Founder</span>
+    <span><strong>Status:</strong> Phase 1 Shipped · Phase 2 Complete · Clever Complete Built</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     WRAPPER
+════════════════════════════════════════════════════ -->
+<div class="wrapper">
+
+  <!-- ── Sidebar TOC ── -->
+  <nav class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#exec-summary">Executive Summary</a></li>
+      <li><a href="#vision">Product Vision &amp; Goals</a></li>
+      <li><a href="#personas">User Personas</a></li>
+      <li><a href="#features">Feature Requirements</a>
+        <ul class="toc-sub">
+          <li><a href="#auth">Authentication</a></li>
+          <li><a href="#discovery">Event Discovery</a></li>
+          <li><a href="#hours">Hours Tracking</a></li>
+          <li><a href="#gamification">Gamification</a></li>
+          <li><a href="#social">Social</a></li>
+          <li><a href="#profile">Profile</a></li>
+          <li><a href="#parent">Parent Features</a></li>
+          <li><a href="#college">College Export</a></li>
+          <li><a href="#org-admin">Org Admin</a></li>
+          <li><a href="#school-admin">School Admin</a></li>
+          <li><a href="#teacher">Teacher Portal</a></li>
+          <li><a href="#clever">Clever Complete</a></li>
+          <li><a href="#notifications">Notifications</a></li>
+        </ul>
+      </li>
+      <li><a href="#nfr">Non-Functional Requirements</a></li>
+      <li><a href="#data-model">Data Model</a></li>
+      <li><a href="#integrations">Integration Points</a></li>
+      <li><a href="#release">Release History</a></li>
+      <li><a href="#open-items">Open Items</a></li>
+    </ol>
+  </nav>
+
+  <!-- ── Main ── -->
+  <main class="main">
+
+    <!-- ═══════════════════════════════════════════════
+         1. EXECUTIVE SUMMARY
+    ════════════════════════════════════════════════ -->
+    <h2 class="section" id="exec-summary">1. Executive Summary</h2>
+
+    <p>
+      <strong>ImpactBadge</strong> is a K-12 volunteer hour tracking and management platform for students aged 11–18.
+      It enables students to discover community service opportunities, log and verify hours with GPS or QR check-in,
+      earn gamification rewards, and export verified records for college applications. School administrators gain
+      compliance dashboards and district reporting; volunteer organizations receive a lightweight CRM and verification
+      workflow. Parents can monitor activity and grant COPPA consent for minors.
+    </p>
+
+    <p>
+      The platform operates across three client surfaces — an <strong>iOS mobile app</strong> (live on App Store, v1.0),
+      an <strong>Android mobile app</strong> (code complete, pre-Play Store launch), and a
+      <strong>React web portal</strong> (<code>impacthub-prod.web.app</code>) — backed by a
+      <strong>Firebase cloud backend</strong> (130+ Cloud Functions, Firestore, Firebase Auth, Cloud Storage).
+    </p>
+
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="num">2,316</div>
+        <div class="label">Automated Tests</div>
+      </div>
+      <div class="metric-card">
+        <div class="num">130+</div>
+        <div class="label">Cloud Functions</div>
+      </div>
+      <div class="metric-card">
+        <div class="num">5</div>
+        <div class="label">User Roles</div>
+      </div>
+      <div class="metric-card">
+        <div class="num">3</div>
+        <div class="label">Platforms</div>
+      </div>
+      <div class="metric-card">
+        <div class="num">12</div>
+        <div class="label">Email Templates</div>
+      </div>
+      <div class="metric-card">
+        <div class="num">83</div>
+        <div class="label">Localization Keys</div>
+      </div>
+    </div>
+
+    <h3 class="sub">Target Users</h3>
+    <table>
+      <thead>
+        <tr><th>Role</th><th>Description</th><th>Primary Platform</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Student</strong></td><td>K-12 students ages 11–18 logging volunteer hours</td><td>iOS, Android</td></tr>
+        <tr><td><strong>Parent / Guardian</strong></td><td>Grants COPPA consent, monitors student activity</td><td>iOS, Android</td></tr>
+        <tr><td><strong>Org Admin</strong></td><td>Volunteer organization staff creating events and verifying hours</td><td>Web Portal, iOS, Android</td></tr>
+        <tr><td><strong>School Admin</strong></td><td>School or district administrator managing compliance and reporting</td><td>Web Portal</td></tr>
+        <tr><td><strong>Teacher / Advisor</strong></td><td>Faculty with read-only visibility into student service records</td><td>Web Portal</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ═══════════════════════════════════════════════
+         2. VISION
+    ════════════════════════════════════════════════ -->
+    <h2 class="section" id="vision">2. Product Vision &amp; Goals</h2>
+
+    <h3 class="sub">Mission</h3>
+    <p>
+      Empower every K-12 student to discover meaningful community service, build a verified volunteer record,
+      and present that record confidently to colleges — while giving schools and organizations the administrative
+      tools they need without complex software procurement.
+    </p>
+
+    <h3 class="sub">Key Metrics &amp; Success Criteria</h3>
+    <table>
+      <thead><tr><th>Metric</th><th>Target (12-month)</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Student registrations</td><td>5,000</td><td>Organic + school district rollouts</td></tr>
+        <tr><td>Verified hours logged</td><td>50,000</td><td>GPS + QR + PIN check-ins</td></tr>
+        <tr><td>School district partnerships</td><td>10</td><td>Via Clever Complete integration</td></tr>
+        <tr><td>Volunteer org partners</td><td>50</td><td>VolunteerMatch import + direct sign-up</td></tr>
+        <tr><td>Certificate PDF exports</td><td>2,000</td><td>Proxy for college-readiness use case</td></tr>
+        <tr><td>App Store rating</td><td>4.5+</td><td>Tracked via App Store Connect</td></tr>
+        <tr><td>Test pass rate</td><td>100%</td><td>Currently 2,316/2,316</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">Adoption Strategy</h3>
+    <ul>
+      <li><strong>District-led rollout:</strong> Clever Complete integration lets district IT enable ImpactBadge with one click — zero password friction for students already in Clever.</li>
+      <li><strong>Freemium:</strong> App is free for individual students; per-school pricing for institutional features (compliance reports, Clever Secure Sync, district dashboard).</li>
+      <li><strong>Org network effect:</strong> Volunteer organizations post events; students discover them → more orgs join to reach student audience.</li>
+      <li><strong>College application pull:</strong> Common App and Naviance export creates urgency for juniors and seniors to maintain hours year-round.</li>
+      <li><strong>Teacher referral:</strong> Advisor portal gives teachers visibility; teachers recommend app to students in service-learning classes.</li>
+    </ul>
+
+    <h3 class="sub">Business Model</h3>
+    <table>
+      <thead><tr><th>Tier</th><th>Price</th><th>Features</th></tr></thead>
+      <tbody>
+        <tr><td>Student Free</td><td>$0</td><td>All student features, unlimited hours, certificate export, gamification</td></tr>
+        <tr><td>School Pro</td><td>Per-school SaaS</td><td>Compliance dashboard, district reports, Clever Secure Sync rostering, bulk import, settings</td></tr>
+        <tr><td>Org Standard</td><td>Free / freemium</td><td>Event creation, hours verification, volunteer CRM, analytics, 1 admin</td></tr>
+        <tr><td>Org Pro</td><td>Per-org SaaS</td><td>Multiple admins, webhook, CSV import, custom fields, impact reports</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ═══════════════════════════════════════════════
+         3. PERSONAS
+    ════════════════════════════════════════════════ -->
+    <h2 class="section" id="personas">3. User Personas</h2>
+
+    <div class="persona-grid">
+
+      <div class="persona-card">
+        <div class="role-tag">Primary User</div>
+        <h4>Alex — The Motivated Student</h4>
+        <ul>
+          <li>Age 16, high school junior</li>
+          <li>Needs 40 hours for NHS and 100 for college apps</li>
+          <li>Discovers events via map and NL search</li>
+          <li>Earns XP badges to stay motivated</li>
+          <li>Exports certificate PDF for Common App</li>
+          <li>Shares story posts to Instagram after shifts</li>
+        </ul>
+      </div>
+
+      <div class="persona-card">
+        <div class="role-tag">Guardian</div>
+        <h4>Maria — The Concerned Parent</h4>
+        <ul>
+          <li>Parent of a 13-year-old (COPPA-protected)</li>
+          <li>Grants consent at account creation</li>
+          <li>Views son's hours and event history</li>
+          <li>Receives weekly digest email</li>
+          <li>Approves photo sharing permissions</li>
+          <li>Contacts org admin if concerned</li>
+        </ul>
+      </div>
+
+      <div class="persona-card">
+        <div class="role-tag">Org Admin</div>
+        <h4>Priya — The Nonprofit Coordinator</h4>
+        <ul>
+          <li>Manages 200+ student volunteers</li>
+          <li>Creates recurring shift events</li>
+          <li>Scans QR codes at check-in</li>
+          <li>Verifies GPS-flagged hours</li>
+          <li>Downloads impact report for grant applications</li>
+          <li>Imports 50 new volunteers via CSV</li>
+        </ul>
+      </div>
+
+      <div class="persona-card">
+        <div class="role-tag">School Admin</div>
+        <h4>Dr. Chen — The District Admin</h4>
+        <ul>
+          <li>Oversees 800 students across 2 schools</li>
+          <li>Logs in via Clever SSO (no new password)</li>
+          <li>Reviews graduation progress dashboard</li>
+          <li>Approves pending self-reported hours</li>
+          <li>Downloads compliance CSV for district</li>
+          <li>Syncs rosters automatically via Clever</li>
+        </ul>
+      </div>
+
+      <div class="persona-card">
+        <div class="role-tag">Teacher</div>
+        <h4>Mr. Torres — The Service-Learning Teacher</h4>
+        <ul>
+          <li>Teaches 9th-grade service-learning class</li>
+          <li>Logs in via Clever SSO</li>
+          <li>Views read-only student compliance list</li>
+          <li>Checks who has met 20-hour semester goal</li>
+          <li>No ability to edit student records</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         4. FEATURE REQUIREMENTS
+    ════════════════════════════════════════════════ -->
+    <h2 class="section" id="features">4. Feature Requirements by Module</h2>
+
+    <div class="callout">
+      <strong>Priority Key:</strong>
+      <span class="badge badge-p0">P0 Critical</span> — must ship for launch &nbsp;
+      <span class="badge badge-p1">P1 High</span> — Phase 1 features &nbsp;
+      <span class="badge badge-p2">P2 Medium</span> — Phase 2 features &nbsp;
+      <span class="badge badge-p3">P3 Low</span> — future roadmap
+    </div>
+
+    <!-- ── 4.1 Authentication ── -->
+    <h3 class="sub" id="auth">4.1 Authentication</h3>
+
+    <table>
+      <thead>
+        <tr><th style="width:22%">Feature</th><th>Description</th><th style="width:18%">Platforms</th><th style="width:10%">Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Email / Password</strong></td>
+          <td>Standard create-account and login flow with Firebase Auth. Includes input validation, error messages localized in English and Spanish.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Web</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Google Sign-In</strong></td>
+          <td>OAuth 2.0 via Firebase Google provider. One-tap on iOS/Android. Redirects to Google sign-in on Web.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Web</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Apple Sign-In</strong></td>
+          <td>Sign in with Apple via Firebase Apple provider. Always rendered unconditionally per Apple Guideline 4.8 — never hidden behind a feature flag. Handles cancellation (code 1001), operationNotAllowed, and accountExistsWithDifferentCredential errors with localized messages.</td>
+          <td><span class="plat">iOS</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Clever SSO (Library)</strong></td>
+          <td>OAuth 2.0 via Clever Library. Students and teachers log in with their school Clever credentials. Uses v3.1 API (/me, /users/{id}). Detects Complete vs Library by email+studentId presence. Non-destructive merge on every login.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Web</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>COPPA Parental Consent</strong></td>
+          <td>Users under 13 must provide parent email during registration. Parent receives consent email with accept/deny link. Account is pending until consent granted. Consent status stored on user document and enforced by Firestore rules.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Forgot Password</strong></td>
+          <td>Password reset email via Firebase Auth. Link valid for 1 hour. Branded email template with ImpactBadge logo. Deep links back to app on iOS/Android.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Web</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Email Verification (Soft)</strong></td>
+          <td>After registration, users see a soft banner prompt to verify email. App remains functional without verification (no hard gate). Verification status shown on profile. Re-send verification option available.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Session Persistence</strong></td>
+          <td>Firebase Auth token persisted locally. User stays logged in across app restarts. Token refreshed automatically every hour.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Web</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Role-Based Access</strong></td>
+          <td>Custom claims set by backend: student, parent, org_admin, school_admin, teacher. All Firestore security rules enforce role claims. Web portal routes guard by role.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Web</span><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Diagnostic Auth Logging</strong></td>
+          <td>Structured [AppleSignIn] log events for debugging provider-level failures without exposing PII. Useful for reproducing App Store review environment issues.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── 4.2 Event Discovery ── -->
+    <h3 class="sub" id="discovery">4.2 Event Discovery</h3>
+
+    <table>
+      <thead>
+        <tr><th style="width:22%">Feature</th><th>Description</th><th style="width:18%">Platforms</th><th style="width:10%">Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Geo Search</strong></td>
+          <td>Discover events within a configurable radius (5, 10, 25, 50 mi) of user's current location. Distance displayed in miles. Sorted by distance ascending.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Category Filters</strong></td>
+          <td>Filter events by cause: Environment, Animals, Education, Food, Health, Community, Arts, Seniors. Multi-select supported.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Map View</strong></td>
+          <td>Interactive map (MapKit on iOS, Google Maps on Android) showing event pins. Tap pin to open event card. Cluster when zoomed out. Toggle between list and map views.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Natural Language Search</strong></td>
+          <td>Search bar supporting keyword and phrase queries. Matches on event name, description, organization name, address, and tags. Real-time filtering.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Personalized Recommendations</strong></td>
+          <td>Events surfaced based on student's past categories, skills listed on profile, and school location. Updated on login and after each new registration.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Event Detail View</strong></td>
+          <td>Full event page: name, description, organization, date/time range, address (formatted street address + city/state), distance, category tags, shift list, volunteer slots remaining, org contact.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Event Registration</strong></td>
+          <td>One-tap registration for available events. Confirmation shown in-app. Registration stored in Firestore with timestamp. Org admin notified of new registrant.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Waitlist</strong></td>
+          <td>When event is full, student joins waitlist. Auto-promoted to registered when slot opens. Push notification sent on promotion.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Shift-Based Events</strong></td>
+          <td>Org admins can create events with multiple shifts (time slots). Students register for specific shifts. Each shift has its own capacity and check-in window.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Web</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Add to Calendar</strong></td>
+          <td>Students can add registered events to device calendar via EventKit (iOS) or Calendar Intents (Android). Gracefully skipped in simulator environments.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>VolunteerMatch Import</strong></td>
+          <td>Backend pulls volunteer opportunities from VolunteerMatch API and seeds them into the event feed. Refreshes on schedule. Attributed to VolunteerMatch as source.</td>
+          <td><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── 4.3 Hours Tracking ── -->
+    <h3 class="sub" id="hours">4.3 Hours Tracking</h3>
+
+    <table>
+      <thead>
+        <tr><th style="width:22%">Feature</th><th>Description</th><th style="width:18%">Platforms</th><th style="width:10%">Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>GPS Check-In / Check-Out</strong></td>
+          <td>Student taps Check In at event start; app records GPS coordinates and timestamp. Check Out records end time. Hours calculated automatically. GPS coordinates compared to event location.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>GPS Auto-Verify</strong></td>
+          <td>If student's GPS coordinates are within the verification radius of the event address at check-in time, hours are automatically set to <code>verified</code> status. Displays auto-verify badge on the log entry. Eliminates manual review for on-site volunteers.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>PIN Check-In</strong></td>
+          <td>Org admin generates a numeric PIN for an event. Student enters PIN to check in. Useful for indoor or rural events where GPS may be unreliable.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>QR Code Check-In</strong></td>
+          <td>Org admin displays QR code (generated in web portal or app). Student scans with camera to check in. Timestamp and user ID encoded in QR payload. Verified server-side.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Web</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Self-Report with E-Signature</strong></td>
+          <td>For events not on platform (community service outside the app). Student enters organization, date, hours, description. Supervisor email captured. Supervisor receives e-signature request email and approves or denies hours.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Hours Status Workflow</strong></td>
+          <td>Hours flow through states: <code>pending</code> → <code>verified</code> or <code>rejected</code>. GPS auto-verify skips to verified directly. Org admin manual review for GPS-unmatched and self-reported logs. School admin can also approve pending hours.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Web</span><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Hours Dashboard</strong></td>
+          <td>Student's total verified hours, hours by month (chart), hours by category breakdown, pending hours awaiting approval. Graduation progress bar if school requirements configured.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Certificate PDF Export</strong></td>
+          <td>Generates a printable PDF certificate showing student name, school, total verified hours, date range, event list with hours, and ImpactBadge branding. Shareable via iOS share sheet / Android intent. Suitable for college applications.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Graduation Progress Tracking</strong></td>
+          <td>School admin configures graduation hour requirements (e.g., 100 hours by end of 12th grade). Student sees progress bar with percentage complete and hours remaining. Phase 2 feature.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Web</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Hour Log Detail</strong></td>
+          <td>Each log entry shows: event name, org, date, hours, verification method, status badge (auto-verified, verified, pending, rejected), GPS coordinates if available, supervisor name if self-reported.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── 4.4 Gamification ── -->
+    <h3 class="sub" id="gamification">4.4 Gamification</h3>
+
+    <table>
+      <thead>
+        <tr><th style="width:22%">Feature</th><th>Description</th><th style="width:18%">Platforms</th><th style="width:10%">Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>XP Points</strong></td>
+          <td>Students earn XP for verified hours (10 XP/hour), completing challenges, streaks, referrals, and profile completion. XP total persisted on user document and updated atomically.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Levels</strong></td>
+          <td>XP accumulates toward levels (Volunteer Seedling → Eco Warrior → Community Champion → Impact Legend, etc.). Level displayed on profile with progress bar to next level.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Badges</strong></td>
+          <td>Achievement badges unlocked for milestones: First Hour, 10 Hours, 50 Hours, 100 Hours, First GPS Check-In, Streak badges (7-day, 30-day), Category Specialist (20 hours in one category), etc. Badge shown on profile wall and in share UI.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Activity Streaks</strong></td>
+          <td>Consecutive-week volunteer streak tracked. Streak count displayed on home screen. Breaking a streak sends a re-engagement push notification. Streak freezes earnable via challenges.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Challenges</strong></td>
+          <td>Time-limited personal challenges (e.g., "Log 5 hours this weekend", "Try a new category"). Configured by org admins or generated automatically. Completion awards XP and badge.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>School Challenges</strong></td>
+          <td>School admin creates school-wide challenges (e.g., "Collect 1,000 hours as a school this month"). All enrolled students contribute. Live leaderboard shows school progress. Phase 2 feature.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Web</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Leaderboard</strong></td>
+          <td>Weekly and all-time leaderboards scoped to: All Users, My School, My Grade. Displays rank, avatar, name, and XP. Privacy-respecting: students can opt out of public leaderboard.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Referral Program</strong></td>
+          <td>Students earn XP when referred friends complete their first verified hour. Unique referral code generated per student. Shareable via iOS share sheet / Android intent.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── 4.5 Social ── -->
+    <h3 class="sub" id="social">4.5 Social</h3>
+
+    <table>
+      <thead>
+        <tr><th style="width:22%">Feature</th><th>Description</th><th style="width:18%">Platforms</th><th style="width:10%">Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Direct Messaging</strong></td>
+          <td>1:1 messaging between students. Messages stored in Firestore with encryption in transit. Moderated by profanity filter. COPPA: under-13 accounts cannot initiate messages without parent permission.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Group Chat</strong></td>
+          <td>Event-scoped group chats auto-created when event is published. Registered volunteers added automatically. Org admin can post announcements to the group.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Friends / Follow</strong></td>
+          <td>Students can follow other students to see their public stories and XP milestones in a feed. Privacy: profiles default to public within the platform; external visibility requires explicit opt-in.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Teams</strong></td>
+          <td>Students can form or join volunteer teams. Team has a shared hours total, team leaderboard, and group challenges. Teams can register for events as a group.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p3">P3</span></td>
+        </tr>
+        <tr>
+          <td><strong>Event Reviews</strong></td>
+          <td>After completing a shift, students rate the experience (1-5 stars) and leave a text review. Reviews visible on event detail page. Org admin can respond. Helps future students choose quality opportunities.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Reflections / Stories</strong></td>
+          <td>After a verified event, student prompted to write a reflection (text + optional photo). Published as a shareable story card. Can be exported to Instagram, Twitter, or SMS via native share sheet. Org admin can feature stories on their org page.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── 4.6 Profile ── -->
+    <h3 class="sub" id="profile">4.6 Profile</h3>
+
+    <table>
+      <thead>
+        <tr><th style="width:22%">Feature</th><th>Description</th><th style="width:18%">Platforms</th><th style="width:10%">Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Profile Edit</strong></td>
+          <td>Students edit display name, bio, and contact preferences. Changes saved to Firestore user document in real time.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Profile Photo</strong></td>
+          <td>Upload photo from camera roll or take new photo. Uploaded to Cloud Storage. Resized to 256x256 on upload. URL stored on user document. Used in leaderboard, messaging, and story cards.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Skills</strong></td>
+          <td>Students list skills (e.g., Tutoring, Gardening, Medical, Photography). Used for event recommendations. Displayed on profile for org admins viewing volunteer profiles.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Availability</strong></td>
+          <td>Students set weekly availability (days and time blocks). Used for event recommendations and org admin scheduling. Org admin web portal shows volunteer availability in a calendar grid.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Web</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>School Info with Student ID</strong></td>
+          <td>Students enter school name, graduation year, grade level, and student ID number. Student ID used for school compliance matching. Editable from Profile &gt; Edit School Info. Clever-synced values take precedence when non-empty.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Graduation Progress Bar</strong></td>
+          <td>When school admin has configured graduation requirements, student's profile shows a progress bar: X of Y hours completed toward graduation. Milestone notifications at 25%, 50%, 75%, 100%.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Email Verification Prompt</strong></td>
+          <td>Soft banner on profile indicating email verification status. "Resend verification email" button. Banner dismissed once email verified. No hard gate on app functionality.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Setup Banner</strong></td>
+          <td>Onboarding progress banner shown until student completes: profile photo, school info, first event registration. Dismissible after all steps done.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── 4.7 Parent ── -->
+    <h3 class="sub" id="parent">4.7 Parent Features</h3>
+
+    <table>
+      <thead>
+        <tr><th style="width:22%">Feature</th><th>Description</th><th style="width:18%">Platforms</th><th style="width:10%">Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Parent Account Linking</strong></td>
+          <td>During student registration (under 13), parent email is entered. Parent receives invite email with secure link. Parent creates account or logs in to link. Bidirectional relationship stored in Firestore.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>COPPA Consent Flow</strong></td>
+          <td>Parent reviews data collection disclosure and grants or denies consent. Consent stored with timestamp, IP, and parent user ID for audit. Student account blocked until consent granted. Parent can revoke consent at any time (triggers account deactivation).</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Parent Dashboard</strong></td>
+          <td>Parent sees linked student's: total verified hours, recent activity log, upcoming registered events, earned badges, and messaging status. Read-only view mirroring student's hours dashboard.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Messaging Permissions</strong></td>
+          <td>Parent can enable or disable direct messaging for their child's account. Permission checked server-side before any message is delivered. Default: disabled for under-13.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Weekly Digest Email</strong></td>
+          <td>Parents receive a weekly email summarizing student's hours logged, badges earned, and upcoming events. Branded ImpactBadge email. Unsubscribe link per CAN-SPAM.</td>
+          <td><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Multiple Children Support</strong></td>
+          <td>One parent account can link to multiple student accounts. Dashboard shows tab or dropdown to switch between children.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── 4.8 College Export ── -->
+    <h3 class="sub" id="college">4.8 College Export</h3>
+
+    <table>
+      <thead>
+        <tr><th style="width:22%">Feature</th><th>Description</th><th style="width:18%">Platforms</th><th style="width:10%">Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Common App Export</strong></td>
+          <td>Generates a formatted summary of verified volunteer hours, organizations, and dates in the activity description format recommended by Common App. Student copies text into their Common App activities section.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Naviance Integration</strong></td>
+          <td>Export hours data in Naviance-compatible format. Deep link opens Naviance app/web if installed. Future: direct API push when Naviance opens partner program.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Volunteer Portfolio</strong></td>
+          <td>In-app portfolio view showing curated highlights: top organizations, meaningful events, skills gained, total impact hours. Shareable via link or PDF.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Certificate PDF</strong></td>
+          <td>Official ImpactBadge verification certificate PDF. Includes: student name, school, student ID, total verified hours, date range, event-by-event log, ImpactBadge seal. Generated server-side for tamper resistance. Downloadable to Files app / device storage.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── 4.9 Org Admin ── -->
+    <h3 class="sub" id="org-admin">4.9 Org Admin</h3>
+
+    <table>
+      <thead>
+        <tr><th style="width:22%">Feature</th><th>Description</th><th style="width:18%">Platforms</th><th style="width:10%">Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Admin Dashboard</strong></td>
+          <td>Overview of: total registered volunteers, total verified hours, active events, pending hour verifications, recent activity feed. StatsCards with trend indicators.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Create Event</strong></td>
+          <td>Form to create new events: name, description, category, date, time, address (geocoded to coordinates), volunteer slots, verification method (GPS/PIN/QR), shifts. Draft and publish workflow.</td>
+          <td><span class="plat">Web</span><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Edit / Cancel Event</strong></td>
+          <td>Org admin can edit event details up to event start time. Cancellation notifies all registered volunteers via push notification and email. Cancelled events archived rather than deleted.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Verify Hours</strong></td>
+          <td>Review queue of pending hour logs. Approve or reject with optional rejection reason. Bulk approve all GPS-matched logs. Rejection reason delivered to student via push notification.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Analytics Dashboard</strong></td>
+          <td>Charts: volunteer registrations over time, hours by category, top volunteers by hours, event attendance rate, retention (returning vs. new volunteers). Date range picker. Export as CSV or PDF.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Volunteer CRM</strong></td>
+          <td>Full volunteer roster: name, email, hours, events attended, skills, availability, last active date. Search and filter by any field. Tag volunteers (e.g., "Reliable", "Driver", "Bilingual"). Phase 2 feature.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Impact Reports</strong></td>
+          <td>Generate grant-ready impact report: total volunteer hours, monetary value of volunteer time (using Independent Sector rate), unique volunteers, events hosted, demographics summary. Exportable as branded PDF. Phase 2 feature.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Announcements</strong></td>
+          <td>Org admin broadcasts message to all volunteers registered for an event or all org followers. Delivered via push notification and in-app notification center.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>CSV Import</strong></td>
+          <td>Import volunteers from CSV (name, email, phone, student ID). Validates format and deduplicates by email. Creates pending accounts with invite email. Shows import summary with row-by-row error report.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Webhook Integration</strong></td>
+          <td>Org admin registers a webhook URL to receive real-time events: hour.verified, hour.rejected, volunteer.registered, event.cancelled. HMAC-signed payload. Retry with exponential backoff on failure.</td>
+          <td><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Availability View</strong></td>
+          <td>Calendar grid showing all volunteers' availability by day/time block. Helps org admin schedule events when most volunteers are free.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── 4.10 School Admin ── -->
+    <h3 class="sub" id="school-admin">4.10 School Admin</h3>
+
+    <table>
+      <thead>
+        <tr><th style="width:22%">Feature</th><th>Description</th><th style="width:18%">Platforms</th><th style="width:10%">Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>School Dashboard</strong></td>
+          <td>StatsCards: total students enrolled, total verified hours across school, students meeting graduation requirement, pending approvals, active events. Recent activity feed.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>Compliance View</strong></td>
+          <td>Student roster with: name, grade, total hours, percentage of graduation goal met, status (On Track / At Risk / Complete). Color-coded. Filterable by grade and status. Sortable by name or hours.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Hour Approvals</strong></td>
+          <td>School admin queue for self-reported hours that require institutional approval (in addition to org admin verification). Approve or reject with comments. Used for community service credit programs.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Reports</strong></td>
+          <td>Generate and download: Compliance Report (all students, hours, goal %), Hours by Grade Level, Top Performing Students, Organization Partnership list. Formats: CSV and PDF.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Student Import</strong></td>
+          <td>Import student roster via CSV (name, email, grade, student ID). Deduplicates by student ID and email. Sends invite emails. Supports WinSchool export format.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>School Settings</strong></td>
+          <td>Configure: school name, graduation hour requirement by grade level, allowed verification methods, approved organization whitelist, academic year dates. Settings persisted and loaded on page mount.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>District Report</strong></td>
+          <td>Multi-school rollup for district administrators. Aggregates hours, student counts, and compliance rates across all schools in the district. Exportable for district board presentations.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Clever Sync Dashboard</strong></td>
+          <td>Shows Clever sync status: connected district, last sync timestamp, sync health indicator, student roster count, pending merge count. Manual sync trigger button. Clever-archived students shown separately.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── 4.11 Teacher Portal ── -->
+    <h3 class="sub" id="teacher">4.11 Teacher / Advisor Portal</h3>
+
+    <table>
+      <thead>
+        <tr><th style="width:22%">Feature</th><th>Description</th><th style="width:18%">Platforms</th><th style="width:10%">Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Advisor Dashboard</strong></td>
+          <td>Read-only view of student compliance status scoped to the teacher's assigned school. Shows student list with: name, grade, total hours, goal percentage, status indicator. No edit, approve, or delete capabilities.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Clever SSO Login</strong></td>
+          <td>Teachers log in via Clever SSO. Role auto-detected as <code>teacher</code> from Clever <code>roles</code> object. No separate password needed. Scoped to their school from Clever profile.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Student Search</strong></td>
+          <td>Teacher can search for a specific student by name or student ID within their school. View that student's full hour log (read-only). Useful for confirming service-learning credit.</td>
+          <td><span class="plat">Web</span></td>
+          <td><span class="badge badge-p3">P3</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── 4.12 Clever Complete ── -->
+    <h3 class="sub" id="clever">4.12 Clever Complete</h3>
+
+    <div class="callout info">
+      Clever Complete encompasses three certifications: District SSO (Phase 1), Secure Sync (Phase 2), and LMS Connect with LTI 1.3 (Phase 3). All three phases are implemented. Production credentials pending Clever agreement signature.
+    </div>
+
+    <table>
+      <thead>
+        <tr><th style="width:22%">Feature</th><th>Description</th><th style="width:18%">Platforms</th><th style="width:10%">Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>District SSO v3.1</strong></td>
+          <td>OAuth 2.0 using Clever v3.1 API. Handles all user types: student, teacher, staff, district_admin. Role detection from <code>roles</code> object. Tracks <code>cleverApiVersion: "v3.1"</code>. Instant Login ready (district portal &gt; click &gt; ImpactBadge, no intermediate login page).</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Web</span><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Secure Sync — Daily Roster</strong></td>
+          <td>Cloud Scheduler triggers <code>cleverRosterSync</code> at 2AM EST daily. Pulls all students/teachers/sections from Clever API using paginated requests with rate limiting. Non-destructive merge: Clever is source of truth for non-empty values; never blanks student-entered data.</td>
+          <td><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Secure Sync — Incremental Events</strong></td>
+          <td><code>cleverEventsPoll</code> runs every 15 minutes via Pub/Sub. Picks up incremental roster changes (new students, transfers, leavers) between daily syncs. Maintains sync cursor for efficiency.</td>
+          <td><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Student Archiving</strong></td>
+          <td>Students removed from Clever are marked <code>cleverArchived: true</code> in Firestore — never deleted. Preserves all hours, XP, and badges. Archived students excluded from compliance reports and leaderboards.</td>
+          <td><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Pre-Provisioning</strong></td>
+          <td>Unmatched students from Clever sync are pre-provisioned in <code>pendingStudents</code> collection. When student logs in for first time via Clever SSO, they are automatically merged with their pending record — seamless zero-friction experience.</td>
+          <td><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>LMS Connect — Grade Passback</strong></td>
+          <td>When org admin verifies student hours, verified hours automatically pushed to Clever as a grade for the associated LMS assignment. Teacher sees updated grade in Clever-connected LMS (Google Classroom, Canvas, etc.).</td>
+          <td><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>LTI 1.3 Launch</strong></td>
+          <td>HTTP endpoint <code>cleverLTILaunch</code> handles LTI 1.3 launch requests from Clever. Validates JWT, extracts user identity, creates or links ImpactBadge account, and redirects to appropriate app view.</td>
+          <td><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Admin Setup Callables</strong></td>
+          <td><code>cleverAdminSetup</code> provides: connect district (exchange auth code for district token), getStatus (sync health), triggerSync (manual force sync). All callable from web Clever Sync dashboard.</td>
+          <td><span class="plat">Backend</span><span class="plat">Web</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── 4.13 Notifications ── -->
+    <h3 class="sub" id="notifications">4.13 Notifications</h3>
+
+    <table>
+      <thead>
+        <tr><th style="width:22%">Feature</th><th>Description</th><th style="width:18%">Platforms</th><th style="width:10%">Priority</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Push Notifications</strong></td>
+          <td>FCM (Firebase Cloud Messaging) push notifications for: hour verified, hour rejected, event reminder (24h before), waitlist promotion, badge earned, school challenge milestone, announcement from org. APNs on iOS, FCM on Android.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p0">P0</span></td>
+        </tr>
+        <tr>
+          <td><strong>In-App Notification Center</strong></td>
+          <td>Bell icon with unread badge. Notification list with: icon, message, timestamp, read/unread state. Tap to navigate to relevant content. Mark all as read. Persisted in Firestore <code>notifications</code> sub-collection.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Weekly Digest Email</strong></td>
+          <td>Sent every Sunday to active students summarizing: hours logged that week, XP earned, upcoming registered events, streak status, and a motivational CTA. Branded ImpactBadge template. Respects unsubscribe preference.</td>
+          <td><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Graduation Nudges</strong></td>
+          <td>At-risk students (below goal pace) receive monthly email nudges: "You need X more hours to graduate on time — here are upcoming opportunities near you." Stops when goal is met.</td>
+          <td><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+        <tr>
+          <td><strong>Event Reminders</strong></td>
+          <td>Push notification 24 hours before a registered event: "Don't forget — [Event Name] tomorrow at [Time]." Deep links to event detail view. Cancelable if event is cancelled.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p1">P1</span></td>
+        </tr>
+        <tr>
+          <td><strong>Streak Re-Engagement</strong></td>
+          <td>If student hasn't logged hours in 7 days and has an active streak, push notification: "Your X-day streak is at risk!" with a nearby event suggestion.</td>
+          <td><span class="plat">iOS</span><span class="plat">Android</span><span class="plat">Backend</span></td>
+          <td><span class="badge badge-p2">P2</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ═══════════════════════════════════════════════
+         5. NON-FUNCTIONAL REQUIREMENTS
+    ════════════════════════════════════════════════ -->
+    <h2 class="section" id="nfr">5. Non-Functional Requirements</h2>
+
+    <h3 class="sub">5.1 Performance</h3>
+    <table>
+      <thead><tr><th>Requirement</th><th>Target</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>App cold start (iOS / Android)</td><td>&lt; 2 seconds</td><td>Measured to first interactive frame</td></tr>
+        <tr><td>Event list load</td><td>&lt; 1.5 seconds</td><td>Firestore geo query with 25 results</td></tr>
+        <tr><td>Certificate PDF generation</td><td>&lt; 5 seconds</td><td>Server-side generation via Cloud Function</td></tr>
+        <tr><td>GPS check-in confirmation</td><td>&lt; 3 seconds</td><td>Includes geo-verification round trip</td></tr>
+        <tr><td>Cloud Function p99 latency</td><td>&lt; 2 seconds</td><td>Excluding cold starts</td></tr>
+        <tr><td>Web portal initial load</td><td>&lt; 3 seconds</td><td>Firebase Hosting CDN, React Vite bundle</td></tr>
+        <tr><td>Clever roster sync (1,000 students)</td><td>&lt; 90 seconds</td><td>Paginated, rate-limited Clever API calls</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">5.2 Security</h3>
+
+    <h4 class="sub2">Firestore Security Rules</h4>
+    <ul>
+      <li>All reads and writes require authentication; <code>allow read, write: if false</code> is the default deny rule.</li>
+      <li>Students can only read/write their own user document and hour logs.</li>
+      <li>Org admins can read/write events and hour logs for their organization only (verified by <code>orgId</code> claim).</li>
+      <li>School admins can read all student documents in their <code>schoolId</code>.</li>
+      <li>Teachers can read (not write) student documents in their <code>schoolId</code>.</li>
+      <li><code>cleverDistricts</code> collection: deny all client access — server-only via Admin SDK.</li>
+      <li>Parent can read their linked student's documents only (verified by <code>linkedStudentIds</code> array).</li>
+    </ul>
+
+    <h4 class="sub2">COPPA Compliance</h4>
+    <ul>
+      <li>Users age &lt; 13 require verifiable parental consent before any data is collected or stored beyond the consent process itself.</li>
+      <li>Parent consent stored with timestamp, IP address, parent UID, and consent text version.</li>
+      <li>Under-13 accounts do not appear in leaderboards by default.</li>
+      <li>No behavioral advertising targeting minors.</li>
+      <li>Data deletion request honored within 30 days (triggers cascade delete of all user data).</li>
+    </ul>
+
+    <h4 class="sub2">FERPA Compliance</h4>
+    <ul>
+      <li>Student education records (hours, grades, school info) not shared with third parties without school consent.</li>
+      <li>School admin data export is access-controlled to authorized school personnel only.</li>
+      <li>Clever-synced roster data treated as FERPA-protected; stored in restricted Firestore collections.</li>
+      <li>Audit log maintained for all admin reads of student data.</li>
+    </ul>
+
+    <h4 class="sub2">Vulnerability Management</h4>
+    <ul>
+      <li>2 critical + 6 high + multiple medium vulnerabilities patched as of July 2026.</li>
+      <li>Dependabot alerts monitored; packages upgraded on security advisory.</li>
+      <li>CSRF protection on all OAuth callback endpoints (state parameter validation).</li>
+      <li>HMAC signature validation on all inbound webhooks.</li>
+      <li>Input sanitization and rate limiting on all public Cloud Functions.</li>
+    </ul>
+
+    <h3 class="sub">5.3 Monitoring &amp; Observability</h3>
+    <table>
+      <thead><tr><th>Component</th><th>Tool / Mechanism</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Uptime checks</td><td>Google Cloud Monitoring</td><td>8 uptime checks across key endpoints</td></tr>
+        <tr><td>Alerting</td><td>Google Cloud Alerting</td><td>6 alert policies: error rate, latency, function failures</td></tr>
+        <tr><td>Error reporting</td><td>Firebase Crashlytics (iOS/Android), Cloud Error Reporting (Backend)</td><td>Automatic crash symbolication on iOS</td></tr>
+        <tr><td>Billing budget</td><td>Google Cloud Billing Alerts</td><td>Alert at 50%, 90%, 100% of monthly budget</td></tr>
+        <tr><td>Performance monitoring</td><td>Firebase Performance Monitoring</td><td>App start time, HTTP request traces</td></tr>
+        <tr><td>Monitoring dashboard</td><td>Google Cloud Monitoring dashboard</td><td>Custom dashboard for all key metrics</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="sub">5.4 Accessibility</h3>
+    <ul>
+      <li><strong>iOS:</strong> All UI elements have <code>accessibilityLabel</code> and <code>accessibilityHint</code>. VoiceOver tested on key user flows (login, check-in, hours view).</li>
+      <li><strong>Android:</strong> ContentDescription set on all interactive views. TalkBack compatible.</li>
+      <li><strong>Web:</strong> WCAG 2.1 AA target. All form fields have labels. Focus management on modal open/close. Color contrast ratio &ge; 4.5:1 for body text.</li>
+      <li><strong>Typography:</strong> Minimum 14px body text. Dynamic Type support on iOS (respects user font size preference).</li>
+      <li><strong>Color:</strong> Not relying on color alone to convey status (icons + text alongside color-coded badges).</li>
+    </ul>
+
+    <h3 class="sub">5.5 Localization</h3>
+    <ul>
+      <li>83 localization keys defined for English (EN) and Spanish (ES) on iOS.</li>
+      <li>Android: string resources in <code>values/strings.xml</code> and <code>values-es/strings.xml</code>.</li>
+      <li>All user-facing error messages, labels, and push notification bodies localized.</li>
+      <li>Date/time formatting respects device locale.</li>
+      <li>Distance displayed in miles (conversion from km applied on Android).</li>
+    </ul>
+
+    <h3 class="sub">5.6 Testing</h3>
+    <table>
+      <thead><tr><th>Suite</th><th>Count</th><th>Framework</th></tr></thead>
+      <tbody>
+        <tr><td>Backend unit + integration tests</td><td>1,504 (71 suites)</td><td>Jest + Firebase Emulator</td></tr>
+        <tr><td>Web component + integration tests</td><td>92 (8 suites)</td><td>Vitest + React Testing Library</td></tr>
+        <tr><td>Android unit tests</td><td>336 (14 suites)</td><td>JUnit 4 + Robolectric</td></tr>
+        <tr><td>iOS unit tests</td><td>384 (passing, 5 skipped)</td><td>XCTest</td></tr>
+        <tr><td><strong>Total</strong></td><td><strong>2,316</strong></td><td>100% pass, 0 flaky</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ═══════════════════════════════════════════════
+         6. DATA MODEL
+    ════════════════════════════════════════════════ -->
+    <h2 class="section" id="data-model">6. Data Model</h2>
+
+    <p>ImpactBadge uses <strong>Cloud Firestore</strong> (NoSQL document database) as its primary data store. Key collections:</p>
+
+    <table>
+      <thead><tr><th style="width:28%">Collection / Path</th><th>Purpose</th><th style="width:20%">Access</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>users/{uid}</code></td>
+          <td>Core user document. Fields: displayName, email, role, schoolId, orgId, xp, level, streakCount, cleverUserId, cleverApiVersion, coppaConsentStatus, linkedParentUid, studentId, graduationYear, skills, availability, emailVerified, fcmTokens.</td>
+          <td>Owner read/write; school_admin read; parent read (if linked)</td>
+        </tr>
+        <tr>
+          <td><code>users/{uid}/hourLogs/{logId}</code></td>
+          <td>Individual hour log entries. Fields: eventId, orgId, date, hours, status (pending/verified/rejected), verificationMethod (gps/pin/qr/self_report), gpsCoordinates, supervisorEmail, rejectionReason, autoVerified, createdAt.</td>
+          <td>Owner read/write; org_admin read/update (status); school_admin read</td>
+        </tr>
+        <tr>
+          <td><code>users/{uid}/notifications/{notifId}</code></td>
+          <td>In-app notification items. Fields: type, title, body, read, createdAt, deepLink.</td>
+          <td>Owner read/write only</td>
+        </tr>
+        <tr>
+          <td><code>events/{eventId}</code></td>
+          <td>Volunteer events. Fields: name, description, category, orgId, startTime, endTime, address, geoPoint, slots, filledSlots, shifts[], verificationMethod, pinCode, status (active/cancelled/completed).</td>
+          <td>Public read; org_admin write (own org only)</td>
+        </tr>
+        <tr>
+          <td><code>events/{eventId}/registrations/{uid}</code></td>
+          <td>Per-user registration record. Fields: userId, shiftId, registeredAt, status (registered/waitlisted/attended).</td>
+          <td>Owner read; org_admin read/write</td>
+        </tr>
+        <tr>
+          <td><code>organizations/{orgId}</code></td>
+          <td>Volunteer organization profiles. Fields: name, description, logoUrl, adminUids[], website, phone, categories[], verifiedOrg.</td>
+          <td>Public read; org_admin write (own org)</td>
+        </tr>
+        <tr>
+          <td><code>schools/{schoolId}</code></td>
+          <td>School configuration. Fields: name, districtId, graduationRequirements{}, approvedOrgIds[], cleverDistrictId, academicYearStart, academicYearEnd, allowedVerificationMethods[].</td>
+          <td>school_admin read/write; teacher read; student read (own school)</td>
+        </tr>
+        <tr>
+          <td><code>badges/{badgeId}</code></td>
+          <td>Badge definitions. Fields: name, description, iconUrl, xpReward, criteria{type, threshold, category}.</td>
+          <td>Public read; admin write</td>
+        </tr>
+        <tr>
+          <td><code>users/{uid}/badges/{badgeId}</code></td>
+          <td>Badges earned by a student. Fields: earnedAt, badgeId.</td>
+          <td>Owner read; public read; admin write</td>
+        </tr>
+        <tr>
+          <td><code>challenges/{challengeId}</code></td>
+          <td>Active challenges. Fields: title, description, xpReward, orgId, schoolId (optional scoping), startDate, endDate, criteria{}.</td>
+          <td>Public read; org_admin/school_admin write</td>
+        </tr>
+        <tr>
+          <td><code>stories/{storyId}</code></td>
+          <td>Student reflection stories. Fields: userId, eventId, text, photoUrl, createdAt, likes, featured.</td>
+          <td>Public read (if user opted in); owner write</td>
+        </tr>
+        <tr>
+          <td><code>parentConsents/{consentId}</code></td>
+          <td>COPPA consent audit records. Fields: studentUid, parentUid, consentedAt, ipAddress, consentTextVersion, status (granted/denied/revoked).</td>
+          <td>Backend/admin only — no client read</td>
+        </tr>
+        <tr>
+          <td><code>cleverDistricts/{districtId}</code></td>
+          <td>Clever district tokens and sync state. Fields: districtToken (encrypted), lastSyncAt, syncCursor, studentCount, health.</td>
+          <td>Backend Admin SDK only — deny all client access</td>
+        </tr>
+        <tr>
+          <td><code>cleverSchools/{cleverSchoolId}</code></td>
+          <td>Synced Clever school records. Fields: name, districtId, cleverSchoolId, studentCount, teacherCount, lastSyncAt.</td>
+          <td>school_admin read; teacher read</td>
+        </tr>
+        <tr>
+          <td><code>cleverSections/{sectionId}</code></td>
+          <td>Synced Clever class sections. Fields: name, teacherId, studentIds[], cleverSectionId, schoolId.</td>
+          <td>school_admin read; teacher read (own sections)</td>
+        </tr>
+        <tr>
+          <td><code>pendingStudents/{pendingId}</code></td>
+          <td>Pre-provisioned students from Clever sync awaiting first login. Fields: cleverUserId, email, name, schoolId, grade. Merged into users/ on first SSO login.</td>
+          <td>Backend Admin SDK only</td>
+        </tr>
+        <tr>
+          <td><code>webhooks/{webhookId}</code></td>
+          <td>Org webhook registrations. Fields: orgId, url, events[], secret (HMAC key), active, failureCount.</td>
+          <td>org_admin write; backend read</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ═══════════════════════════════════════════════
+         7. INTEGRATION POINTS
+    ════════════════════════════════════════════════ -->
+    <h2 class="section" id="integrations">7. Integration Points</h2>
+
+    <table>
+      <thead><tr><th style="width:22%">Integration</th><th>Purpose</th><th>Method</th><th style="width:14%">Status</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Clever SSO (Library)</strong></td>
+          <td>School single sign-on for students, teachers, and staff</td>
+          <td>OAuth 2.0, Clever v3.1 API</td>
+          <td>Production ready — awaiting agreement</td>
+        </tr>
+        <tr>
+          <td><strong>Clever Secure Sync</strong></td>
+          <td>Automatic roster synchronization from district SIS</td>
+          <td>Clever Data API, Pub/Sub polling</td>
+          <td>Built, pending certif.</td>
+        </tr>
+        <tr>
+          <td><strong>Clever LMS Connect</strong></td>
+          <td>Grade passback for volunteer hours as LMS assignments</td>
+          <td>Clever Events API, LTI 1.3</td>
+          <td>Built, pending certif.</td>
+        </tr>
+        <tr>
+          <td><strong>Common App</strong></td>
+          <td>Format verified hours for Common App activity entries</td>
+          <td>In-app export (copy/paste format)</td>
+          <td>Implemented</td>
+        </tr>
+        <tr>
+          <td><strong>Naviance</strong></td>
+          <td>Export hours for Naviance portfolio</td>
+          <td>In-app export, deep link</td>
+          <td>Implemented (indirect)</td>
+        </tr>
+        <tr>
+          <td><strong>WinSchool</strong></td>
+          <td>Import student rosters from WinSchool SIS export</td>
+          <td>CSV upload (WinSchool format)</td>
+          <td>Supported via CSV import</td>
+        </tr>
+        <tr>
+          <td><strong>VolunteerMatch</strong></td>
+          <td>Seed event feed with volunteer opportunities</td>
+          <td>VolunteerMatch API (backend scheduled job)</td>
+          <td>Planned (P2)</td>
+        </tr>
+        <tr>
+          <td><strong>Org Webhooks</strong></td>
+          <td>Real-time event delivery to org systems on hour verification, volunteer registration, event cancellation</td>
+          <td>HTTPS POST, HMAC-signed payload</td>
+          <td>Implemented</td>
+        </tr>
+        <tr>
+          <td><strong>Partner API</strong></td>
+          <td>RESTful API for verified partners to read student hour totals (with consent) and push events</td>
+          <td>Firebase Functions HTTPS, API key auth</td>
+          <td>Planned (P3)</td>
+        </tr>
+        <tr>
+          <td><strong>Firebase Auth</strong></td>
+          <td>Identity provider for all authentication flows</td>
+          <td>Firebase SDK + Admin SDK</td>
+          <td>Live</td>
+        </tr>
+        <tr>
+          <td><strong>Firebase Cloud Messaging</strong></td>
+          <td>Push notification delivery to iOS (APNs) and Android</td>
+          <td>FCM Admin SDK</td>
+          <td>Live</td>
+        </tr>
+        <tr>
+          <td><strong>Zoho Mail / Transactional Email</strong></td>
+          <td>12 branded email templates: consent, verification, password reset, weekly digest, org notifications</td>
+          <td>SMTP via Zoho / nodemailer</td>
+          <td>Live</td>
+        </tr>
+        <tr>
+          <td><strong>Google Maps / MapKit</strong></td>
+          <td>Event location display and geo-search radius</td>
+          <td>MapKit (iOS), Google Maps SDK (Android)</td>
+          <td>Live</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ═══════════════════════════════════════════════
+         8. RELEASE HISTORY
+    ════════════════════════════════════════════════ -->
+    <h2 class="section" id="release">8. Release History</h2>
+
+    <div class="phase-row">
+      <div class="phase-box">
+        <div class="phase-label">Phase 1</div>
+        <div class="phase-name">Core MVP</div>
+        <span class="phase-status status-done">Shipped</span>
+      </div>
+      <div class="phase-box">
+        <div class="phase-label">Phase 2</div>
+        <div class="phase-name">School Platform</div>
+        <span class="phase-status status-done">Complete</span>
+      </div>
+      <div class="phase-box">
+        <div class="phase-label">Security</div>
+        <div class="phase-name">Hardening Sprint</div>
+        <span class="phase-status status-done">Complete</span>
+      </div>
+      <div class="phase-box">
+        <div class="phase-label">Clever Complete</div>
+        <div class="phase-name">District Integration</div>
+        <span class="phase-status status-done">Built</span>
+      </div>
+      <div class="phase-box">
+        <div class="phase-label">Next</div>
+        <div class="phase-name">Play Store + LLC</div>
+        <span class="phase-status status-pending">Pending</span>
+      </div>
+    </div>
+
+    <h3 class="sub">Phase 1 — Core MVP (Shipped to App Store)</h3>
+    <ul>
+      <li>iOS app live on App Store v1.0 (Build 26) — iPhone only, 4+ rating</li>
+      <li>GPS auto-verify for hours at events with known address</li>
+      <li>Shareable reflection stories via native share sheet</li>
+      <li>Forgot password flow with branded email</li>
+      <li>Event addresses displayed on cards, detail page, and registration confirmation</li>
+      <li>Distance in miles (km→miles conversion for both iOS and Android)</li>
+      <li>Clever Library SSO certification (7 certification gaps fixed)</li>
+      <li>Apple Sign-In always visible (removed feature flag gate); Firebase Apple provider enabled</li>
+      <li>COPPA parental consent flow</li>
+      <li>Email/password, Google Sign-In, Apple Sign-In auth</li>
+      <li>GPS, PIN, QR check-in methods</li>
+      <li>Hours dashboard with monthly breakdown</li>
+      <li>Certificate PDF export</li>
+      <li>Push notifications via FCM</li>
+      <li>Gamification: XP, levels, badges, streaks</li>
+    </ul>
+
+    <h3 class="sub">Phase 2 — School Platform</h3>
+    <ul>
+      <li>Graduation tracking with configurable school requirements and progress bars</li>
+      <li>Volunteer CRM for org admins</li>
+      <li>School challenges with live leaderboard</li>
+      <li>Impact reports (PDF, grant-ready)</li>
+      <li>Teacher / Advisor read-only portal</li>
+      <li>School admin compliance dashboard</li>
+      <li>School Settings page with saved state loading</li>
+      <li>Student import (CSV) for school admins</li>
+      <li>District Report (multi-school rollup)</li>
+      <li>Self-report with e-signature flow</li>
+      <li>Soft email verification prompt (no hard gate)</li>
+      <li>School info edit with Student ID field</li>
+      <li>Setup onboarding banner</li>
+      <li>Android: all Phase 2 features, GPS check-in fixed, parent dashboard fixed</li>
+    </ul>
+
+    <h3 class="sub">Security Hardening Sprint</h3>
+    <ul>
+      <li>2 critical vulnerabilities patched</li>
+      <li>6 high-severity vulnerabilities patched</li>
+      <li>Multiple medium-severity issues resolved</li>
+      <li>CSRF state parameter validation on Clever OAuth callback</li>
+      <li>HMAC webhook signature validation</li>
+      <li>Rate limiting on public Cloud Functions</li>
+      <li>Firestore rules tightened: deny-all default, role-claim enforcement</li>
+    </ul>
+
+    <h3 class="sub">Monitoring &amp; Observability Sprint</h3>
+    <ul>
+      <li>6 Google Cloud alert policies created (error rate, latency, function failures)</li>
+      <li>8 uptime checks on key endpoints</li>
+      <li>Custom monitoring dashboard in Google Cloud Console</li>
+      <li>Billing budget alerts at 50% / 90% / 100%</li>
+      <li>Firebase Crashlytics integrated on iOS and Android</li>
+    </ul>
+
+    <h3 class="sub">Email Branding Sprint</h3>
+    <ul>
+      <li>12 transactional email templates redesigned with ImpactBadge logo, teal header, professional layout</li>
+      <li>Templates: welcome, password reset, email verification, COPPA consent, weekly digest, hour verified, hour rejected, event reminder, org announcement, certificate available, referral invite, graduation nudge</li>
+    </ul>
+
+    <h3 class="sub">Clever Complete Sprint (SSO + Secure Sync + LMS Connect)</h3>
+    <ul>
+      <li>Phase 1 — District SSO v3.1: Instant Login ready, 12/14 cert requirements met, role detection from Clever <code>roles</code> object</li>
+      <li>Phase 2 — Secure Sync: 5 Cloud Functions deployed (cleverAPI, cleverTokenManager, cleverRosterSync, cleverEventsPoll, cleverAdminSetup); non-destructive merge; archiving; pre-provisioning</li>
+      <li>Phase 3 — LMS Connect: grade passback (auto-push on hour verification), LTI 1.3 launch handler</li>
+      <li>Web Clever Sync Dashboard page built</li>
+      <li>Firestore collections: cleverDistricts (server-only), cleverSchools, cleverSections, pendingStudents</li>
+    </ul>
+
+    <h3 class="sub">iOS Test Suite Fixes</h3>
+    <ul>
+      <li>Fixed 34+ Firestore.Decoder crashes in test helpers (replaced with direct struct initialization)</li>
+      <li>Fixed student encoding roundtrip failure (custom encode skips Timestamp fields)</li>
+      <li>Fixed 2 timezone test failures (midnight UTC → midday UTC timestamps)</li>
+      <li>Fixed 4 CalendarService crashes in simulator (XCTSkip guard for EKEventStore)</li>
+    </ul>
+
+    <!-- ═══════════════════════════════════════════════
+         9. OPEN ITEMS
+    ════════════════════════════════════════════════ -->
+    <h2 class="section" id="open-items">9. Open Items</h2>
+
+    <div class="callout warning">
+      These items are tracked but not yet resolved as of July 7, 2026.
+    </div>
+
+    <table>
+      <thead><tr><th style="width:30%">Item</th><th>Detail</th><th style="width:15%">Owner</th><th style="width:12%">Blockers</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>D-U-N-S Number</strong></td>
+          <td>Required to enroll ImpactBadge LLC in Apple Developer Program and transfer iOS app from personal account to LLC account. Application submitted; pending Dun &amp; Bradstreet processing (typically 5–30 business days).</td>
+          <td>Mustufa</td>
+          <td>External (D&amp;B)</td>
+        </tr>
+        <tr>
+          <td><strong>Apple Developer LLC Transfer</strong></td>
+          <td>Once D-U-N-S received, enroll ImpactBadge LLC at developer.apple.com using ops@impactbadge.app. Transfer existing app from personal account to LLC account. Update App Store Connect metadata.</td>
+          <td>Mustufa</td>
+          <td>D-U-N-S number</td>
+        </tr>
+        <tr>
+          <td><strong>Android Play Store Launch</strong></td>
+          <td>Android code is complete (API names fixed, GPS check-in, parent dashboard). Needs: Google Play Developer account setup, store listing (screenshots, description), privacy policy URL, content rating questionnaire.</td>
+          <td>Mustufa</td>
+          <td>Play account setup</td>
+        </tr>
+        <tr>
+          <td><strong>iOS TestFlight 1.2.0 Build</strong></td>
+          <td>Build 1.2.0 needed to distribute Phase 2 features (graduation tracking, school challenges, story sharing improvements, email verification prompt) to beta testers via TestFlight.</td>
+          <td>Mustufa</td>
+          <td>None (ready to build)</td>
+        </tr>
+        <tr>
+          <td><strong>Clever Complete Agreement</strong></td>
+          <td>Sign the Clever Complete partner agreement to receive production Client ID and Secret (different from sandbox credentials). Required before enabling Clever SSO in Firebase Remote Config for production.</td>
+          <td>Mustufa</td>
+          <td>Clever BD contact</td>
+        </tr>
+        <tr>
+          <td><strong>Clever Certifications</strong></td>
+          <td>After agreement signed: submit SSO certification (12/14 requirements met), Secure Sync certification, and LMS Connect certification. Cross-browser testing required before submission.</td>
+          <td>Mustufa</td>
+          <td>Agreement first</td>
+        </tr>
+        <tr>
+          <td><strong>Package Upgrades</strong></td>
+          <td>Three packages need major version upgrades: <code>nodemailer 8→9</code>, <code>vite 5→8</code>, <code>firebase-admin 12→14</code>. Each requires migration testing. Deferred to avoid breaking changes during active shipping.</td>
+          <td>Engineering</td>
+          <td>None (scheduled)</td>
+        </tr>
+        <tr>
+          <td><strong>VolunteerMatch Integration</strong></td>
+          <td>Backend job to pull volunteer opportunities from VolunteerMatch API and seed the event feed. API key requested; integration design complete. Deferred to Phase 3.</td>
+          <td>Engineering</td>
+          <td>API key / P2</td>
+        </tr>
+        <tr>
+          <td><strong>Production Data Seeding</strong></td>
+          <td>Production Firestore needs sample students seeded so school dashboard shows meaningful data when Clever teacher logs in. Script exists (<code>seedProductionData.js</code>); school name matching from Clever must be verified.</td>
+          <td>Mustufa</td>
+          <td>Clever agreement</td>
+        </tr>
+        <tr>
+          <td><strong>Mobile Clever SSO Redirect</strong></td>
+          <td>Clever does not support custom URL schemes (impactbadge://). Mobile apps need an HTTP-based redirect flow through the backend (redirect to a web page that deep-links back to the app). Architectural design needed.</td>
+          <td>Engineering</td>
+          <td>Clever constraint</td>
+        </tr>
+        <tr>
+          <td><strong>Remaining Security Items</strong></td>
+          <td>Low-severity items not yet addressed from the security audit. Full list in security backlog. None are blocking for launch; to be addressed in rolling security sprints.</td>
+          <td>Engineering</td>
+          <td>None</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr class="divider" />
+
+    <p style="font-size:12px; color:#757575; text-align:center; margin-top:24px;">
+      ImpactBadge &mdash; Confidential &amp; Proprietary &mdash; Document prepared July 7, 2026 &mdash; Mustufa Zaranwala, Founder
+    </p>
+
+  </main>
+</div>
+
+</body>
+</html>

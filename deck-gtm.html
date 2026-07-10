@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ImpactBadge — Product & GTM Strategy Deck</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: #0f172a; color: #1e293b; }
+  .slide { width: 100%; min-height: 100vh; padding: 60px 80px; display: flex; flex-direction: column; justify-content: center; page-break-after: always; position: relative; }
+  .slide-number { position: absolute; bottom: 30px; right: 40px; font-size: 13px; color: #94a3b8; font-weight: 500; }
+  .brand-footer { position: absolute; bottom: 30px; left: 40px; font-size: 12px; color: #94a3b8; }
+
+  /* Slide themes */
+  .dark { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #f8fafc; }
+  .white { background: #ffffff; color: #1e293b; }
+  .teal { background: linear-gradient(135deg, #00897B 0%, #00695C 100%); color: #ffffff; }
+  .light { background: #f8fafc; color: #1e293b; }
+  .gradient { background: linear-gradient(135deg, #00897B 0%, #E65100 100%); color: #ffffff; }
+
+  h1 { font-size: 48px; font-weight: 900; line-height: 1.1; margin-bottom: 16px; }
+  h2 { font-size: 36px; font-weight: 800; line-height: 1.2; margin-bottom: 24px; }
+  h3 { font-size: 24px; font-weight: 700; margin-bottom: 16px; }
+  h4 { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+  .subtitle { font-size: 20px; font-weight: 400; opacity: 0.8; margin-bottom: 40px; line-height: 1.5; }
+  .tag { display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 20px; }
+  .tag-teal { background: rgba(0,137,123,0.15); color: #00897B; }
+  .tag-orange { background: rgba(230,81,0,0.15); color: #E65100; }
+  .tag-white { background: rgba(255,255,255,0.2); color: #fff; }
+  .tag-blue { background: rgba(59,130,246,0.15); color: #3b82f6; }
+  .tag-red { background: rgba(239,68,68,0.15); color: #ef4444; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+
+  .card { background: #ffffff; border-radius: 16px; padding: 28px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .card-dark { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 28px; backdrop-filter: blur(10px); }
+  .card-teal { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 24px; }
+  .card-outline { border: 2px solid #e2e8f0; border-radius: 16px; padding: 24px; }
+
+  .feature-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; font-size: 15px; line-height: 1.5; }
+  .feature-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .feature-text { flex: 1; }
+  .feature-label { font-weight: 600; }
+
+  .stat-big { font-size: 56px; font-weight: 900; color: #00897B; line-height: 1; }
+  .stat-label { font-size: 14px; font-weight: 500; color: #64748b; margin-top: 6px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #f1f5f9; padding: 10px 12px; text-align: left; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #475569; border-bottom: 2px solid #e2e8f0; }
+  td { padding: 8px 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+  tr:hover { background: #f8fafc; }
+  .yes { color: #00897B; font-weight: 700; }
+  .no { color: #cbd5e1; }
+
+  .dark th { background: rgba(255,255,255,0.05); color: #94a3b8; border-bottom-color: rgba(255,255,255,0.1); }
+  .dark td { border-bottom-color: rgba(255,255,255,0.06); }
+  .dark tr:hover { background: rgba(255,255,255,0.03); }
+
+  .pill { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+  .pill-green { background: #dcfce7; color: #166534; }
+  .pill-yellow { background: #fef3c7; color: #92400e; }
+  .pill-red { background: #fee2e2; color: #991b1b; }
+  .pill-blue { background: #dbeafe; color: #1e40af; }
+  .pill-purple { background: #f3e8ff; color: #6b21a8; }
+
+  .timeline-item { display: flex; gap: 20px; margin-bottom: 28px; }
+  .timeline-dot { width: 40px; height: 40px; border-radius: 50%; background: #00897B; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 16px; flex-shrink: 0; }
+  .timeline-content { flex: 1; }
+
+  .divider { height: 1px; background: rgba(255,255,255,0.15); margin: 30px 0; }
+  .divider-dark { height: 1px; background: #e2e8f0; margin: 30px 0; }
+
+  ul { padding-left: 20px; }
+  li { margin-bottom: 8px; line-height: 1.5; font-size: 15px; }
+  .check::before { content: "✓ "; color: #00897B; font-weight: 700; }
+
+  .swot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .swot-card { border-radius: 14px; padding: 22px; }
+  .swot-s { background: #dcfce7; border-left: 4px solid #16a34a; }
+  .swot-w { background: #fee2e2; border-left: 4px solid #dc2626; }
+  .swot-o { background: #dbeafe; border-left: 4px solid #2563eb; }
+  .swot-t { background: #fef3c7; border-left: 4px solid #d97706; }
+  .swot-card h4 { margin-bottom: 10px; }
+  .swot-card li { font-size: 13px; margin-bottom: 5px; }
+
+  @media print { .slide { page-break-after: always; } }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: Title -->
+<div class="slide gradient">
+  <div style="max-width: 700px;">
+    <span class="tag tag-white">Product & Go-To-Market Strategy 2026</span>
+    <h1 style="font-size: 56px; margin-bottom: 20px;">ImpactBadge</h1>
+    <p class="subtitle" style="font-size: 24px; opacity: 0.9;">The Most Feature-Rich K-12 Volunteer Tracking Platform</p>
+    <div style="display: flex; gap: 32px; margin-top: 40px;">
+      <div><div style="font-size: 42px; font-weight: 900;">55+</div><div style="font-size: 14px; opacity: 0.8;">Features</div></div>
+      <div><div style="font-size: 42px; font-weight: 900;">4</div><div style="font-size: 14px; opacity: 0.8;">Platforms</div></div>
+      <div><div style="font-size: 42px; font-weight: 900;">2,300</div><div style="font-size: 14px; opacity: 0.8;">Tests Passing</div></div>
+      <div><div style="font-size: 42px; font-weight: 900;">LIVE</div><div style="font-size: 14px; opacity: 0.8;">on App Store</div></div>
+    </div>
+  </div>
+  <div class="brand-footer" style="color: rgba(255,255,255,0.5);">ImpactBadge &mdash; Making Volunteering Count</div>
+  <div class="slide-number" style="color: rgba(255,255,255,0.4);">1</div>
+</div>
+
+<!-- SLIDE 2: Platform Overview -->
+<div class="slide white">
+  <span class="tag tag-teal">Platform Overview</span>
+  <h2>Multi-Platform Ecosystem</h2>
+  <p class="subtitle">Native apps for every stakeholder — students, schools, organizations, and parents.</p>
+  <div class="grid-4">
+    <div class="card-outline" style="text-align: center;">
+      <div style="font-size: 36px; margin-bottom: 12px;">📱</div>
+      <h4>iOS App</h4>
+      <p style="font-size: 13px; color: #64748b;">SwiftUI native<br>Apple Watch + Widget<br>70+ views</p>
+    </div>
+    <div class="card-outline" style="text-align: center;">
+      <div style="font-size: 36px; margin-bottom: 12px;">🤖</div>
+      <h4>Android App</h4>
+      <p style="font-size: 13px; color: #64748b;">React Native<br>58 screens<br>English + Spanish</p>
+    </div>
+    <div class="card-outline" style="text-align: center;">
+      <div style="font-size: 36px; margin-bottom: 12px;">🌐</div>
+      <h4>Web Portal</h4>
+      <p style="font-size: 13px; color: #64748b;">React + TailwindCSS<br>Admin dashboards<br>Clever SSO</p>
+    </div>
+    <div class="card-outline" style="text-align: center;">
+      <div style="font-size: 36px; margin-bottom: 12px;">☁️</div>
+      <h4>Backend</h4>
+      <p style="font-size: 13px; color: #64748b;">158 Cloud Functions<br>27 Firestore collections<br>56 test suites</p>
+    </div>
+  </div>
+  <div class="brand-footer">ImpactBadge</div>
+  <div class="slide-number">2</div>
+</div>
+
+<!-- SLIDE 3: Student Features -->
+<div class="slide teal">
+  <span class="tag tag-white">For Students</span>
+  <h2>Student Features (38 Features)</h2>
+  <p class="subtitle" style="opacity: 0.85;">Everything a student needs to discover, track, gamify, and export their volunteer journey.</p>
+  <div class="grid-3">
+    <div class="card-teal">
+      <h4>🔍 Event Discovery</h4>
+      <div class="feature-item"><span class="feature-text">GPS-based nearby event search</span></div>
+      <div class="feature-item"><span class="feature-text">Interactive map view</span></div>
+      <div class="feature-item"><span class="feature-text">8-category filtering</span></div>
+      <div class="feature-item"><span class="feature-text">AI-powered recommendations</span></div>
+      <div class="feature-item"><span class="feature-text">Natural language search</span></div>
+      <div class="feature-item"><span class="feature-text">Similar events suggestions</span></div>
+      <div class="feature-item"><span class="feature-text">Availability-based matching</span></div>
+    </div>
+    <div class="card-teal">
+      <h4>⏱️ Hours & Check-In</h4>
+      <div class="feature-item"><span class="feature-text">GPS check-in (auto-verified)</span></div>
+      <div class="feature-item"><span class="feature-text">PIN check-in (4-digit code)</span></div>
+      <div class="feature-item"><span class="feature-text">QR code check-in</span></div>
+      <div class="feature-item"><span class="feature-text">Apple Watch check-in</span></div>
+      <div class="feature-item"><span class="feature-text">Auto checkout + hours calc</span></div>
+      <div class="feature-item"><span class="feature-text">Self-reported hours</span></div>
+      <div class="feature-item"><span class="feature-text">E-signature + photo evidence</span></div>
+    </div>
+    <div class="card-teal">
+      <h4>🏆 Gamification</h4>
+      <div class="feature-item"><span class="feature-text">XP points + 7-tier leveling</span></div>
+      <div class="feature-item"><span class="feature-text">11+ achievement badges</span></div>
+      <div class="feature-item"><span class="feature-text">Streak tracking (daily)</span></div>
+      <div class="feature-item"><span class="feature-text">Time-limited challenges</span></div>
+      <div class="feature-item"><span class="feature-text">Global/school/friends leaderboards</span></div>
+      <div class="feature-item"><span class="feature-text">Referral program (earn XP)</span></div>
+      <div class="feature-item"><span class="feature-text">Home screen widget</span></div>
+    </div>
+    <div class="card-teal">
+      <h4>💬 Social</h4>
+      <div class="feature-item"><span class="feature-text">1-on-1 direct messaging</span></div>
+      <div class="feature-item"><span class="feature-text">Event group chat</span></div>
+      <div class="feature-item"><span class="feature-text">Friends / follow system</span></div>
+      <div class="feature-item"><span class="feature-text">Team formation + join codes</span></div>
+      <div class="feature-item"><span class="feature-text">Event reviews & photos</span></div>
+      <div class="feature-item"><span class="feature-text">Shareable volunteer stories</span></div>
+    </div>
+    <div class="card-teal">
+      <h4>🎓 College & Export</h4>
+      <div class="feature-item"><span class="feature-text">Common App export</span></div>
+      <div class="feature-item"><span class="feature-text">PDF certificate generation</span></div>
+      <div class="feature-item"><span class="feature-text">Naviance CSV export</span></div>
+      <div class="feature-item"><span class="feature-text">Full volunteer portfolio PDF</span></div>
+      <div class="feature-item"><span class="feature-text">College transcript format</span></div>
+      <div class="feature-item"><span class="feature-text">Public shareable profile</span></div>
+    </div>
+    <div class="card-teal">
+      <h4>👤 Profile & Settings</h4>
+      <div class="feature-item"><span class="feature-text">Profile photo upload</span></div>
+      <div class="feature-item"><span class="feature-text">Skills editor</span></div>
+      <div class="feature-item"><span class="feature-text">Availability calendar</span></div>
+      <div class="feature-item"><span class="feature-text">Notification preferences</span></div>
+      <div class="feature-item"><span class="feature-text">Impact dashboard + charts</span></div>
+      <div class="feature-item"><span class="feature-text">Post-event reflections</span></div>
+    </div>
+  </div>
+  <div class="brand-footer" style="color: rgba(255,255,255,0.4);">ImpactBadge</div>
+  <div class="slide-number" style="color: rgba(255,255,255,0.4);">3</div>
+</div>
+
+<!-- SLIDE 4: School Features -->
+<div class="slide white">
+  <span class="tag tag-blue">For Schools & Districts</span>
+  <h2>School Administrator Features (18 Features)</h2>
+  <p class="subtitle">Complete compliance tracking, reporting, and student management for counselors and administrators.</p>
+  <div class="grid-3">
+    <div class="card-outline">
+      <h4>📊 Dashboard & Reporting</h4>
+      <div class="feature-item"><span class="feature-icon">📋</span><span class="feature-text"><span class="feature-label">Compliance Dashboard</span> — Track on-track / at-risk / below-minimum students</span></div>
+      <div class="feature-item"><span class="feature-icon">📈</span><span class="feature-text"><span class="feature-label">School Hours Summary</span> — Total hours, participation rate, grade breakdown</span></div>
+      <div class="feature-item"><span class="feature-icon">🏫</span><span class="feature-text"><span class="feature-label">District Reports</span> — Multi-school aggregate analytics</span></div>
+      <div class="feature-item"><span class="feature-icon">👥</span><span class="feature-text"><span class="feature-label">Student List</span> — All students with hours, badges, compliance status</span></div>
+    </div>
+    <div class="card-outline">
+      <h4>⚙️ Configuration & Import</h4>
+      <div class="feature-item"><span class="feature-icon">🎯</span><span class="feature-text"><span class="feature-label">Graduation Requirements</span> — Set min hours per grade/total</span></div>
+      <div class="feature-item"><span class="feature-icon">📥</span><span class="feature-text"><span class="feature-label">Bulk Student Import</span> — CSV roster upload with auto-matching</span></div>
+      <div class="feature-item"><span class="feature-icon">🔐</span><span class="feature-text"><span class="feature-label">Clever SSO</span> — One-click school login with auto-role mapping</span></div>
+      <div class="feature-item"><span class="feature-icon">🌐</span><span class="feature-text"><span class="feature-label">School Domain Detection</span> — Auto-associate students via email domain</span></div>
+    </div>
+    <div class="card-outline">
+      <h4>📤 Export & Compliance</h4>
+      <div class="feature-item"><span class="feature-icon">📄</span><span class="feature-text"><span class="feature-label">School Hours CSV</span> — Export all student data for records</span></div>
+      <div class="feature-item"><span class="feature-icon">🏢</span><span class="feature-text"><span class="feature-label">District Report CSV</span> — Export district-wide data</span></div>
+      <div class="feature-item"><span class="feature-icon">📋</span><span class="feature-text"><span class="feature-label">WinSchool Export</span> — SIS-compatible format</span></div>
+      <div class="feature-item"><span class="feature-icon">✅</span><span class="feature-text"><span class="feature-label">HCPS CSL Reports</span> — Pre-approval + compliance for HCPS</span></div>
+      <div class="feature-item"><span class="feature-icon">📝</span><span class="feature-text"><span class="feature-label">Pre-Approval Workflow</span> — Students request, admins approve</span></div>
+      <div class="feature-item"><span class="feature-icon">🔑</span><span class="feature-text"><span class="feature-label">Partner API</span> — REST API for SIS integration</span></div>
+    </div>
+  </div>
+  <div style="margin-top: 24px; padding: 16px 24px; background: #f0fdfa; border-radius: 12px; border-left: 4px solid #00897B;">
+    <strong style="color: #00897B;">COPPA + FERPA Compliant</strong> — Parental consent for under-13, role-based data access, no PII logging, data deletion rights
+  </div>
+  <div class="brand-footer">ImpactBadge</div>
+  <div class="slide-number">4</div>
+</div>
+
+<!-- SLIDE 5: Organization Features -->
+<div class="slide dark">
+  <span class="tag tag-orange">For Organizations & Nonprofits</span>
+  <h2 style="color: #f8fafc;">Organization Admin Features (17 Features)</h2>
+  <p class="subtitle">Everything nonprofits need to create events, manage volunteers, verify hours, and measure impact.</p>
+  <div class="grid-3">
+    <div class="card-dark">
+      <h4 style="color: #00897B;">📅 Event Management</h4>
+      <div class="feature-item"><span class="feature-text" style="color: #cbd5e1;">Create events with location, capacity, category</span></div>
+      <div class="feature-item"><span class="feature-text" style="color: #cbd5e1;">Edit / cancel events with volunteer notification</span></div>
+      <div class="feature-item"><span class="feature-text" style="color: #cbd5e1;">Multi-shift events with individual capacity</span></div>
+      <div class="feature-item"><span class="feature-text" style="color: #cbd5e1;">Auto-generated check-in PIN + QR code</span></div>
+      <div class="feature-item"><span class="feature-text" style="color: #cbd5e1;">Post announcements to registered volunteers</span></div>
+    </div>
+    <div class="card-dark">
+      <h4 style="color: #00897B;">✅ Hours Verification</h4>
+      <div class="feature-item"><span class="feature-text" style="color: #cbd5e1;">GPS auto-verification on checkout (NEW)</span></div>
+      <div class="feature-item"><span class="feature-text" style="color: #cbd5e1;">Manual approve / reject / adjust hours</span></div>
+      <div class="feature-item"><span class="feature-text" style="color: #cbd5e1;">Bulk verification (batch approve)</span></div>
+      <div class="feature-item"><span class="feature-text" style="color: #cbd5e1;">Self-reported hours review (signature + photos)</span></div>
+      <div class="feature-item"><span class="feature-text" style="color: #cbd5e1;">Pending verifications queue</span></div>
+    </div>
+    <div class="card-dark">
+      <h4 style="color: #00897B;">📊 Analytics & Integration</h4>
+      <div class="feature-item"><span class="feature-text" style="color: #cbd5e1;">Org analytics: registrations, check-ins, hours</span></div>
+      <div class="feature-item"><span class="feature-text" style="color: #cbd5e1;">Repeat volunteer rate + no-show tracking</span></div>
+      <div class="feature-item"><span class="feature-text" style="color: #cbd5e1;">Monthly registration trends</span></div>
+      <div class="feature-item"><span class="feature-text" style="color: #cbd5e1;">CSV bulk import of volunteer data</span></div>
+      <div class="feature-item"><span class="feature-text" style="color: #cbd5e1;">Webhook integration (external VMS sync)</span></div>
+      <div class="feature-item"><span class="feature-text" style="color: #cbd5e1;">Nonprofit claim via EIN verification</span></div>
+      <div class="feature-item"><span class="feature-text" style="color: #cbd5e1;">Nonprofit directory search (IRS registry)</span></div>
+    </div>
+  </div>
+  <div class="brand-footer" style="color: #475569;">ImpactBadge</div>
+  <div class="slide-number" style="color: #475569;">5</div>
+</div>
+
+<!-- SLIDE 6: Parent Features -->
+<div class="slide light">
+  <span class="tag tag-purple" style="background: rgba(147,51,234,0.1); color: #7c3aed;">For Parents & Guardians</span>
+  <h2>Parent Features (8 Features)</h2>
+  <p class="subtitle">Peace of mind for parents of minor volunteers. No competitor matches this.</p>
+  <div class="grid-2" style="max-width: 800px;">
+    <div class="card-outline">
+      <h4>👀 Monitoring</h4>
+      <div class="feature-item"><span class="feature-icon">📱</span><span class="feature-text">Parent dashboard: hours, events, badges, streak</span></div>
+      <div class="feature-item"><span class="feature-icon">🔔</span><span class="feature-text">Real-time notifications for check-ins & achievements</span></div>
+      <div class="feature-item"><span class="feature-icon">👶</span><span class="feature-text">COPPA parental consent flow for under-13</span></div>
+    </div>
+    <div class="card-outline">
+      <h4>🔒 Controls</h4>
+      <div class="feature-item"><span class="feature-icon">🔗</span><span class="feature-text">6-digit code linking (secure)</span></div>
+      <div class="feature-item"><span class="feature-icon">🚫</span><span class="feature-text">Block event categories</span></div>
+      <div class="feature-item"><span class="feature-icon">📋</span><span class="feature-text">Require approval for registrations</span></div>
+      <div class="feature-item"><span class="feature-icon">📊</span><span class="feature-text">Set max events per week</span></div>
+      <div class="feature-item"><span class="feature-icon">🔓</span><span class="feature-text">Unlink child account anytime</span></div>
+    </div>
+  </div>
+  <div class="brand-footer">ImpactBadge</div>
+  <div class="slide-number">6</div>
+</div>
+
+<!-- SLIDE 7: Competitive Feature Comparison -->
+<div class="slide white">
+  <span class="tag tag-teal">Competitive Analysis</span>
+  <h2>Feature Comparison vs. Market</h2>
+  <div style="overflow-x: auto;">
+    <table>
+      <tr><th>Feature Category</th><th>ImpactBadge</th><th>x2VOL</th><th>Helper Helper</th><th>Track It Forward</th><th>MobileServe</th><th>POINT</th><th>Golden</th></tr>
+      <tr><td><strong>Discovery & Events</strong></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td style="padding-left:24px">GPS event discovery + map</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✅</td><td class="yes">✅</td></tr>
+      <tr><td style="padding-left:24px">AI / NL search</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✅</td></tr>
+      <tr><td style="padding-left:24px">Personalized recommendations</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✅</td></tr>
+      <tr><td><strong>Check-In & Hours</strong></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td style="padding-left:24px">GPS + PIN + QR check-in</td><td class="yes">✅ All 3</td><td class="no">—</td><td>PIN+QR</td><td>GPS</td><td>GPS</td><td>GPS+QR</td><td>GPS</td></tr>
+      <tr><td style="padding-left:24px">Auto-verification (GPS)</td><td class="yes">✅ NEW</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+      <tr><td style="padding-left:24px">Bulk hour verification</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+      <tr><td><strong>Gamification</strong></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td style="padding-left:24px">XP / levels / tiers</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+      <tr><td style="padding-left:24px">Badges + challenges + streaks</td><td class="yes">✅ All 3</td><td class="no">—</td><td>Badges</td><td class="no">—</td><td>Badges</td><td>Badges</td><td>Badges</td></tr>
+      <tr><td style="padding-left:24px">Referral program</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+      <tr><td><strong>Social</strong></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td style="padding-left:24px">Messaging + group chat</td><td class="yes">✅ Both</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td>DM</td><td class="no">—</td></tr>
+      <tr><td style="padding-left:24px">Friends + teams</td><td class="yes">✅ Both</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td>Teams</td><td class="no">—</td></tr>
+      <tr><td style="padding-left:24px">Shareable stories</td><td class="yes">✅ NEW</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+      <tr><td><strong>College & Export</strong></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td style="padding-left:24px">Common App export</td><td class="yes">✅ Only us</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+      <tr><td style="padding-left:24px">Portfolio + certificate PDF</td><td class="yes">✅ Both</td><td class="no">—</td><td>Cert</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+      <tr><td style="padding-left:24px">Naviance CSV</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+      <tr><td><strong>Admin & School</strong></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td style="padding-left:24px">School compliance dashboard</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td></tr>
+      <tr><td style="padding-left:24px">Clever SSO</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+      <tr><td style="padding-left:24px">District-level reports</td><td class="yes">✅</td><td class="yes">✅</td><td class="yes">✅</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+      <tr><td><strong>Parent Controls</strong></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td style="padding-left:24px">Parent dashboard + linking</td><td class="yes">✅</td><td class="no">—</td><td>Dashboard</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+      <tr><td style="padding-left:24px">Permission controls</td><td class="yes">✅ Only us</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+      <tr><td><strong>Platform</strong></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td style="padding-left:24px">Apple Watch + Widget</td><td class="yes">✅ Only us</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+      <tr><td style="padding-left:24px">Offline support</td><td class="yes">✅ Only us</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+      <tr style="background: #f0fdfa; font-weight: 700;"><td><strong>TOTAL FEATURES</strong></td><td style="color: #00897B; font-size: 18px;">55+</td><td>22</td><td>26</td><td>18</td><td>18</td><td>19</td><td>18</td></tr>
+    </table>
+  </div>
+  <div class="brand-footer">ImpactBadge</div>
+  <div class="slide-number">7</div>
+</div>
+
+<!-- SLIDE 8: SWOT -->
+<div class="slide light">
+  <span class="tag tag-teal">Strategic Analysis</span>
+  <h2>SWOT Analysis</h2>
+  <div class="swot-grid">
+    <div class="swot-card swot-s">
+      <h4 style="color: #16a34a;">Strengths</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li class="check">Most feature-rich platform (55+ vs avg ~20)</li>
+        <li class="check">Only app with Common App export</li>
+        <li class="check">Deep gamification drives 3x engagement</li>
+        <li class="check">Full parent controls — unique in market</li>
+        <li class="check">Multi-platform: iOS + Android + Web + Watch</li>
+        <li class="check">COPPA + FERPA compliant from day one</li>
+      </ul>
+    </div>
+    <div class="swot-card swot-w">
+      <h4 style="color: #dc2626;">Weaknesses</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin-bottom: 5px;">Web dashboard 3/9 pages built</li>
+        <li style="margin-bottom: 5px;">No kiosk check-in mode yet</li>
+        <li style="margin-bottom: 5px;">No background check integration</li>
+        <li style="margin-bottom: 5px;">No ClassLink SSO (in progress)</li>
+        <li style="margin-bottom: 5px;">No free tier defined for pricing</li>
+        <li style="margin-bottom: 5px;">Feature complexity may overwhelm new users</li>
+      </ul>
+    </div>
+    <div class="swot-card swot-o">
+      <h4 style="color: #2563eb;">Opportunities</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin-bottom: 5px;">K-12 market: $1.1B (26% of $4.1B TAM)</li>
+        <li style="margin-bottom: 5px;">State-mandated service hours expanding</li>
+        <li style="margin-bottom: 5px;">College admissions value documented service</li>
+        <li style="margin-bottom: 5px;">Private schools = high-value early adopters</li>
+        <li style="margin-bottom: 5px;">No competitor combines our unique 3: Common App + gamification + parent controls</li>
+      </ul>
+    </div>
+    <div class="swot-card swot-t">
+      <h4 style="color: #d97706;">Threats</h4>
+      <ul style="list-style: none; padding: 0;">
+        <li style="margin-bottom: 5px;">x2VOL has established district contracts</li>
+        <li style="margin-bottom: 5px;">Track It Forward has a free tier</li>
+        <li style="margin-bottom: 5px;">Golden: #1 App Store rating, 8K+ partners</li>
+        <li style="margin-bottom: 5px;">Low switching costs for schools</li>
+        <li style="margin-bottom: 5px;">Enterprise players (Deed) may move downstream</li>
+      </ul>
+    </div>
+  </div>
+  <div class="brand-footer">ImpactBadge</div>
+  <div class="slide-number">8</div>
+</div>
+
+<!-- SLIDE 9: Missing Features / Next Priorities -->
+<div class="slide dark">
+  <span class="tag tag-orange">Development Roadmap</span>
+  <h2 style="color: #f8fafc;">Next Priority Features for Founders</h2>
+  <p class="subtitle">Ordered by impact on adoption. Estimated effort in parentheses.</p>
+  <div class="grid-2">
+    <div>
+      <h4 style="color: #00897B; margin-bottom: 16px;">P0 — Must Build Now</h4>
+      <div class="timeline-item">
+        <div class="timeline-dot">1</div>
+        <div class="timeline-content">
+          <strong style="color: #f8fafc;">Auto Graduation Tracking + Nudges</strong> <span class="pill pill-green">~3 days</span>
+          <p style="color: #94a3b8; font-size: 13px; margin-top: 4px;">Monthly auto-flag at-risk students. Email nudges to students + parents. #1 pain point for counselors — creates lock-in.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">2</div>
+        <div class="timeline-content">
+          <strong style="color: #f8fafc;">ClassLink SSO</strong> <span class="pill pill-green">~2 days</span>
+          <p style="color: #94a3b8; font-size: 13px; margin-top: 4px;">25M students use ClassLink. Same OAuth pattern as Clever. Doubles addressable school market overnight.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">3</div>
+        <div class="timeline-content">
+          <strong style="color: #f8fafc;">Complete Web Dashboard (6 pages)</strong> <span class="pill pill-yellow">~5 days</span>
+          <p style="color: #94a3b8; font-size: 13px; margin-top: 4px;">Analytics, compliance, import, settings, availability, district pages. Required for school admin sales demos.</p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h4 style="color: #E65100; margin-bottom: 16px;">P1 — Build This Quarter</h4>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background: #E65100;">4</div>
+        <div class="timeline-content">
+          <strong style="color: #f8fafc;">School-vs-School Challenges</strong> <span class="pill pill-green">~2 days</span>
+          <p style="color: #94a3b8; font-size: 13px; margin-top: 4px;">Collective school goals create viral adoption within districts. Low effort, high engagement.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background: #E65100;">5</div>
+        <div class="timeline-content">
+          <strong style="color: #f8fafc;">Volunteer CRM for Orgs</strong> <span class="pill pill-yellow">~3 days</span>
+          <p style="color: #94a3b8; font-size: 13px; margin-top: 4px;">Per-volunteer tracking with reliability scores. Makes orgs depend on ImpactBadge for volunteer management.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background: #E65100;">6</div>
+        <div class="timeline-content">
+          <strong style="color: #f8fafc;">LMS Integration (Canvas / Google Classroom)</strong> <span class="pill pill-red">~4 days</span>
+          <p style="color: #94a3b8; font-size: 13px; margin-top: 4px;">Push hours into gradebooks. Removes "another login" barrier for school adoption.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="background: #E65100;">7</div>
+        <div class="timeline-content">
+          <strong style="color: #f8fafc;">Teacher / Advisor Portal</strong> <span class="pill pill-yellow">~3 days</span>
+          <p style="color: #94a3b8; font-size: 13px; margin-top: 4px;">Read-only access for homeroom teachers. Reduces counselor workload, increases usage across staff.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-footer" style="color: #475569;">ImpactBadge</div>
+  <div class="slide-number" style="color: #475569;">9</div>
+</div>
+
+<!-- SLIDE 10: Marketing — Can We Start Now? -->
+<div class="slide teal">
+  <span class="tag tag-white">Go-To-Market</span>
+  <h2>Can We Start Marketing Now? YES.</h2>
+  <p class="subtitle" style="opacity: 0.9;">The product is feature-complete for the student + org admin use case. Here's the phased marketing plan.</p>
+  <div class="grid-3">
+    <div class="card-teal">
+      <h4>Phase 1: Foundation (Week 1-2)</h4>
+      <div style="font-size: 14px; line-height: 1.7; opacity: 0.9;">
+        <strong>App Store Status</strong><br>
+        iOS is LIVE on the App Store. Android Play Store launch pending.<br><br>
+        <strong>Landing Page</strong><br>
+        impactbadge.app is live. Add App Store / Play Store badges, demo video, and "Request School Demo" CTA.<br><br>
+        <strong>Zoho Email</strong><br>
+        Set up hello@, schools@, investors@ impactbadge.app (in progress now)
+      </div>
+    </div>
+    <div class="card-teal">
+      <h4>Phase 2: Seed Users (Week 3-6)</h4>
+      <div style="font-size: 14px; line-height: 1.7; opacity: 0.9;">
+        <strong>Target 5 Private Schools</strong><br>
+        Cold outreach to counselors with demo video. Lead with Common App export + compliance dashboard.<br><br>
+        <strong>Partner with 10 Local Nonprofits</strong><br>
+        Onboard orgs in Richmond VA (where seed data is). Free forever for nonprofits.<br><br>
+        <strong>Student Ambassadors</strong><br>
+        Recruit 20 students via Instagram/TikTok. Give referral codes. Gamification = organic sharing.
+      </div>
+    </div>
+    <div class="card-teal">
+      <h4>Phase 3: Scale (Month 2-3)</h4>
+      <div style="font-size: 14px; line-height: 1.7; opacity: 0.9;">
+        <strong>Clever App Gallery Listing</strong><br>
+        Get listed in Clever's marketplace for school discovery.<br><br>
+        <strong>Content Marketing</strong><br>
+        Blog: "How to Track Volunteer Hours for College Apps" — SEO for student searches.<br><br>
+        <strong>District Pilot Program</strong><br>
+        Offer 1 free district pilot (all schools, 1 semester). Use results as case study for paid expansion.
+      </div>
+    </div>
+  </div>
+  <div class="brand-footer" style="color: rgba(255,255,255,0.4);">ImpactBadge</div>
+  <div class="slide-number" style="color: rgba(255,255,255,0.4);">10</div>
+</div>
+
+<!-- SLIDE 11: Marketing Step-by-Step -->
+<div class="slide white">
+  <span class="tag tag-teal">Marketing Playbook</span>
+  <h2>Step-by-Step Marketing Proposal</h2>
+  <div class="grid-2">
+    <div>
+      <h3 style="color: #00897B;">Channel Strategy</h3>
+      <div class="timeline-item">
+        <div class="timeline-dot">1</div>
+        <div class="timeline-content">
+          <strong>App Store Optimization (ASO)</strong>
+          <p style="color: #64748b; font-size: 13px;">Keywords: "volunteer hours tracker", "community service log", "college volunteer app". Screenshots showing gamification + Common App export.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">2</div>
+        <div class="timeline-content">
+          <strong>Social Media (Instagram + TikTok)</strong>
+          <p style="color: #64748b; font-size: 13px;">Student-created content: "How I tracked 200 volunteer hours for my college app." Referral codes in bios. Target: 10K student followers in 3 months.</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">3</div>
+        <div class="timeline-content">
+          <strong>School Outreach (Direct Sales)</strong>
+          <p style="color: #64748b; font-size: 13px;">Email counselors@school.edu with personalized demo links. Lead: "Your students are losing volunteer hours. We fix that in 5 minutes."</p>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot">4</div>
+        <div class="timeline-content">
+          <strong>SEO / Content Marketing</strong>
+          <p style="color: #64748b; font-size: 13px;">Blog posts targeting "how to log volunteer hours for Common App", "best volunteer tracking apps 2026", "community service graduation requirements [state]".</p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3 style="color: #E65100;">Pricing Model (Proposed)</h3>
+      <div class="card-outline" style="margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h4>Students</h4>
+            <p style="font-size: 13px; color: #64748b;">All features, forever</p>
+          </div>
+          <div style="font-size: 28px; font-weight: 900; color: #00897B;">FREE</div>
+        </div>
+      </div>
+      <div class="card-outline" style="margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h4>Nonprofits</h4>
+            <p style="font-size: 13px; color: #64748b;">Event creation, verification, analytics</p>
+          </div>
+          <div style="font-size: 28px; font-weight: 900; color: #00897B;">FREE</div>
+        </div>
+      </div>
+      <div class="card-outline" style="margin-bottom: 16px; border-color: #00897B;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h4>Schools</h4>
+            <p style="font-size: 13px; color: #64748b;">Compliance, SSO, bulk import, reports</p>
+          </div>
+          <div style="font-size: 28px; font-weight: 900; color: #00897B;">$2/student/yr</div>
+        </div>
+      </div>
+      <div class="card-outline" style="border-color: #E65100;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h4>Districts</h4>
+            <p style="font-size: 13px; color: #64748b;">Multi-school, district reports, API, priority support</p>
+          </div>
+          <div style="font-size: 28px; font-weight: 900; color: #E65100;">$1.50/student/yr</div>
+        </div>
+      </div>
+      <p style="font-size: 12px; color: #94a3b8; margin-top: 12px;">Revenue model: 1,000-student school = $2K/year. 10-school district = $15K/year.</p>
+    </div>
+  </div>
+  <div class="brand-footer">ImpactBadge</div>
+  <div class="slide-number">11</div>
+</div>
+
+<!-- SLIDE 12: Key Metrics & Milestones -->
+<div class="slide dark">
+  <span class="tag tag-teal" style="background: rgba(0,137,123,0.3);">Milestones</span>
+  <h2 style="color: #f8fafc;">90-Day Launch Milestones</h2>
+  <div class="grid-3" style="margin-top: 20px;">
+    <div class="card-dark" style="text-align: center;">
+      <h4 style="color: #94a3b8; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Day 30</h4>
+      <div style="font-size: 48px; font-weight: 900; color: #00897B; margin: 12px 0;">5</div>
+      <p style="color: #cbd5e1; font-size: 14px;">Schools onboarded</p>
+      <div class="divider"></div>
+      <div style="font-size: 48px; font-weight: 900; color: #00897B; margin: 12px 0;">10</div>
+      <p style="color: #cbd5e1; font-size: 14px;">Nonprofit partners</p>
+      <div class="divider"></div>
+      <div style="font-size: 48px; font-weight: 900; color: #00897B; margin: 12px 0;">500</div>
+      <p style="color: #cbd5e1; font-size: 14px;">Student sign-ups</p>
+    </div>
+    <div class="card-dark" style="text-align: center;">
+      <h4 style="color: #94a3b8; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Day 60</h4>
+      <div style="font-size: 48px; font-weight: 900; color: #E65100; margin: 12px 0;">15</div>
+      <p style="color: #cbd5e1; font-size: 14px;">Schools onboarded</p>
+      <div class="divider"></div>
+      <div style="font-size: 48px; font-weight: 900; color: #E65100; margin: 12px 0;">30</div>
+      <p style="color: #cbd5e1; font-size: 14px;">Nonprofit partners</p>
+      <div class="divider"></div>
+      <div style="font-size: 48px; font-weight: 900; color: #E65100; margin: 12px 0;">2,000</div>
+      <p style="color: #cbd5e1; font-size: 14px;">Student sign-ups</p>
+    </div>
+    <div class="card-dark" style="text-align: center;">
+      <h4 style="color: #94a3b8; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;">Day 90</h4>
+      <div style="font-size: 48px; font-weight: 900; color: #f59e0b; margin: 12px 0;">1</div>
+      <p style="color: #cbd5e1; font-size: 14px;">District pilot signed</p>
+      <div class="divider"></div>
+      <div style="font-size: 48px; font-weight: 900; color: #f59e0b; margin: 12px 0;">50</div>
+      <p style="color: #cbd5e1; font-size: 14px;">Nonprofit partners</p>
+      <div class="divider"></div>
+      <div style="font-size: 48px; font-weight: 900; color: #f59e0b; margin: 12px 0;">5,000</div>
+      <p style="color: #cbd5e1; font-size: 14px;">Student sign-ups</p>
+    </div>
+  </div>
+  <div style="margin-top: 30px; padding: 20px 28px; background: rgba(0,137,123,0.15); border-radius: 14px; border: 1px solid rgba(0,137,123,0.3);">
+    <strong style="color: #00897B;">Revenue Target at 90 Days:</strong> <span style="color: #cbd5e1;">1 district pilot ($15K ARR) + 15 individual schools ($30K ARR) = </span><strong style="color: #f8fafc; font-size: 20px;">$45K ARR</strong>
+  </div>
+  <div class="brand-footer" style="color: #475569;">ImpactBadge</div>
+  <div class="slide-number" style="color: #475569;">12</div>
+</div>
+
+<!-- SLIDE 13: Call to Action -->
+<div class="slide gradient">
+  <div style="text-align: center; max-width: 700px; margin: 0 auto;">
+    <h1 style="font-size: 52px; margin-bottom: 24px;">Ready to Launch</h1>
+    <p style="font-size: 22px; opacity: 0.9; line-height: 1.6; margin-bottom: 48px;">
+      ImpactBadge is the most comprehensive volunteer tracking platform built for K-12.
+      55+ features, 4 platforms, 2,300 passing tests, zero competitors with our combination of
+      Common App export + gamification + parent controls.
+    </p>
+    <div style="display: flex; gap: 24px; justify-content: center; margin-bottom: 48px;">
+      <div style="text-align: center;">
+        <div style="font-size: 14px; opacity: 0.7;">Status</div>
+        <div style="font-size: 20px; font-weight: 700;">Live on App Store</div>
+      </div>
+      <div style="width: 1px; background: rgba(255,255,255,0.3);"></div>
+      <div style="text-align: center;">
+        <div style="font-size: 14px; opacity: 0.7;">Contact</div>
+        <div style="font-size: 20px; font-weight: 700;">schools@impactbadge.app</div>
+      </div>
+      <div style="width: 1px; background: rgba(255,255,255,0.3);"></div>
+      <div style="text-align: center;">
+        <div style="font-size: 14px; opacity: 0.7;">Website</div>
+        <div style="font-size: 20px; font-weight: 700;">impactbadge.app</div>
+      </div>
+    </div>
+    <p style="font-size: 16px; opacity: 0.6;">ImpactBadge &mdash; Making Volunteering Count</p>
+  </div>
+  <div class="slide-number" style="color: rgba(255,255,255,0.3);">13</div>
+</div>
+
+</body>
+</html>

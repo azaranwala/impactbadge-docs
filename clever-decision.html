@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: 'Calibri', 'Segoe UI', sans-serif; max-width: 800px; margin: 40px auto; padding: 0 40px; color: #1e293b; line-height: 1.6; }
+  h1 { font-size: 28px; color: #00897B; border-bottom: 3px solid #00897B; padding-bottom: 10px; margin-top: 40px; }
+  h2 { font-size: 22px; color: #1e293b; margin-top: 32px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; }
+  h3 { font-size: 18px; color: #475569; margin-top: 24px; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  th { background: #f1f5f9; padding: 10px 12px; text-align: left; font-weight: 700; border: 1px solid #e2e8f0; }
+  td { padding: 10px 12px; border: 1px solid #e2e8f0; vertical-align: top; }
+  .highlight { background: #f0fdfa; border-left: 4px solid #00897B; padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+  .warning { background: #fff7ed; border-left: 4px solid #E65100; padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+  .decision { background: #eff6ff; border-left: 4px solid #2563eb; padding: 16px 20px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .badge-green { background: #dcfce7; color: #166534; }
+  .badge-orange { background: #fef3c7; color: #92400e; }
+  .badge-red { background: #fee2e2; color: #991b1b; }
+  .badge-blue { background: #dbeafe; color: #1e40af; }
+  ul { padding-left: 24px; }
+  li { margin-bottom: 6px; }
+  .header-block { text-align: center; margin-bottom: 40px; padding: 32px; background: linear-gradient(135deg, #00897B, #00695C); color: white; border-radius: 12px; }
+  .header-block h1 { color: white; border: none; margin: 0; font-size: 32px; }
+  .header-block p { margin: 8px 0 0; opacity: 0.9; }
+  .signature-block { margin-top: 60px; border-top: 2px solid #e2e8f0; padding-top: 24px; }
+  .signature-line { border-bottom: 1px solid #1e293b; width: 250px; display: inline-block; margin: 8px 0; }
+  .page-break { page-break-before: always; }
+  @media print { body { margin: 20px; } .header-block { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body>
+
+<div class="header-block">
+  <h1>Clever SSO Integration</h1>
+  <p>Decision Document for Co-Founder Review</p>
+  <p style="font-size: 14px; opacity: 0.7;">ImpactBadge LLC &mdash; July 2026 &mdash; CONFIDENTIAL</p>
+</div>
+
+<h1>1. Executive Summary</h1>
+
+<p>ImpactBadge needs school SSO integration so that students and teachers at K-12 schools can sign in using their school credentials without creating separate accounts. <strong>Clever</strong> is the dominant SSO provider in K-12, used by over 100,000 schools and 25 million students in the US.</p>
+
+<p>This document presents two integration options, their trade-offs, costs, data implications, and a recommendation for co-founder approval before proceeding.</p>
+
+<div class="decision">
+  <strong>Decision Required:</strong> Which Clever integration type should ImpactBadge adopt?
+  <ul style="margin-top: 8px; margin-bottom: 0;">
+    <li><strong>Option A: Clever Library</strong> &mdash; Free, teacher-driven adoption, limited student data</li>
+    <li><strong>Option B: Clever Complete (District SSO)</strong> &mdash; Paid, district-driven, full student data</li>
+  </ul>
+</div>
+
+<h1>2. What is Clever?</h1>
+
+<p>Clever is a middleware platform that connects educational software to school districts' Student Information Systems (SIS). It provides:</p>
+
+<ul>
+  <li><strong>Single Sign-On (SSO):</strong> Students and teachers log in with their school credentials (one click)</li>
+  <li><strong>Rostering:</strong> Automatically syncs student/teacher data from the school's SIS</li>
+  <li><strong>Data Privacy:</strong> Acts as a trusted intermediary, ensuring FERPA/COPPA compliance</li>
+</ul>
+
+<p><strong>Market position:</strong> Used by 89 of the 100 largest US school districts. Competitors include ClassLink (25M students) and Google Classroom.</p>
+
+<h1>3. Why ImpactBadge Needs Clever</h1>
+
+<table>
+  <tr><th>Problem</th><th>How Clever Solves It</th></tr>
+  <tr><td>Students must create accounts manually with email/password</td><td>One-click login via Clever &mdash; no account creation needed</td></tr>
+  <tr><td>Teachers can't see which students are volunteering</td><td>Teachers log in via Clever, see dashboard of students at their school</td></tr>
+  <tr><td>Schools require SSO for any app to be approved</td><td>Clever SSO is the standard &mdash; without it, many schools won't adopt</td></tr>
+  <tr><td>HCPS (Henrico County) specifically uses Clever</td><td>Students and teachers at HCPS can sign in immediately</td></tr>
+</table>
+
+<h1>4. Two Integration Options</h1>
+
+<h2>Option A: Clever Library <span class="badge badge-green">RECOMMENDED</span></h2>
+
+<table>
+  <tr><th>Aspect</th><th>Details</th></tr>
+  <tr><td><strong>What it is</strong></td><td>Teacher-driven SSO adoption. Teachers discover and install ImpactBadge from the Clever Library marketplace. No district approval required.</td></tr>
+  <tr><td><strong>Cost to ImpactBadge</strong></td><td><strong>$0</strong> &mdash; completely free</td></tr>
+  <tr><td><strong>Cost to schools</strong></td><td><strong>$0</strong> &mdash; free for all Clever schools</td></tr>
+  <tr><td><strong>Who authorizes</strong></td><td>Individual teachers (bottom-up adoption)</td></tr>
+  <tr><td><strong>District approval needed</strong></td><td>No</td></tr>
+  <tr><td><strong>Time to go live</strong></td><td>1-2 weeks (certification review)</td></tr>
+  <tr><td><strong>Agreement required</strong></td><td>Clever Universal Data Sharing Agreement (DSA) &mdash; standard, no negotiation</td></tr>
+</table>
+
+<h3>Student Data Shared via Clever Library</h3>
+<table>
+  <tr><th>Data Field</th><th>Students</th><th>Teachers</th></tr>
+  <tr><td>First name</td><td>Yes</td><td>Yes</td></tr>
+  <tr><td>Last name</td><td><strong>Last initial only</strong></td><td>Yes</td></tr>
+  <tr><td>Email</td><td><strong>NOT shared</strong></td><td>Yes</td></tr>
+  <tr><td>Student ID</td><td><strong>NOT shared</strong></td><td>N/A</td></tr>
+  <tr><td>Grade</td><td>Via teacher's section</td><td>N/A</td></tr>
+  <tr><td>School name</td><td>Via teacher's section</td><td>Yes</td></tr>
+  <tr><td>District ID</td><td>Yes</td><td>Yes</td></tr>
+</table>
+
+<div class="highlight">
+  <strong>Key Advantage:</strong> Teachers at ANY Clever school can adopt ImpactBadge on their own &mdash; no sales cycle, no district procurement, no IT department approval. This enables viral, bottom-up adoption.
+</div>
+
+<div class="warning">
+  <strong>Limitation:</strong> Student email and student ID are NOT shared. This means:
+  <ul style="margin-bottom: 0;">
+    <li>We cannot automatically link a Clever login to an existing ImpactBadge account (created with personal email)</li>
+    <li>Students would need to manually link accounts using a "Connect Clever" button in their profile</li>
+    <li>Student's last name shows as initial only (e.g., "John S.") unless the student provides their full name in their ImpactBadge profile</li>
+  </ul>
+</div>
+
+<h2>Option B: Clever Complete (District SSO)</h2>
+
+<table>
+  <tr><th>Aspect</th><th>Details</th></tr>
+  <tr><td><strong>What it is</strong></td><td>District-wide SSO and rostering. District admin provisions all schools, teachers, and students.</td></tr>
+  <tr><td><strong>Cost to ImpactBadge</strong></td><td><strong>Pay-per-school</strong> (pricing varies, typically $1-3/student/year)</td></tr>
+  <tr><td><strong>Cost to schools</strong></td><td>Covered by ImpactBadge or split with district</td></tr>
+  <tr><td><strong>Who authorizes</strong></td><td>District IT administrator (top-down deployment)</td></tr>
+  <tr><td><strong>District approval needed</strong></td><td><strong>Yes</strong> &mdash; requires district procurement process</td></tr>
+  <tr><td><strong>Time to go live</strong></td><td>2-6 months (district procurement + Clever certification)</td></tr>
+  <tr><td><strong>Agreement required</strong></td><td>Clever DSA + individual district data sharing agreement</td></tr>
+</table>
+
+<h3>Student Data Shared via Clever Complete</h3>
+<table>
+  <tr><th>Data Field</th><th>Students</th><th>Teachers</th></tr>
+  <tr><td>First name</td><td>Yes</td><td>Yes</td></tr>
+  <tr><td>Last name</td><td><strong>Full name</strong></td><td>Yes</td></tr>
+  <tr><td>Email</td><td><strong>Yes (school email)</strong></td><td>Yes</td></tr>
+  <tr><td>Student ID</td><td><strong>Yes</strong></td><td>N/A</td></tr>
+  <tr><td>Grade</td><td><strong>Yes</strong></td><td>N/A</td></tr>
+  <tr><td>School name</td><td><strong>Yes</strong></td><td>Yes</td></tr>
+  <tr><td>District ID</td><td>Yes</td><td>Yes</td></tr>
+  <tr><td>SIS ID</td><td><strong>Yes</strong></td><td>N/A</td></tr>
+  <tr><td>Class sections</td><td><strong>Yes</strong></td><td><strong>Yes</strong></td></tr>
+</table>
+
+<div class="highlight">
+  <strong>Key Advantage:</strong> Full student data enables automatic account linking (by student ID or school email), full name display, grade auto-population, and class-level teacher visibility.
+</div>
+
+<div class="warning">
+  <strong>Limitation:</strong> Requires district-level procurement approval. Sales cycle is 2-6 months. Costs money per school. Only works at districts that actively choose to deploy ImpactBadge.
+</div>
+
+<h1 class="page-break">5. Side-by-Side Comparison</h1>
+
+<table>
+  <tr><th>Factor</th><th>Clever Library</th><th>Clever Complete</th></tr>
+  <tr><td>Cost</td><td><span class="badge badge-green">Free</span></td><td><span class="badge badge-orange">Pay-per-school</span></td></tr>
+  <tr><td>Adoption model</td><td><span class="badge badge-green">Bottom-up (teacher)</span></td><td><span class="badge badge-orange">Top-down (district)</span></td></tr>
+  <tr><td>Time to first school</td><td><span class="badge badge-green">1-2 weeks</span></td><td><span class="badge badge-red">2-6 months</span></td></tr>
+  <tr><td>District approval</td><td><span class="badge badge-green">Not required</span></td><td><span class="badge badge-red">Required</span></td></tr>
+  <tr><td>Student email access</td><td><span class="badge badge-orange">No</span></td><td><span class="badge badge-green">Yes</span></td></tr>
+  <tr><td>Student ID access</td><td><span class="badge badge-orange">No</span></td><td><span class="badge badge-green">Yes</span></td></tr>
+  <tr><td>Auto account linking</td><td><span class="badge badge-orange">Manual link required</span></td><td><span class="badge badge-green">Automatic by student ID</span></td></tr>
+  <tr><td>Full student name</td><td><span class="badge badge-orange">First + last initial</span></td><td><span class="badge badge-green">Full name</span></td></tr>
+  <tr><td>Class-level roster</td><td><span class="badge badge-orange">No</span></td><td><span class="badge badge-green">Yes</span></td></tr>
+  <tr><td>Scale potential</td><td><span class="badge badge-green">Any Clever school instantly</span></td><td><span class="badge badge-orange">Only contracted districts</span></td></tr>
+  <tr><td>Data privacy risk</td><td><span class="badge badge-green">Minimal data = low risk</span></td><td><span class="badge badge-orange">More data = more responsibility</span></td></tr>
+  <tr><td>HCPS compatibility</td><td><span class="badge badge-green">Yes</span></td><td><span class="badge badge-green">Yes</span></td></tr>
+</table>
+
+<h1>6. Recommendation</h1>
+
+<div class="decision">
+  <strong>Recommended: Start with Clever Library, upgrade to Complete later.</strong>
+</div>
+
+<h3>Rationale:</h3>
+
+<ol>
+  <li><strong>Speed to market:</strong> Clever Library can go live in 1-2 weeks vs. 2-6 months for Complete. We need schools using ImpactBadge NOW.</li>
+  <li><strong>Zero cost:</strong> No financial commitment. No revenue needed to fund the integration.</li>
+  <li><strong>Teacher-driven adoption:</strong> Matches our go-to-market strategy &mdash; counselors and teachers adopt ImpactBadge for their students without IT department gatekeeping.</li>
+  <li><strong>HCPS compatible:</strong> Teachers at HCPS can start using ImpactBadge immediately.</li>
+  <li><strong>Data minimization:</strong> Less student data = less privacy risk = simpler compliance.</li>
+  <li><strong>Upgrade path clear:</strong> Once we prove value with Library, districts will request Complete for full rostering. We can add it later without disrupting existing users.</li>
+</ol>
+
+<h3>Proposed Migration Path:</h3>
+<table>
+  <tr><th>Phase</th><th>Timeline</th><th>Integration</th><th>Trigger</th></tr>
+  <tr><td>Phase 1</td><td>Now &mdash; Month 6</td><td>Clever Library (free)</td><td>Immediate &mdash; certification in 1-2 weeks</td></tr>
+  <tr><td>Phase 2</td><td>Month 6-12</td><td>Add Clever Complete</td><td>When 3+ districts request full rostering</td></tr>
+  <tr><td>Phase 3</td><td>Year 2+</td><td>Add ClassLink SSO</td><td>When entering ClassLink-dominant districts</td></tr>
+</table>
+
+<h1 class="page-break">7. ImpactBadge Data Ownership Model</h1>
+
+<div class="highlight">
+  <strong>Core Principle:</strong> Students own their data. ImpactBadge accounts belong to the student, not the school.
+</div>
+
+<h3>How This Works:</h3>
+
+<table>
+  <tr><th>Scenario</th><th>What Happens</th></tr>
+  <tr><td>Student signs up with personal email (john@gmail.com)</td><td>Account created with personal email as primary. Student owns this account.</td></tr>
+  <tr><td>Student later logs in via Clever at school</td><td>Clever authenticates student. ImpactBadge looks up existing account. If found, links Clever to existing account. Personal email preserved.</td></tr>
+  <tr><td>Student graduates / leaves school</td><td>Student keeps their account and all data. Clever SSO stops working, but personal email login still works. All hours, badges, exports remain.</td></tr>
+  <tr><td>Teacher views student on dashboard</td><td>Teacher sees student's name, school, total hours, compliance status. Teacher does NOT see personal email, messages, or account credentials.</td></tr>
+</table>
+
+<h3>With Clever Library specifically:</h3>
+<ul>
+  <li>Clever does NOT share student email &mdash; so ImpactBadge never receives the school email</li>
+  <li>Student's personal email (used at signup) remains the ONLY email on the account</li>
+  <li>This perfectly aligns with "student owns their data"</li>
+  <li>If student never signed up before and logs in via Clever first, they'll be prompted to enter a personal email after Clever login</li>
+</ul>
+
+<h1>8. What the Teacher Sees</h1>
+
+<p>When a teacher logs in via Clever SSO on the web portal (impacthub-prod.web.app):</p>
+
+<table>
+  <tr><th>Dashboard Element</th><th>What It Shows</th></tr>
+  <tr><td>Student list</td><td>All students at the teacher's school who have ImpactBadge accounts (not all students in the school &mdash; only those who signed up)</td></tr>
+  <tr><td>Per-student data</td><td>Name, grade, total verified hours, badge count, compliance status</td></tr>
+  <tr><td>Compliance dashboard</td><td>On-track / at-risk / below-minimum categorization based on graduation hour requirements</td></tr>
+  <tr><td>Reports</td><td>School hours CSV export, compliance report</td></tr>
+  <tr><td>What teacher CANNOT see</td><td>Student's personal email, messages, account password, detailed event history, parent information</td></tr>
+</table>
+
+<h1>9. Legal & Compliance Requirements</h1>
+
+<h3>Agreements Needed:</h3>
+
+<table>
+  <tr><th>Agreement</th><th>With Whom</th><th>For What</th><th>Effort</th></tr>
+  <tr><td>Clever Universal DSA</td><td>Clever Inc.</td><td>Standard data sharing agreement covering all Clever schools</td><td><span class="badge badge-green">Sign online, 10 min</span></td></tr>
+  <tr><td>Clever Developer Terms</td><td>Clever Inc.</td><td>Developer platform terms of service</td><td><span class="badge badge-green">Accept online</span></td></tr>
+  <tr><td>Individual school agreements</td><td>Schools</td><td>NOT required for Clever Library</td><td><span class="badge badge-green">None needed</span></td></tr>
+  <tr><td>HCPS-specific agreement</td><td>HCPS</td><td>NOT required for Library (would be needed for Complete)</td><td><span class="badge badge-green">None needed</span></td></tr>
+</table>
+
+<h3>Compliance Status:</h3>
+<ul>
+  <li><strong>COPPA:</strong> Already implemented &mdash; parental consent for under-13, data deletion rights</li>
+  <li><strong>FERPA:</strong> Covered by Clever's Universal DSA &mdash; Clever acts as "school official"</li>
+  <li><strong>Student Privacy Pledge:</strong> Clever is a signatory; ImpactBadge should also sign (free, voluntary)</li>
+  <li><strong>State laws (SOPIPA, etc.):</strong> Covered by Clever DSA for Library apps</li>
+</ul>
+
+<h1>10. Technical Status</h1>
+
+<h3>What's Already Built:</h3>
+<table>
+  <tr><th>Component</th><th>Status</th><th>Notes</th></tr>
+  <tr><td>Clever OAuth flow (backend)</td><td><span class="badge badge-green">Complete</span></td><td>cleverOAuthCallback.ts &mdash; handles SSO for all user types</td></tr>
+  <tr><td>Account linking (cleverUserId → studentId → email)</td><td><span class="badge badge-green">Complete</span></td><td>Just implemented &mdash; preserves personal email</td></tr>
+  <tr><td>iOS Clever button</td><td><span class="badge badge-green">Complete</span></td><td>Feature-flagged, ready to enable</td></tr>
+  <tr><td>Android Clever button</td><td><span class="badge badge-green">Complete</span></td><td>Feature-flagged, ready to enable</td></tr>
+  <tr><td>Web portal Clever login</td><td><span class="badge badge-green">Complete</span></td><td>Working in production</td></tr>
+  <tr><td>Teacher dashboard</td><td><span class="badge badge-green">Complete</span></td><td>Shows students at teacher's school</td></tr>
+  <tr><td>Teacher role support</td><td><span class="badge badge-green">Complete</span></td><td>teacher role added to getSchoolStudents, getComplianceReport</td></tr>
+  <tr><td>Clever Library certification</td><td><span class="badge badge-orange">Not started</span></td><td>Need to submit for review after co-founder approval</td></tr>
+  <tr><td>Sandbox testing</td><td><span class="badge badge-green">Complete</span></td><td>Tested with Clever sandbox credentials</td></tr>
+</table>
+
+<h3>What Needs to Happen After Approval:</h3>
+<ol>
+  <li>Sign Clever Universal DSA (10 minutes)</li>
+  <li>Create Clever Library app listing with screenshots (30 minutes)</li>
+  <li>Submit for Library certification (5 minutes)</li>
+  <li>Wait for Clever review (1-2 weeks)</li>
+  <li>Receive production credentials</li>
+  <li>Update .env with production CLIENT_ID and CLIENT_SECRET</li>
+  <li>Deploy &mdash; Clever SSO live for all schools</li>
+</ol>
+
+<h1 class="page-break">11. Risks & Mitigations</h1>
+
+<table>
+  <tr><th>Risk</th><th>Impact</th><th>Mitigation</th></tr>
+  <tr><td>Clever Library doesn't share student email</td><td>Can't auto-link accounts</td><td>Add "Connect Clever" manual linking flow; most students will sign up via Clever first anyway (no linking needed)</td></tr>
+  <tr><td>Certification rejected</td><td>Delay launch</td><td>Low risk &mdash; our SSO implementation follows Clever's standard patterns; fix any issues and resubmit</td></tr>
+  <tr><td>Clever changes pricing/terms</td><td>May need to renegotiate</td><td>Library has been free since launch; low risk of change. We also plan ClassLink as backup SSO provider.</td></tr>
+  <tr><td>District blocks Clever Library apps</td><td>Some districts may restrict teacher installs</td><td>Offer Clever Complete as upgrade path for those districts</td></tr>
+  <tr><td>Student creates duplicate accounts (personal email + Clever)</td><td>Hours split across accounts</td><td>Account linking implemented; "Connect Clever" prompt after signup; merge function available for admin</td></tr>
+</table>
+
+<h1>12. Financial Impact</h1>
+
+<table>
+  <tr><th>Item</th><th>Clever Library</th><th>Clever Complete</th></tr>
+  <tr><td>Clever platform fees</td><td>$0</td><td>$1-3 per student per year</td></tr>
+  <tr><td>Development cost</td><td>$0 (already built)</td><td>$0 (already built)</td></tr>
+  <tr><td>Certification cost</td><td>$0</td><td>$0</td></tr>
+  <tr><td>Ongoing maintenance</td><td>Minimal</td><td>Minimal</td></tr>
+  <tr><td><strong>Total Year 1</strong></td><td><strong>$0</strong></td><td><strong>$2,000-10,000+ depending on schools</strong></td></tr>
+</table>
+
+<h1>13. Decision & Approval</h1>
+
+<div class="decision">
+  <strong>Proposed Decision:</strong> Proceed with <strong>Clever Library</strong> (free, teacher-driven SSO) as the initial integration. Plan to add Clever Complete when district-level contracts justify the cost.
+</div>
+
+<h3>Action Items After Approval:</h3>
+<table>
+  <tr><th>#</th><th>Action</th><th>Owner</th><th>Timeline</th></tr>
+  <tr><td>1</td><td>Sign Clever Universal DSA</td><td>Mustufa</td><td>Day 1</td></tr>
+  <tr><td>2</td><td>Create Clever Library app listing</td><td>Mustufa</td><td>Day 1</td></tr>
+  <tr><td>3</td><td>Submit for Library certification</td><td>Mustufa</td><td>Day 1</td></tr>
+  <tr><td>4</td><td>Respond to any Clever review feedback</td><td>Dev team</td><td>Week 1-2</td></tr>
+  <tr><td>5</td><td>Deploy production credentials</td><td>Dev team</td><td>After certification</td></tr>
+  <tr><td>6</td><td>Enable Clever SSO feature flag</td><td>Dev team</td><td>After deployment</td></tr>
+  <tr><td>7</td><td>Notify HCPS teachers that Clever login is available</td><td>Mustufa</td><td>After go-live</td></tr>
+</table>
+
+<div class="signature-block">
+  <h3>Co-Founder Approval</h3>
+  <p>By signing below, we approve proceeding with Clever Library integration as described in this document.</p>
+
+  <table style="border: none; width: 100%; margin-top: 24px;">
+    <tr style="border: none;">
+      <td style="border: none; width: 50%; padding: 20px 20px 20px 0;">
+        <p><strong>Name:</strong> <span class="signature-line">&nbsp;</span></p>
+        <p><strong>Title:</strong> <span class="signature-line">&nbsp;</span></p>
+        <p><strong>Signature:</strong> <span class="signature-line">&nbsp;</span></p>
+        <p><strong>Date:</strong> <span class="signature-line">&nbsp;</span></p>
+      </td>
+      <td style="border: none; width: 50%; padding: 20px 0 20px 20px;">
+        <p><strong>Name:</strong> <span class="signature-line">&nbsp;</span></p>
+        <p><strong>Title:</strong> <span class="signature-line">&nbsp;</span></p>
+        <p><strong>Signature:</strong> <span class="signature-line">&nbsp;</span></p>
+        <p><strong>Date:</strong> <span class="signature-line">&nbsp;</span></p>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<hr style="margin-top: 40px; border: none; border-top: 1px solid #e2e8f0;">
+<p style="font-size: 12px; color: #94a3b8; text-align: center; margin-top: 16px;">
+  ImpactBadge LLC &mdash; Confidential &mdash; Prepared July 2026
+</p>
+
+</body>
+</html>

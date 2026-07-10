@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ImpactBadge for Nonprofits — Free Volunteer Management</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: #0f172a; color: #1e293b; }
+  .slide { width: 100%; min-height: 100vh; padding: 60px 80px; display: flex; flex-direction: column; justify-content: center; page-break-after: always; position: relative; }
+  .slide-number { position: absolute; bottom: 30px; right: 40px; font-size: 13px; color: #94a3b8; font-weight: 500; }
+  .brand-footer { position: absolute; bottom: 30px; left: 40px; font-size: 12px; color: #94a3b8; }
+  .dark { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #f8fafc; }
+  .white { background: #ffffff; color: #1e293b; }
+  .teal { background: linear-gradient(135deg, #00897B 0%, #00695C 100%); color: #ffffff; }
+  .light { background: #f8fafc; color: #1e293b; }
+  .gradient { background: linear-gradient(135deg, #E65100 0%, #BF360C 100%); color: #ffffff; }
+  .gradient-teal { background: linear-gradient(135deg, #00897B 0%, #004D40 100%); color: #ffffff; }
+  h1 { font-size: 48px; font-weight: 900; line-height: 1.1; margin-bottom: 16px; }
+  h2 { font-size: 36px; font-weight: 800; line-height: 1.2; margin-bottom: 24px; }
+  h3 { font-size: 24px; font-weight: 700; margin-bottom: 16px; }
+  h4 { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+  .subtitle { font-size: 20px; font-weight: 400; opacity: 0.8; margin-bottom: 40px; line-height: 1.5; }
+  .tag { display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 20px; }
+  .tag-white { background: rgba(255,255,255,0.2); color: #fff; }
+  .tag-teal { background: rgba(0,137,123,0.15); color: #00897B; }
+  .tag-orange { background: rgba(230,81,0,0.15); color: #E65100; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+  .card { background: #ffffff; border-radius: 16px; padding: 28px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .card-dark { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 28px; }
+  .card-teal { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 24px; }
+  .card-outline { border: 2px solid #e2e8f0; border-radius: 16px; padding: 24px; }
+  .card-orange { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); border-radius: 16px; padding: 24px; }
+  .feature-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; font-size: 15px; line-height: 1.5; }
+  .check { color: #00897B; font-weight: 700; margin-right: 8px; }
+  .step { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; flex-shrink: 0; }
+  .step-orange { background: #E65100; color: white; }
+  .step-teal { background: #00897B; color: white; }
+  .callout { padding: 20px 28px; border-radius: 14px; margin-top: 24px; }
+  .callout-green { background: #f0fdf4; border-left: 4px solid #16a34a; }
+  .callout-teal { background: #f0fdfa; border-left: 4px solid #00897B; }
+  .price-badge { display: inline-block; background: #dcfce7; color: #166534; font-weight: 800; font-size: 24px; padding: 8px 24px; border-radius: 24px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { background: #f1f5f9; padding: 12px 14px; text-align: left; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #475569; border-bottom: 2px solid #e2e8f0; }
+  td { padding: 10px 14px; border-bottom: 1px solid #f1f5f9; }
+  .yes { color: #00897B; font-weight: 700; }
+  .no { color: #cbd5e1; }
+  @media print { .slide { page-break-after: always; } }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: Title -->
+<div class="slide gradient">
+  <div style="max-width: 750px;">
+    <span class="tag tag-white">For Nonprofit Organizations</span>
+    <h1 style="font-size: 52px; margin-bottom: 20px;">ImpactBadge</h1>
+    <p class="subtitle" style="font-size: 24px; opacity: 0.95;">Free volunteer management that actually fills your events.</p>
+    <p style="font-size: 17px; opacity: 0.85; line-height: 1.7; max-width: 600px;">
+      Stop chasing volunteers. ImpactBadge connects your events to thousands of students
+      actively looking for volunteer opportunities near them. GPS-verified hours.
+      Zero cost. Zero paper.
+    </p>
+    <div style="display: flex; gap: 40px; margin-top: 44px;">
+      <div><div style="font-size: 48px; font-weight: 900;">FREE</div><div style="font-size: 14px; opacity: 0.7;">Forever for nonprofits</div></div>
+      <div><div style="font-size: 48px; font-weight: 900;">0</div><div style="font-size: 14px; opacity: 0.7;">Paper forms needed</div></div>
+      <div><div style="font-size: 48px; font-weight: 900;">3 min</div><div style="font-size: 14px; opacity: 0.7;">To create an event</div></div>
+    </div>
+  </div>
+  <div class="brand-footer" style="color: rgba(255,255,255,0.4);">partners@impactbadge.app</div>
+  <div class="slide-number" style="color: rgba(255,255,255,0.3);">1</div>
+</div>
+
+<!-- SLIDE 2: The Problem You Face -->
+<div class="slide white">
+  <span class="tag tag-orange">The Challenge</span>
+  <h2>Volunteer Management Shouldn't Be This Hard</h2>
+  <div class="grid-3" style="margin-top: 20px;">
+    <div class="card-outline" style="text-align: center; padding: 32px;">
+      <div style="font-size: 48px; margin-bottom: 16px;">📋</div>
+      <h4>Paper Sign-In Sheets</h4>
+      <p style="font-size: 14px; color: #64748b; line-height: 1.6;">Clipboards get lost. Handwriting is illegible. You spend hours manually entering hours into spreadsheets after every event.</p>
+    </div>
+    <div class="card-outline" style="text-align: center; padding: 32px;">
+      <div style="font-size: 48px; margin-bottom: 16px;">👻</div>
+      <h4>No-Shows</h4>
+      <p style="font-size: 14px; color: #64748b; line-height: 1.6;">30-50% of registered volunteers don't show up. You can't plan staffing or supplies. No way to track who's reliable.</p>
+    </div>
+    <div class="card-outline" style="text-align: center; padding: 32px;">
+      <div style="font-size: 48px; margin-bottom: 16px;">📊</div>
+      <h4>Grant Reporting</h4>
+      <p style="font-size: 14px; color: #64748b; line-height: 1.6;">Funders want impact data: total hours, unique volunteers, demographics. You're manually compiling from scattered sources.</p>
+    </div>
+  </div>
+  <div class="callout callout-green" style="margin-top: 32px;">
+    <strong style="color: #16a34a;">ImpactBadge solves all three.</strong> Digital check-in eliminates paper. GPS verification proves attendance. Analytics dashboards generate grant-ready reports instantly.
+  </div>
+  <div class="brand-footer">ImpactBadge</div>
+  <div class="slide-number">2</div>
+</div>
+
+<!-- SLIDE 3: How It Works -->
+<div class="slide teal">
+  <span class="tag tag-white">How It Works</span>
+  <h2>Get Started in 3 Simple Steps</h2>
+  <div style="max-width: 700px; margin-top: 20px;">
+    <div style="display: flex; gap: 20px; margin-bottom: 36px; align-items: flex-start;">
+      <div class="step step-orange" style="background: rgba(255,255,255,0.2);">1</div>
+      <div>
+        <h3 style="margin-bottom: 8px;">Create Your Organization Profile</h3>
+        <p style="opacity: 0.85; font-size: 16px; line-height: 1.6;">
+          Sign up free. Claim your nonprofit using your EIN. Add your mission, logo, and contact info.
+          Your profile appears in the nonprofit directory visible to all students.
+        </p>
+      </div>
+    </div>
+    <div style="display: flex; gap: 20px; margin-bottom: 36px; align-items: flex-start;">
+      <div class="step step-orange" style="background: rgba(255,255,255,0.2);">2</div>
+      <div>
+        <h3 style="margin-bottom: 8px;">Post Your Volunteer Events</h3>
+        <p style="opacity: 0.85; font-size: 16px; line-height: 1.6;">
+          Create events with title, date, location, capacity, and category. A check-in PIN and QR code
+          are auto-generated. Students within 25km see your event immediately on their map.
+        </p>
+      </div>
+    </div>
+    <div style="display: flex; gap: 20px; margin-bottom: 36px; align-items: flex-start;">
+      <div class="step step-orange" style="background: rgba(255,255,255,0.2);">3</div>
+      <div>
+        <h3 style="margin-bottom: 8px;">Volunteers Show Up. Hours Auto-Verify.</h3>
+        <p style="opacity: 0.85; font-size: 16px; line-height: 1.6;">
+          Students register, get push notification reminders, and check in via GPS when they arrive.
+          Hours are calculated and verified automatically on checkout. No paper. No manual approval needed.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="brand-footer" style="color: rgba(255,255,255,0.4);">ImpactBadge</div>
+  <div class="slide-number" style="color: rgba(255,255,255,0.4);">3</div>
+</div>
+
+<!-- SLIDE 4: Your Dashboard -->
+<div class="slide white">
+  <span class="tag tag-teal">Your Admin Dashboard</span>
+  <h2>Everything You Need, In One Place</h2>
+  <div class="grid-3">
+    <div class="card-outline">
+      <div style="font-size: 32px; margin-bottom: 12px;">📅</div>
+      <h4>Event Management</h4>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Create events in under 3 minutes</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Set capacity, category, location</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Multi-shift events (morning/afternoon)</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Auto-generated PIN + QR code</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Edit or cancel with auto-notification</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Post announcements to volunteers</span></div>
+    </div>
+    <div class="card-outline">
+      <div style="font-size: 32px; margin-bottom: 12px;">&#10003;</div>
+      <h4>Hours Verification</h4>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>GPS auto-verify</strong> — no manual approval</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>PIN check-in for indoor events</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>QR code scan at entrance</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Bulk approve/reject pending hours</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Self-reported hours with photo + signature</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Pending verification queue</span></div>
+    </div>
+    <div class="card-outline">
+      <div style="font-size: 32px; margin-bottom: 12px;">📊</div>
+      <h4>Analytics & Reporting</h4>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Total registrations & check-ins</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Verified hours across all events</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Repeat volunteer rate</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>No-show tracking</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Monthly registration trends</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>CSV data export</span></div>
+    </div>
+  </div>
+  <div class="brand-footer">ImpactBadge</div>
+  <div class="slide-number">4</div>
+</div>
+
+<!-- SLIDE 5: Why Students Use It (Your Advantage) -->
+<div class="slide dark">
+  <span class="tag tag-orange">Your Secret Weapon</span>
+  <h2 style="color: #f8fafc;">Students Actually <em>Want</em> to Use This App</h2>
+  <p class="subtitle">The #1 reason volunteer programs fail: students don't engage. ImpactBadge fixes that with gamification.</p>
+  <div class="grid-4">
+    <div class="card-dark" style="text-align: center;">
+      <div style="font-size: 36px; margin-bottom: 8px;">🏆</div>
+      <h4 style="color: #E65100;">XP & Levels</h4>
+      <p style="font-size: 13px; color: #94a3b8;">Students earn XP for every hour. 7 levels from Greenhorn to Sage. They keep coming back.</p>
+    </div>
+    <div class="card-dark" style="text-align: center;">
+      <div style="font-size: 36px; margin-bottom: 8px;">🔥</div>
+      <h4 style="color: #E65100;">Streaks</h4>
+      <p style="font-size: 13px; color: #94a3b8;">Daily streak tracking with bonus XP. Miss a day, lose your streak. Students volunteer consistently.</p>
+    </div>
+    <div class="card-dark" style="text-align: center;">
+      <div style="font-size: 36px; margin-bottom: 8px;">🏅</div>
+      <h4 style="color: #E65100;">Badges</h4>
+      <p style="font-size: 13px; color: #94a3b8;">11+ achievement badges for milestones. Shareable on social media. Students compete to collect them all.</p>
+    </div>
+    <div class="card-dark" style="text-align: center;">
+      <div style="font-size: 36px; margin-bottom: 8px;">📱</div>
+      <h4 style="color: #E65100;">Leaderboards</h4>
+      <p style="font-size: 13px; color: #94a3b8;">School and friends leaderboards. Peer competition drives repeat attendance at your events.</p>
+    </div>
+  </div>
+  <div style="margin-top: 32px; padding: 20px 28px; background: rgba(230,81,0,0.15); border-radius: 14px; border: 1px solid rgba(230,81,0,0.3);">
+    <strong style="color: #E65100;">What this means for you:</strong> <span style="color: #cbd5e1;">Students who earn XP at your events come back for more. Your repeat volunteer rate goes up. Your no-show rate goes down. Your events get filled.</span>
+  </div>
+  <div class="brand-footer" style="color: #475569;">ImpactBadge</div>
+  <div class="slide-number" style="color: #475569;">5</div>
+</div>
+
+<!-- SLIDE 6: Built-In Volunteer Recruitment -->
+<div class="slide light">
+  <span class="tag tag-teal">Volunteer Recruitment</span>
+  <h2>Your Events Reach Students Automatically</h2>
+  <p class="subtitle">No more flyers, email blasts, or social media posts begging for volunteers. ImpactBadge does the recruiting for you.</p>
+  <div class="grid-2">
+    <div class="card" style="padding: 32px;">
+      <h3 style="color: #00897B; margin-bottom: 20px;">How Students Find You</h3>
+      <div class="feature-item"><span style="font-size: 20px; margin-right: 4px;">📍</span><span><strong>GPS Discovery</strong> — Students see your event on their map if they're within 25km</span></div>
+      <div class="feature-item"><span style="font-size: 20px; margin-right: 4px;">🤖</span><span><strong>AI Recommendations</strong> — Students interested in your category get your event pushed to them</span></div>
+      <div class="feature-item"><span style="font-size: 20px; margin-right: 4px;">🔔</span><span><strong>Push Notifications</strong> — Matching students get notified when you post new events</span></div>
+      <div class="feature-item"><span style="font-size: 20px; margin-right: 4px;">🔍</span><span><strong>Search & Filter</strong> — Students search by category, date, distance, and even natural language</span></div>
+      <div class="feature-item"><span style="font-size: 20px; margin-right: 4px;">👥</span><span><strong>Team Sign-Ups</strong> — One student signs up and brings their whole friend group</span></div>
+      <div class="feature-item"><span style="font-size: 20px; margin-right: 4px;">📣</span><span><strong>Referral Program</strong> — Students earn XP for bringing friends to your events</span></div>
+    </div>
+    <div class="card" style="padding: 32px;">
+      <h3 style="color: #E65100; margin-bottom: 20px;">Why They Show Up</h3>
+      <div class="feature-item"><span style="font-size: 20px; margin-right: 4px;">🎓</span><span><strong>College Apps</strong> — Hours export directly to Common App. Students NEED verified hours.</span></div>
+      <div class="feature-item"><span style="font-size: 20px; margin-right: 4px;">🏆</span><span><strong>Gamification</strong> — XP, badges, and leaderboard positions motivate attendance</span></div>
+      <div class="feature-item"><span style="font-size: 20px; margin-right: 4px;">🔥</span><span><strong>Streaks</strong> — Students don't want to break their volunteering streak</span></div>
+      <div class="feature-item"><span style="font-size: 20px; margin-right: 4px;">⏰</span><span><strong>Reminders</strong> — Push notification 24 hours before the event</span></div>
+      <div class="feature-item"><span style="font-size: 20px; margin-right: 4px;">💬</span><span><strong>Group Chat</strong> — Registered volunteers coordinate in-app before the event</span></div>
+      <div class="feature-item"><span style="font-size: 20px; margin-right: 4px;">⭐</span><span><strong>Reviews</strong> — Great reviews on your events attract more volunteers next time</span></div>
+    </div>
+  </div>
+  <div class="brand-footer">ImpactBadge</div>
+  <div class="slide-number">6</div>
+</div>
+
+<!-- SLIDE 7: Integration & Data -->
+<div class="slide white">
+  <span class="tag tag-teal">Integration</span>
+  <h2>Works With Your Existing Systems</h2>
+  <div class="grid-2" style="margin-top: 20px;">
+    <div>
+      <h3 style="color: #00897B; margin-bottom: 20px;">Data Import</h3>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>CSV Import</strong> — Upload existing volunteer data in bulk</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>Webhook API</strong> — Automatically sync hours from your existing VMS (VolunteerHub, etc.)</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>Manual Import</strong> — Add individual events from external sources</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>EIN Verification</strong> — Claim your org using your IRS EIN number</span></div>
+
+      <h3 style="color: #00897B; margin-bottom: 20px; margin-top: 32px;">Data Export</h3>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>CSV Export</strong> — Download all volunteer data for your records</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>PDF Certificates</strong> — Auto-generated for each volunteer on checkout</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>Analytics Dashboard</strong> — Real-time metrics on your web portal</span></div>
+    </div>
+    <div>
+      <h3 style="color: #E65100; margin-bottom: 20px;">Grant-Ready Metrics</h3>
+      <p style="font-size: 15px; color: #64748b; line-height: 1.7; margin-bottom: 20px;">Every metric funders ask for, available instantly from your dashboard:</p>
+      <div style="background: #fff7ed; border-radius: 14px; padding: 24px;">
+        <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #fed7aa;">
+          <span style="font-weight: 600;">Total Volunteer Hours</span>
+          <span style="color: #E65100; font-weight: 700;">Auto-calculated</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #fed7aa;">
+          <span style="font-weight: 600;">Unique Volunteers</span>
+          <span style="color: #E65100; font-weight: 700;">Auto-counted</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #fed7aa;">
+          <span style="font-weight: 600;">Repeat Volunteer Rate</span>
+          <span style="color: #E65100; font-weight: 700;">Auto-tracked</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #fed7aa;">
+          <span style="font-weight: 600;">Event Attendance Rate</span>
+          <span style="color: #E65100; font-weight: 700;">Check-in / Registered</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #fed7aa;">
+          <span style="font-weight: 600;">Monthly Trends</span>
+          <span style="color: #E65100; font-weight: 700;">Charted</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; padding: 10px 0;">
+          <span style="font-weight: 600;">No-Show Rate</span>
+          <span style="color: #E65100; font-weight: 700;">Auto-tracked</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-footer">ImpactBadge</div>
+  <div class="slide-number">7</div>
+</div>
+
+<!-- SLIDE 8: Onboarding Checklist -->
+<div class="slide teal">
+  <span class="tag tag-white">Onboarding Checklist</span>
+  <h2>Your 15-Minute Setup Guide</h2>
+  <div style="max-width: 700px; margin-top: 16px;">
+    <div style="display: flex; gap: 20px; margin-bottom: 28px; align-items: flex-start;">
+      <div class="step" style="background: rgba(255,255,255,0.2);">1</div>
+      <div>
+        <h4>Create Your Admin Account</h4>
+        <p style="opacity: 0.85; font-size: 15px;">Download ImpactBadge from the App Store. Sign up with your organization email. Select "Organization Admin" as your role.</p>
+        <p style="opacity: 0.6; font-size: 13px; margin-top: 4px;">Time: 2 minutes</p>
+      </div>
+    </div>
+    <div style="display: flex; gap: 20px; margin-bottom: 28px; align-items: flex-start;">
+      <div class="step" style="background: rgba(255,255,255,0.2);">2</div>
+      <div>
+        <h4>Claim Your Nonprofit</h4>
+        <p style="opacity: 0.85; font-size: 15px;">Search for your organization by name in the nonprofit directory. Click "Claim This Organization" and enter your EIN for verification.</p>
+        <p style="opacity: 0.6; font-size: 13px; margin-top: 4px;">Time: 2 minutes</p>
+      </div>
+    </div>
+    <div style="display: flex; gap: 20px; margin-bottom: 28px; align-items: flex-start;">
+      <div class="step" style="background: rgba(255,255,255,0.2);">3</div>
+      <div>
+        <h4>Create Your First Event</h4>
+        <p style="opacity: 0.85; font-size: 15px;">Tap "Create Event" from your dashboard. Add title, date/time, location (address auto-completes), max volunteers, and category. A check-in PIN is auto-generated.</p>
+        <p style="opacity: 0.6; font-size: 13px; margin-top: 4px;">Time: 3 minutes</p>
+      </div>
+    </div>
+    <div style="display: flex; gap: 20px; margin-bottom: 28px; align-items: flex-start;">
+      <div class="step" style="background: rgba(255,255,255,0.2);">4</div>
+      <div>
+        <h4>Share With Your Network</h4>
+        <p style="opacity: 0.85; font-size: 15px;">Your event is immediately visible to nearby students on the map. Optionally share the event link on your social media or email list to boost sign-ups.</p>
+        <p style="opacity: 0.6; font-size: 13px; margin-top: 4px;">Time: 2 minutes</p>
+      </div>
+    </div>
+    <div style="display: flex; gap: 20px; margin-bottom: 28px; align-items: flex-start;">
+      <div class="step" style="background: rgba(255,255,255,0.2);">5</div>
+      <div>
+        <h4>Event Day: Just Show Up</h4>
+        <p style="opacity: 0.85; font-size: 15px;">Volunteers check in via GPS when they arrive (auto-verified) or you share the PIN for indoor events. Hours calculate automatically on checkout. You'll see everything on your dashboard.</p>
+        <p style="opacity: 0.6; font-size: 13px; margin-top: 4px;">Time: 0 minutes of admin work</p>
+      </div>
+    </div>
+  </div>
+  <div class="brand-footer" style="color: rgba(255,255,255,0.4);">ImpactBadge</div>
+  <div class="slide-number" style="color: rgba(255,255,255,0.4);">8</div>
+</div>
+
+<!-- SLIDE 9: vs Traditional Methods -->
+<div class="slide light">
+  <span class="tag tag-teal">Comparison</span>
+  <h2>ImpactBadge vs. Traditional Volunteer Management</h2>
+  <table style="margin-top: 20px;">
+    <tr><th style="width: 30%;">Task</th><th>Traditional (Paper/Spreadsheet)</th><th>ImpactBadge</th></tr>
+    <tr><td><strong>Recruiting volunteers</strong></td><td>Flyers, emails, social media posts, word of mouth</td><td class="yes">Students discover you automatically via GPS map</td></tr>
+    <tr><td><strong>Event registration</strong></td><td>Google Forms, Eventbrite, email RSVPs</td><td class="yes">In-app registration with capacity tracking</td></tr>
+    <tr><td><strong>Event reminders</strong></td><td>Manual emails the day before</td><td class="yes">Automatic push notifications 24h before</td></tr>
+    <tr><td><strong>Check-in on event day</strong></td><td>Paper sign-in sheet, clipboard</td><td class="yes">GPS auto-check-in when volunteer arrives</td></tr>
+    <tr><td><strong>Hour verification</strong></td><td>Manual review of timesheets, supervisor signatures</td><td class="yes">Auto-verified via GPS, instant on checkout</td></tr>
+    <tr><td><strong>Data entry</strong></td><td>Type paper forms into Excel after each event</td><td class="yes">Zero data entry — everything is digital</td></tr>
+    <tr><td><strong>Hour certificates</strong></td><td>Create individually in Word, email each volunteer</td><td class="yes">Auto-generated PDF emailed on checkout</td></tr>
+    <tr><td><strong>Grant reporting</strong></td><td>Manually compile from spreadsheets, takes days</td><td class="yes">Dashboard metrics available instantly</td></tr>
+    <tr><td><strong>No-show tracking</strong></td><td>Compare sign-in sheet to RSVP list manually</td><td class="yes">Automatic: registered vs. checked-in</td></tr>
+    <tr><td><strong>Repeat volunteer tracking</strong></td><td>Cross-reference multiple spreadsheets</td><td class="yes">Automatic repeat rate and per-volunteer history</td></tr>
+    <tr style="background: #f0fdfa;"><td><strong>Cost</strong></td><td>Staff time: 5-10 hours/event</td><td style="color: #00897B; font-weight: 700;">FREE + 0 admin hours</td></tr>
+  </table>
+  <div class="brand-footer">ImpactBadge</div>
+  <div class="slide-number">9</div>
+</div>
+
+<!-- SLIDE 10: Pricing -->
+<div class="slide dark">
+  <span class="tag tag-white" style="background: rgba(0,137,123,0.3);">Pricing</span>
+  <h2 style="color: #f8fafc;">100% Free. No Strings Attached.</h2>
+  <div style="max-width: 600px; margin: 20px auto 0; text-align: center;">
+    <div class="card-dark" style="padding: 48px;">
+      <div style="font-size: 72px; font-weight: 900; color: #00897B; margin-bottom: 8px;">$0</div>
+      <div style="font-size: 18px; color: #94a3b8; margin-bottom: 32px;">per month, per event, per volunteer. Forever.</div>
+      <div style="text-align: left; font-size: 16px; line-height: 2.2; color: #cbd5e1;">
+        <span style="color: #00897B; font-weight: 700;">&#10003;</span> Unlimited events<br>
+        <span style="color: #00897B; font-weight: 700;">&#10003;</span> Unlimited volunteers<br>
+        <span style="color: #00897B; font-weight: 700;">&#10003;</span> GPS + PIN + QR check-in<br>
+        <span style="color: #00897B; font-weight: 700;">&#10003;</span> Auto-verification<br>
+        <span style="color: #00897B; font-weight: 700;">&#10003;</span> Analytics dashboard<br>
+        <span style="color: #00897B; font-weight: 700;">&#10003;</span> Bulk hour verification<br>
+        <span style="color: #00897B; font-weight: 700;">&#10003;</span> CSV import/export<br>
+        <span style="color: #00897B; font-weight: 700;">&#10003;</span> Webhook integration<br>
+        <span style="color: #00897B; font-weight: 700;">&#10003;</span> PDF certificates<br>
+        <span style="color: #00897B; font-weight: 700;">&#10003;</span> Multi-shift events<br>
+        <span style="color: #00897B; font-weight: 700;">&#10003;</span> Announcements<br>
+        <span style="color: #00897B; font-weight: 700;">&#10003;</span> No ads, no upsells
+      </div>
+    </div>
+    <p style="color: #64748b; font-size: 14px; margin-top: 20px;">ImpactBadge is funded by school district subscriptions. Nonprofits and students always use it free.</p>
+  </div>
+  <div class="brand-footer" style="color: #475569;">ImpactBadge</div>
+  <div class="slide-number" style="color: #475569;">10</div>
+</div>
+
+<!-- SLIDE 11: FAQ -->
+<div class="slide white">
+  <span class="tag tag-teal">FAQ</span>
+  <h2>Common Questions</h2>
+  <div class="grid-2" style="margin-top: 16px;">
+    <div>
+      <div style="margin-bottom: 24px;">
+        <h4 style="color: #00897B;">Is it really free?</h4>
+        <p style="font-size: 14px; color: #64748b; line-height: 1.6;">Yes. 100% free for nonprofits and volunteers, forever. Our revenue comes from school district subscriptions for compliance features. Your org admin tools have zero cost.</p>
+      </div>
+      <div style="margin-bottom: 24px;">
+        <h4 style="color: #00897B;">Do students need to download an app?</h4>
+        <p style="font-size: 14px; color: #64748b; line-height: 1.6;">Yes. ImpactBadge is available on the App Store (iOS) now, with Android launching soon. Students sign up in under 2 minutes.</p>
+      </div>
+      <div style="margin-bottom: 24px;">
+        <h4 style="color: #00897B;">What if volunteers don't have the app?</h4>
+        <p style="font-size: 14px; color: #64748b; line-height: 1.6;">You can share the PIN code displayed on your dashboard. Volunteers can also self-report hours afterward with photo evidence and e-signatures for your review.</p>
+      </div>
+      <div style="margin-bottom: 24px;">
+        <h4 style="color: #00897B;">How does GPS auto-verification work?</h4>
+        <p style="font-size: 14px; color: #64748b; line-height: 1.6;">When a volunteer checks in via GPS within 300m of your event location, and checks out, their hours are automatically verified. No manual approval step needed from your side.</p>
+      </div>
+    </div>
+    <div>
+      <div style="margin-bottom: 24px;">
+        <h4 style="color: #00897B;">Can I import our existing volunteer data?</h4>
+        <p style="font-size: 14px; color: #64748b; line-height: 1.6;">Yes. Upload a CSV with your existing volunteer records. We also support webhook integration if you use another VMS like VolunteerHub.</p>
+      </div>
+      <div style="margin-bottom: 24px;">
+        <h4 style="color: #00897B;">Can multiple staff manage our events?</h4>
+        <p style="font-size: 14px; color: #64748b; line-height: 1.6;">Currently one org admin per organization. Multi-admin support with role permissions is on our roadmap and coming soon.</p>
+      </div>
+      <div style="margin-bottom: 24px;">
+        <h4 style="color: #00897B;">Is student data safe?</h4>
+        <p style="font-size: 14px; color: #64748b; line-height: 1.6;">Absolutely. ImpactBadge is COPPA and FERPA compliant. Student data is encrypted, never sold, and parents have full visibility and control over their child's account.</p>
+      </div>
+      <div style="margin-bottom: 24px;">
+        <h4 style="color: #00897B;">Can we use this for adult volunteers too?</h4>
+        <p style="font-size: 14px; color: #64748b; line-height: 1.6;">ImpactBadge is optimized for K-12 students, but adults can create accounts and check in to events. The gamification features (XP, badges) work for all ages.</p>
+      </div>
+    </div>
+  </div>
+  <div class="brand-footer">ImpactBadge</div>
+  <div class="slide-number">11</div>
+</div>
+
+<!-- SLIDE 12: CTA -->
+<div class="slide gradient">
+  <div style="text-align: center; max-width: 700px; margin: 0 auto;">
+    <h1 style="font-size: 44px; margin-bottom: 24px;">Ready to Fill Your Next Event?</h1>
+    <p style="font-size: 20px; opacity: 0.9; line-height: 1.6; margin-bottom: 20px;">
+      Create your free account in 2 minutes. Post your first event in 3.
+      Thousands of students are already looking for volunteer opportunities near you.
+    </p>
+    <div style="margin: 40px 0;">
+      <div style="display: inline-block; background: rgba(255,255,255,0.2); border-radius: 16px; padding: 20px 40px;">
+        <div style="font-size: 14px; opacity: 0.7; margin-bottom: 4px;">Download Now</div>
+        <div style="font-size: 24px; font-weight: 800;">ImpactBadge on the App Store</div>
+      </div>
+    </div>
+    <div style="display: flex; gap: 40px; justify-content: center; margin-top: 40px;">
+      <div style="text-align: center;">
+        <div style="font-size: 13px; opacity: 0.6; margin-bottom: 6px;">Partnership Inquiries</div>
+        <div style="font-size: 18px; font-weight: 700;">partners@impactbadge.app</div>
+      </div>
+      <div style="width: 1px; background: rgba(255,255,255,0.3);"></div>
+      <div style="text-align: center;">
+        <div style="font-size: 13px; opacity: 0.6; margin-bottom: 6px;">Support</div>
+        <div style="font-size: 18px; font-weight: 700;">support@impactbadge.app</div>
+      </div>
+      <div style="width: 1px; background: rgba(255,255,255,0.3);"></div>
+      <div style="text-align: center;">
+        <div style="font-size: 13px; opacity: 0.6; margin-bottom: 6px;">Website</div>
+        <div style="font-size: 18px; font-weight: 700;">impactbadge.app</div>
+      </div>
+    </div>
+    <p style="font-size: 14px; opacity: 0.4; margin-top: 40px;">ImpactBadge — Making Volunteering Count</p>
+  </div>
+  <div class="slide-number" style="color: rgba(255,255,255,0.3);">12</div>
+</div>
+
+</body>
+</html>

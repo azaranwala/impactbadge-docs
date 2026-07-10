@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ImpactBadge — Documentation Hub</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8faf9;color:#333;min-height:100vh}
+.hero{background:linear-gradient(135deg,#00897B 0%,#00695C 50%,#004D40 100%);color:white;padding:60px 32px 50px;text-align:center}
+.hero h1{font-size:42px;font-weight:800;letter-spacing:-1px;margin-bottom:8px}
+.hero h1 span{opacity:0.85;font-weight:400}
+.hero p{font-size:16px;opacity:0.8;max-width:600px;margin:0 auto}
+.container{max-width:960px;margin:-30px auto 40px;padding:0 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.card{background:white;border-radius:16px;padding:28px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border:1px solid #e8ece9;transition:all 0.2s;text-decoration:none;color:inherit;display:block}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,137,123,0.12);border-color:#00897B}
+.card-icon{font-size:32px;margin-bottom:12px}
+.card h3{font-size:16px;font-weight:700;color:#1a1a1a;margin-bottom:6px}
+.card p{font-size:13px;color:#666;line-height:1.5}
+.card .badge{display:inline-block;margin-top:10px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-product{background:#e8f5e9;color:#2e7d32}
+.badge-tech{background:#e3f2fd;color:#1565c0}
+.badge-business{background:#fff3e0;color:#e65100}
+.badge-ops{background:#f3e5f5;color:#7b1fa2}
+.section-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#00897B;margin:32px 0 16px;padding-left:4px}
+.footer{text-align:center;padding:40px 20px;color:#aaa;font-size:12px;border-top:1px solid #e8ece9;margin-top:40px}
+.footer a{color:#00897B;text-decoration:none}
+.stats{display:flex;justify-content:center;gap:40px;margin-top:20px;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-value{font-size:28px;font-weight:800}
+.stat-label{font-size:11px;opacity:0.7;text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Impact<span>Badge</span></h1>
+  <p>K-12 Volunteer Hour Tracking Platform — Documentation Hub</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-value">130+</div><div class="stat-label">Cloud Functions</div></div>
+    <div class="stat"><div class="stat-value">1,932</div><div class="stat-label">Tests Passing</div></div>
+    <div class="stat"><div class="stat-value">3</div><div class="stat-label">Platforms</div></div>
+    <div class="stat"><div class="stat-value">5</div><div class="stat-label">User Roles</div></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="section-title">Product & Technical</div>
+  <div class="grid">
+    <a href="prd.html" class="card">
+      <div class="card-icon">📋</div>
+      <h3>Product Requirements Document</h3>
+      <p>Complete PRD with 100+ feature requirements across 13 modules, user personas, data model, and release history.</p>
+      <span class="badge badge-product">Product</span>
+    </a>
+    <a href="technical.html" class="card">
+      <div class="card-icon">🔧</div>
+      <h3>Technical Documentation</h3>
+      <p>Architecture, 130+ Cloud Functions, Firestore data model, security, Clever integration, monitoring, and deployment.</p>
+      <span class="badge badge-tech">Technical</span>
+    </a>
+    <a href="feature-analysis.html" class="card">
+      <div class="card-icon">📊</div>
+      <h3>Feature Analysis</h3>
+      <p>149+ features analyzed across iOS, Android, Web, and Backend with test coverage and platform matrix.</p>
+      <span class="badge badge-product">Product</span>
+    </a>
+    <a href="test-coverage.html" class="card">
+      <div class="card-icon">✅</div>
+      <h3>Test Coverage Report</h3>
+      <p>1,932 tests across 3 platforms — backend, web, and Android with 3-round verification results.</p>
+      <span class="badge badge-tech">Technical</span>
+    </a>
+  </div>
+
+  <div class="section-title">Clever Integration</div>
+  <div class="grid">
+    <a href="clever-plan.html" class="card">
+      <div class="card-icon">🔗</div>
+      <h3>Clever Complete Implementation Plan</h3>
+      <p>SSO + Secure Sync + LMS Connect — 3-phase plan with certification checklists and architecture diagrams.</p>
+      <span class="badge badge-tech">Technical</span>
+    </a>
+    <a href="clever-decision.html" class="card">
+      <div class="card-icon">📝</div>
+      <h3>Clever Integration Decision Document</h3>
+      <p>Library vs Complete analysis, HCPS considerations, and co-founder decision with signature block.</p>
+      <span class="badge badge-business">Business</span>
+    </a>
+  </div>
+
+  <div class="section-title">Operations & Monitoring</div>
+  <div class="grid">
+    <a href="monitoring.html" class="card">
+      <div class="card-icon">📡</div>
+      <h3>Production Monitoring Guide</h3>
+      <p>6 alert policies, 8 uptime checks, dashboard widgets, billing budgets, and incident runbook.</p>
+      <span class="badge badge-ops">Operations</span>
+    </a>
+  </div>
+
+  <div class="section-title">Pitch Decks & Marketing</div>
+  <div class="grid">
+    <a href="deck-gtm.html" class="card">
+      <div class="card-icon">🚀</div>
+      <h3>GTM Slide Deck</h3>
+      <p>13-slide go-to-market deck for founders and investors.</p>
+      <span class="badge badge-business">Business</span>
+    </a>
+    <a href="deck-school.html" class="card">
+      <div class="card-icon">🏫</div>
+      <h3>School & Counselor Deck</h3>
+      <p>11-slide deck for school administrators and counselors.</p>
+      <span class="badge badge-business">Business</span>
+    </a>
+    <a href="deck-nonprofit.html" class="card">
+      <div class="card-icon">🤝</div>
+      <h3>Nonprofit Onboarding Deck</h3>
+      <p>12-slide partner deck for nonprofit organizations.</p>
+      <span class="badge badge-business">Business</span>
+    </a>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>ImpactBadge LLC &nbsp;|&nbsp; <a href="https://impactbadge.app">impactbadge.app</a> &nbsp;|&nbsp; July 2026</p>
+</div>
+
+</body>
+</html>

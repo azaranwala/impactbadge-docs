@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ImpactBadge for Schools & Organizations</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: #0f172a; color: #1e293b; }
+  .slide { width: 100%; min-height: 100vh; padding: 60px 80px; display: flex; flex-direction: column; justify-content: center; page-break-after: always; position: relative; }
+  .slide-number { position: absolute; bottom: 30px; right: 40px; font-size: 13px; color: #94a3b8; font-weight: 500; }
+  .brand-footer { position: absolute; bottom: 30px; left: 40px; font-size: 12px; color: #94a3b8; }
+  .dark { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #f8fafc; }
+  .white { background: #ffffff; color: #1e293b; }
+  .teal { background: linear-gradient(135deg, #00897B 0%, #00695C 100%); color: #ffffff; }
+  .light { background: #f8fafc; color: #1e293b; }
+  .gradient { background: linear-gradient(135deg, #00897B 0%, #006064 100%); color: #ffffff; }
+  h1 { font-size: 48px; font-weight: 900; line-height: 1.1; margin-bottom: 16px; }
+  h2 { font-size: 36px; font-weight: 800; line-height: 1.2; margin-bottom: 24px; }
+  h3 { font-size: 24px; font-weight: 700; margin-bottom: 16px; }
+  h4 { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+  .subtitle { font-size: 20px; font-weight: 400; opacity: 0.8; margin-bottom: 40px; line-height: 1.5; }
+  .tag { display: inline-block; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 20px; }
+  .tag-teal { background: rgba(0,137,123,0.15); color: #00897B; }
+  .tag-white { background: rgba(255,255,255,0.2); color: #fff; }
+  .tag-orange { background: rgba(230,81,0,0.15); color: #E65100; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+  .card { background: #ffffff; border-radius: 16px; padding: 28px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .card-dark { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 28px; }
+  .card-teal { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 24px; }
+  .card-outline { border: 2px solid #e2e8f0; border-radius: 16px; padding: 24px; }
+  .feature-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; font-size: 15px; line-height: 1.5; }
+  .feature-icon { font-size: 18px; flex-shrink: 0; }
+  .check { color: #00897B; font-weight: 700; margin-right: 8px; }
+  .stat-big { font-size: 56px; font-weight: 900; line-height: 1; }
+  .stat-label { font-size: 14px; font-weight: 500; color: #64748b; margin-top: 6px; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { background: #f1f5f9; padding: 12px 14px; text-align: left; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; color: #475569; border-bottom: 2px solid #e2e8f0; }
+  td { padding: 10px 14px; border-bottom: 1px solid #f1f5f9; }
+  .yes { color: #00897B; font-weight: 700; }
+  .no { color: #cbd5e1; }
+  .pill { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+  .pill-green { background: #dcfce7; color: #166534; }
+  .pill-blue { background: #dbeafe; color: #1e40af; }
+  .callout { padding: 20px 28px; border-radius: 14px; margin-top: 24px; }
+  .callout-teal { background: #f0fdfa; border-left: 4px solid #00897B; }
+  .callout-orange { background: #fff7ed; border-left: 4px solid #E65100; }
+  .divider { height: 1px; background: rgba(255,255,255,0.15); margin: 20px 0; }
+  @media print { .slide { page-break-after: always; } }
+</style>
+</head>
+<body>
+
+<!-- SLIDE 1: Title -->
+<div class="slide gradient">
+  <div style="max-width: 750px;">
+    <span class="tag tag-white">For School Administrators & Organizations</span>
+    <h1 style="font-size: 52px; margin-bottom: 20px;">ImpactBadge</h1>
+    <p class="subtitle" style="font-size: 22px; opacity: 0.9;">The free volunteer tracking platform your students actually want to use.</p>
+    <p style="font-size: 17px; opacity: 0.8; line-height: 1.7; max-width: 600px;">
+      ImpactBadge combines compliance-grade hour tracking with gamification that keeps students engaged.
+      Common App export, COPPA/FERPA compliant, Clever SSO ready.
+    </p>
+    <div style="display: flex; gap: 32px; margin-top: 40px;">
+      <div><div style="font-size: 42px; font-weight: 900;">55+</div><div style="font-size: 14px; opacity: 0.7;">Features</div></div>
+      <div><div style="font-size: 42px; font-weight: 900;">FREE</div><div style="font-size: 14px; opacity: 0.7;">For Students</div></div>
+      <div><div style="font-size: 42px; font-weight: 900;">iOS</div><div style="font-size: 14px; opacity: 0.7;">Live on App Store</div></div>
+      <div><div style="font-size: 42px; font-weight: 900;">100%</div><div style="font-size: 14px; opacity: 0.7;">COPPA Compliant</div></div>
+    </div>
+  </div>
+  <div class="brand-footer" style="color: rgba(255,255,255,0.4);">impactbadge.app</div>
+  <div class="slide-number" style="color: rgba(255,255,255,0.3);">1</div>
+</div>
+
+<!-- SLIDE 2: The Problem -->
+<div class="slide white">
+  <span class="tag tag-orange">The Problem</span>
+  <h2>Tracking Volunteer Hours Is Broken</h2>
+  <div class="grid-3" style="margin-top: 20px;">
+    <div class="card-outline" style="text-align: center; padding: 32px;">
+      <div style="font-size: 48px; margin-bottom: 16px;">📋</div>
+      <h4>For School Admins</h4>
+      <p style="font-size: 14px; color: #64748b; line-height: 1.6;">Counselors manually track hours in spreadsheets. No way to know which students are falling behind on graduation requirements until it's too late.</p>
+    </div>
+    <div class="card-outline" style="text-align: center; padding: 32px;">
+      <div style="font-size: 48px; margin-bottom: 16px;">😤</div>
+      <h4>For Students</h4>
+      <p style="font-size: 14px; color: #64748b; line-height: 1.6;">Students lose paper logs, can't find events near them, and struggle to format hours for college applications. Volunteering feels like a chore, not an achievement.</p>
+    </div>
+    <div class="card-outline" style="text-align: center; padding: 32px;">
+      <div style="font-size: 48px; margin-bottom: 16px;">🏢</div>
+      <h4>For Organizations</h4>
+      <p style="font-size: 14px; color: #64748b; line-height: 1.6;">Nonprofits spend hours verifying volunteer attendance. No-shows waste resources. No way to track repeat volunteers or measure real impact.</p>
+    </div>
+  </div>
+  <div class="callout callout-teal" style="margin-top: 32px;">
+    <strong style="color: #00897B;">The Result:</strong> 50-200 volunteer hours recommended for college apps, but students have no reliable system to discover, track, verify, and export them.
+  </div>
+  <div class="brand-footer">ImpactBadge</div>
+  <div class="slide-number">2</div>
+</div>
+
+<!-- SLIDE 3: The Solution -->
+<div class="slide teal">
+  <span class="tag tag-white">The Solution</span>
+  <h2>One Platform. Every Stakeholder.</h2>
+  <p class="subtitle" style="opacity: 0.9;">ImpactBadge connects students, schools, organizations, and parents in a single ecosystem.</p>
+  <div class="grid-4">
+    <div class="card-teal" style="text-align: center;">
+      <div style="font-size: 36px; margin-bottom: 12px;">📱</div>
+      <h4>Students</h4>
+      <p style="font-size: 13px; opacity: 0.85;">Discover events, check in via GPS/PIN/QR, earn XP and badges, export for college apps</p>
+    </div>
+    <div class="card-teal" style="text-align: center;">
+      <div style="font-size: 36px; margin-bottom: 12px;">🏫</div>
+      <h4>Schools</h4>
+      <p style="font-size: 13px; opacity: 0.85;">Compliance dashboard, graduation tracking, Clever SSO, district reports, CSV exports</p>
+    </div>
+    <div class="card-teal" style="text-align: center;">
+      <div style="font-size: 36px; margin-bottom: 12px;">🏢</div>
+      <h4>Organizations</h4>
+      <p style="font-size: 13px; opacity: 0.85;">Create events, auto-verify hours, analytics dashboard, bulk verification, webhooks</p>
+    </div>
+    <div class="card-teal" style="text-align: center;">
+      <div style="font-size: 36px; margin-bottom: 12px;">👪</div>
+      <h4>Parents</h4>
+      <p style="font-size: 13px; opacity: 0.85;">Monitor child activity, set permissions, receive notifications, COPPA consent flow</p>
+    </div>
+  </div>
+  <div class="brand-footer" style="color: rgba(255,255,255,0.4);">ImpactBadge</div>
+  <div class="slide-number" style="color: rgba(255,255,255,0.4);">3</div>
+</div>
+
+<!-- SLIDE 4: School Admin Features -->
+<div class="slide white">
+  <span class="tag tag-teal">For School Administrators</span>
+  <h2>Your Compliance Dashboard</h2>
+  <p class="subtitle">Everything counselors need to track graduation requirements, manage students, and generate reports.</p>
+  <div class="grid-2">
+    <div>
+      <h4 style="color: #00897B; margin-bottom: 16px;">Dashboard & Monitoring</h4>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>Compliance Dashboard</strong> — Students categorized as on-track, at-risk, or below-minimum</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>School Hours Summary</strong> — Total hours, participation rate, grade-by-grade breakdown</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>Student List</strong> — All students with hours, badges, and compliance status</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>District Reports</strong> — Aggregate data across all schools in the district</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>Graduation Requirements</strong> — Set minimum hours per grade and total for graduation</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>Pre-Approval Workflow</strong> — Students request, counselors approve (HCPS CSL compatible)</span></div>
+    </div>
+    <div>
+      <h4 style="color: #00897B; margin-bottom: 16px;">Integration & Export</h4>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>Clever SSO</strong> — One-click login for students and staff, auto-role assignment</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>School Domain Detection</strong> — Auto-associate students by email domain</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>Bulk Student Import</strong> — Upload CSV roster to pre-register students</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>School Hours CSV Export</strong> — Download all student data for records</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>WinSchool / Naviance Export</strong> — SIS-compatible formats</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>HCPS CSL Reports</strong> — Compliance reporting for HCPS districts</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span><strong>Partner REST API</strong> — Programmatic access for custom SIS integration</span></div>
+    </div>
+  </div>
+  <div class="callout callout-teal">
+    <strong style="color: #00897B;">Compliance Built In:</strong> COPPA parental consent for under-13, FERPA-compliant data access, no PII logging, data deletion rights, role-based security rules
+  </div>
+  <div class="brand-footer">ImpactBadge</div>
+  <div class="slide-number">4</div>
+</div>
+
+<!-- SLIDE 5: Organization Features -->
+<div class="slide dark">
+  <span class="tag tag-orange">For Organizations & Nonprofits</span>
+  <h2 style="color: #f8fafc;">Manage Volunteers Effortlessly</h2>
+  <p class="subtitle">Create events, verify hours automatically, and measure your impact. 100% free for nonprofits.</p>
+  <div class="grid-3">
+    <div class="card-dark">
+      <h4 style="color: #E65100;">Event Management</h4>
+      <div class="feature-item"><span style="color: #cbd5e1;">Create events with location, date, capacity, category</span></div>
+      <div class="feature-item"><span style="color: #cbd5e1;">Multi-shift events with individual capacity per shift</span></div>
+      <div class="feature-item"><span style="color: #cbd5e1;">Auto-generated check-in PIN + QR code</span></div>
+      <div class="feature-item"><span style="color: #cbd5e1;">Edit or cancel events (volunteers auto-notified)</span></div>
+      <div class="feature-item"><span style="color: #cbd5e1;">Post announcements to registered volunteers</span></div>
+    </div>
+    <div class="card-dark">
+      <h4 style="color: #E65100;">Hours Verification</h4>
+      <div class="feature-item"><span style="color: #cbd5e1;"><strong style="color: #E65100;">NEW:</strong> GPS auto-verification on checkout</span></div>
+      <div class="feature-item"><span style="color: #cbd5e1;">Manual approve / reject / adjust hours</span></div>
+      <div class="feature-item"><span style="color: #cbd5e1;">Bulk verification (batch approve all)</span></div>
+      <div class="feature-item"><span style="color: #cbd5e1;">Self-reported hours with signature + photo review</span></div>
+      <div class="feature-item"><span style="color: #cbd5e1;">Pending verifications queue</span></div>
+    </div>
+    <div class="card-dark">
+      <h4 style="color: #E65100;">Analytics & Impact</h4>
+      <div class="feature-item"><span style="color: #cbd5e1;">Total registrations, check-ins, verified hours</span></div>
+      <div class="feature-item"><span style="color: #cbd5e1;">Repeat volunteer rate + no-show tracking</span></div>
+      <div class="feature-item"><span style="color: #cbd5e1;">Monthly registration trends</span></div>
+      <div class="feature-item"><span style="color: #cbd5e1;">CSV bulk import for existing volunteer data</span></div>
+      <div class="feature-item"><span style="color: #cbd5e1;">Webhook integration with external VMS</span></div>
+      <div class="feature-item"><span style="color: #cbd5e1;">Claim your org via EIN verification</span></div>
+    </div>
+  </div>
+  <div class="brand-footer" style="color: #475569;">ImpactBadge</div>
+  <div class="slide-number" style="color: #475569;">5</div>
+</div>
+
+<!-- SLIDE 6: Why Students Love It -->
+<div class="slide light">
+  <span class="tag tag-teal">Student Engagement</span>
+  <h2>Why Students Actually Use ImpactBadge</h2>
+  <p class="subtitle">The secret to adoption: students don't use tools schools force on them. They use tools they <em>want</em> to use.</p>
+  <div class="grid-3">
+    <div class="card" style="text-align: center;">
+      <div style="font-size: 42px; margin-bottom: 12px;">🏆</div>
+      <h4>Gamification</h4>
+      <p style="font-size: 14px; color: #64748b;">XP points, 7 levels, 11+ badges, daily streaks, challenges, leaderboards. Volunteering becomes a game they want to win.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <div style="font-size: 42px; margin-bottom: 12px;">🎓</div>
+      <h4>Common App Export</h4>
+      <p style="font-size: 14px; color: #64748b;">One-tap export formatted for college applications. No other app does this. Students' #1 pain point, solved.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <div style="font-size: 42px; margin-bottom: 12px;">📍</div>
+      <h4>Event Discovery</h4>
+      <p style="font-size: 14px; color: #64748b;">GPS-based nearby events, AI recommendations, map view. Students find opportunities they never knew existed.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <div style="font-size: 42px; margin-bottom: 12px;">💬</div>
+      <h4>Social Features</h4>
+      <p style="font-size: 14px; color: #64748b;">Friends, teams, messaging, group chat, shareable stories. Volunteering becomes social, not solitary.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <div style="font-size: 42px; margin-bottom: 12px;">⌚</div>
+      <h4>Easy Check-In</h4>
+      <p style="font-size: 14px; color: #64748b;">GPS, PIN, QR code, or Apple Watch. Check in takes 3 seconds. No paper, no signatures, no hassle.</p>
+    </div>
+    <div class="card" style="text-align: center;">
+      <div style="font-size: 42px; margin-bottom: 12px;">👥</div>
+      <h4>Referral Program</h4>
+      <p style="font-size: 14px; color: #64748b;">Students invite friends with referral codes and earn bonus XP. Your adoption grows organically, student by student.</p>
+    </div>
+  </div>
+  <div class="brand-footer">ImpactBadge</div>
+  <div class="slide-number">6</div>
+</div>
+
+<!-- SLIDE 7: How It Works -->
+<div class="slide white">
+  <span class="tag tag-teal">How It Works</span>
+  <h2>Getting Started Takes 5 Minutes</h2>
+  <div class="grid-2" style="margin-top: 20px;">
+    <div>
+      <h3 style="color: #00897B;">For Schools</h3>
+      <div style="margin-bottom: 20px; display: flex; gap: 16px; align-items: flex-start;">
+        <div style="width: 36px; height: 36px; border-radius: 50%; background: #00897B; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">1</div>
+        <div><strong>Connect via Clever SSO</strong><p style="font-size: 13px; color: #64748b;">Login with your Clever credentials. Students and staff are auto-imported with correct roles.</p></div>
+      </div>
+      <div style="margin-bottom: 20px; display: flex; gap: 16px; align-items: flex-start;">
+        <div style="width: 36px; height: 36px; border-radius: 50%; background: #00897B; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">2</div>
+        <div><strong>Set Graduation Requirements</strong><p style="font-size: 13px; color: #64748b;">Configure minimum hours per grade, categories, and deadlines from the web dashboard.</p></div>
+      </div>
+      <div style="margin-bottom: 20px; display: flex; gap: 16px; align-items: flex-start;">
+        <div style="width: 36px; height: 36px; border-radius: 50%; background: #00897B; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">3</div>
+        <div><strong>Monitor & Report</strong><p style="font-size: 13px; color: #64748b;">Watch your compliance dashboard. Export CSVs for Naviance, WinSchool, or your SIS anytime.</p></div>
+      </div>
+    </div>
+    <div>
+      <h3 style="color: #E65100;">For Organizations</h3>
+      <div style="margin-bottom: 20px; display: flex; gap: 16px; align-items: flex-start;">
+        <div style="width: 36px; height: 36px; border-radius: 50%; background: #E65100; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">1</div>
+        <div><strong>Create Your First Event</strong><p style="font-size: 13px; color: #64748b;">Add title, date, location, capacity, and category. A check-in PIN is auto-generated.</p></div>
+      </div>
+      <div style="margin-bottom: 20px; display: flex; gap: 16px; align-items: flex-start;">
+        <div style="width: 36px; height: 36px; border-radius: 50%; background: #E65100; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">2</div>
+        <div><strong>Students Discover & Register</strong><p style="font-size: 13px; color: #64748b;">Your event appears to nearby students. They register, get reminders, and check in automatically.</p></div>
+      </div>
+      <div style="margin-bottom: 20px; display: flex; gap: 16px; align-items: flex-start;">
+        <div style="width: 36px; height: 36px; border-radius: 50%; background: #E65100; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">3</div>
+        <div><strong>Hours Auto-Verified</strong><p style="font-size: 13px; color: #64748b;">GPS check-ins auto-verify hours. No manual approval needed. View analytics on your dashboard.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="brand-footer">ImpactBadge</div>
+  <div class="slide-number">7</div>
+</div>
+
+<!-- SLIDE 8: Competitive Advantage -->
+<div class="slide light">
+  <span class="tag tag-teal">Why ImpactBadge?</span>
+  <h2>What Makes Us Different</h2>
+  <div style="overflow-x: auto;">
+    <table>
+      <tr><th style="width: 30%;">Capability</th><th>ImpactBadge</th><th>x2VOL</th><th>Helper Helper</th><th>Track It Forward</th><th>MobileServe</th></tr>
+      <tr><td>Common App export</td><td class="yes">&#10003; Only us</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td></tr>
+      <tr><td>Gamification (XP, levels, streaks)</td><td class="yes">&#10003; Full system</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td></tr>
+      <tr><td>Parent controls + dashboard</td><td class="yes">&#10003; Full controls</td><td class="no">&#10007;</td><td>Dashboard only</td><td class="no">&#10007;</td><td class="no">&#10007;</td></tr>
+      <tr><td>GPS + PIN + QR check-in</td><td class="yes">&#10003; All three</td><td class="no">&#10007;</td><td>PIN + QR</td><td>GPS only</td><td>GPS only</td></tr>
+      <tr><td>GPS auto-verification</td><td class="yes">&#10003; NEW</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td></tr>
+      <tr><td>Event discovery + map view</td><td class="yes">&#10003;</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td></tr>
+      <tr><td>AI / NL event search</td><td class="yes">&#10003;</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td></tr>
+      <tr><td>Clever SSO</td><td class="yes">&#10003;</td><td class="yes">&#10003;</td><td class="yes">&#10003;</td><td class="no">&#10007;</td><td class="no">&#10007;</td></tr>
+      <tr><td>School compliance dashboard</td><td class="yes">&#10003;</td><td class="yes">&#10003;</td><td class="yes">&#10003;</td><td class="yes">&#10003;</td><td class="yes">&#10003;</td></tr>
+      <tr><td>District-level reports</td><td class="yes">&#10003;</td><td class="yes">&#10003;</td><td class="yes">&#10003;</td><td class="no">&#10007;</td><td class="no">&#10007;</td></tr>
+      <tr><td>Messaging + group chat</td><td class="yes">&#10003; Both</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td></tr>
+      <tr><td>Apple Watch + widget</td><td class="yes">&#10003; Only us</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td><td class="no">&#10007;</td></tr>
+      <tr style="background: #f0fdfa; font-weight: 700;"><td>Total features</td><td style="color: #00897B; font-size: 18px;">55+</td><td>22</td><td>26</td><td>18</td><td>18</td></tr>
+      <tr style="font-weight: 600;"><td>Price for students</td><td style="color: #00897B;">FREE</td><td>Paid</td><td>Paid</td><td>Free tier</td><td>Per-student</td></tr>
+    </table>
+  </div>
+  <div class="brand-footer">ImpactBadge</div>
+  <div class="slide-number">8</div>
+</div>
+
+<!-- SLIDE 9: Compliance & Security -->
+<div class="slide white">
+  <span class="tag tag-teal">Compliance & Security</span>
+  <h2>Built for K-12 from Day One</h2>
+  <div class="grid-2" style="margin-top: 20px;">
+    <div class="card-outline">
+      <h4 style="color: #00897B;">COPPA Compliance</h4>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Parental consent required for under-13 (grades 6-7)</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Email verification flow for parents</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Account blocked until consent granted</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Features restricted without parental approval</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Data deletion rights for parents</span></div>
+    </div>
+    <div class="card-outline">
+      <h4 style="color: #00897B;">FERPA Compliance</h4>
+      <div class="feature-item"><span class="check">&#10003;</span><span>School administrators control student record access</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Role-based access control (4 roles)</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>No PII in system logs</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Firestore security rules enforce data isolation</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Student data never sold to third parties</span></div>
+    </div>
+    <div class="card-outline">
+      <h4 style="color: #00897B;">Technical Security</h4>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Firebase Auth (encrypted at rest + in transit)</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Zod schema validation on all API inputs</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Rate limiting (10 check-ins/hour max)</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Server-side UID validation (no client trust)</span></div>
+    </div>
+    <div class="card-outline">
+      <h4 style="color: #00897B;">Platform & Testing</h4>
+      <div class="feature-item"><span class="check">&#10003;</span><span>2,300 automated tests, 100% pass rate</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>iOS app live on App Store</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Android app launching soon</span></div>
+      <div class="feature-item"><span class="check">&#10003;</span><span>Web admin portal deployed</span></div>
+    </div>
+  </div>
+  <div class="brand-footer">ImpactBadge</div>
+  <div class="slide-number">9</div>
+</div>
+
+<!-- SLIDE 10: Pricing -->
+<div class="slide teal">
+  <span class="tag tag-white">Pricing</span>
+  <h2>Simple, Transparent Pricing</h2>
+  <div class="grid-2" style="max-width: 800px; margin: 0 auto;">
+    <div class="card-teal" style="text-align: center; padding: 36px;">
+      <div style="font-size: 14px; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px;">Students & Nonprofits</div>
+      <div style="font-size: 64px; font-weight: 900; margin: 16px 0;">FREE</div>
+      <div style="font-size: 15px; opacity: 0.85;">Forever. No limits. All features.</div>
+      <div style="height: 1px; background: rgba(255,255,255,0.2); margin: 24px 0;"></div>
+      <div style="text-align: left; font-size: 14px; opacity: 0.85; line-height: 2;">
+        &#10003; Unlimited students<br>
+        &#10003; Unlimited events<br>
+        &#10003; All check-in methods<br>
+        &#10003; College exports<br>
+        &#10003; Gamification<br>
+        &#10003; Messaging & social
+      </div>
+    </div>
+    <div class="card-teal" style="text-align: center; padding: 36px; border: 2px solid rgba(255,255,255,0.4);">
+      <div style="font-size: 14px; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px;">Schools & Districts</div>
+      <div style="font-size: 64px; font-weight: 900; margin: 16px 0;">$2<span style="font-size: 20px; font-weight: 500;">/student/year</span></div>
+      <div style="font-size: 15px; opacity: 0.85;">Volume discounts for districts</div>
+      <div style="height: 1px; background: rgba(255,255,255,0.2); margin: 24px 0;"></div>
+      <div style="text-align: left; font-size: 14px; opacity: 0.85; line-height: 2;">
+        &#10003; Everything in Free<br>
+        &#10003; Clever SSO integration<br>
+        &#10003; Compliance dashboard<br>
+        &#10003; Graduation tracking<br>
+        &#10003; Bulk import + CSV export<br>
+        &#10003; District-level reports<br>
+        &#10003; Priority support
+      </div>
+    </div>
+  </div>
+  <div style="text-align: center; margin-top: 24px; font-size: 15px; opacity: 0.8;">
+    1,000-student school = $2,000/year &nbsp;|&nbsp; 10-school district = $15,000/year (volume pricing)
+  </div>
+  <div class="brand-footer" style="color: rgba(255,255,255,0.4);">ImpactBadge</div>
+  <div class="slide-number" style="color: rgba(255,255,255,0.4);">10</div>
+</div>
+
+<!-- SLIDE 11: CTA -->
+<div class="slide gradient">
+  <div style="text-align: center; max-width: 700px; margin: 0 auto;">
+    <h1 style="font-size: 48px; margin-bottom: 24px;">Let's Get Your School Started</h1>
+    <p style="font-size: 20px; opacity: 0.9; line-height: 1.6; margin-bottom: 48px;">
+      Schedule a 15-minute demo and see how ImpactBadge can automate your volunteer hour tracking,
+      improve student engagement, and simplify compliance reporting.
+    </p>
+    <div style="display: flex; gap: 40px; justify-content: center; margin-bottom: 48px;">
+      <div style="text-align: center;">
+        <div style="font-size: 13px; opacity: 0.6; margin-bottom: 6px;">Email</div>
+        <div style="font-size: 20px; font-weight: 700;">schools@impactbadge.app</div>
+      </div>
+      <div style="width: 1px; background: rgba(255,255,255,0.3);"></div>
+      <div style="text-align: center;">
+        <div style="font-size: 13px; opacity: 0.6; margin-bottom: 6px;">Website</div>
+        <div style="font-size: 20px; font-weight: 700;">impactbadge.app</div>
+      </div>
+      <div style="width: 1px; background: rgba(255,255,255,0.3);"></div>
+      <div style="text-align: center;">
+        <div style="font-size: 13px; opacity: 0.6; margin-bottom: 6px;">Download</div>
+        <div style="font-size: 20px; font-weight: 700;">Live on App Store</div>
+      </div>
+    </div>
+    <p style="font-size: 15px; opacity: 0.5;">ImpactBadge — Making Volunteering Count</p>
+  </div>
+  <div class="slide-number" style="color: rgba(255,255,255,0.3);">11</div>
+</div>
+
+</body>
+</html>
