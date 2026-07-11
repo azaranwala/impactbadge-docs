@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ImpactBadge — Outreach Probability & Competitive Analysis</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:960px;margin:0 auto;padding:40px 24px;color:#333;line-height:1.6;background:#fff}
+h1{color:#00897B;font-size:26px;border-bottom:3px solid #00897B;padding-bottom:10px}
+h2{color:#00695C;font-size:20px;margin-top:36px;border-bottom:1px solid #e0e0e0;padding-bottom:6px}
+h3{color:#333;margin-top:24px;font-size:16px}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:12px}
+th{background:#00897B;color:white;padding:8px 10px;text-align:left;font-size:11px}
+td{border:1px solid #e0e0e0;padding:6px 10px;vertical-align:top}
+tr:nth-child(even){background:#f9f9f9}
+a{color:#00897B;font-size:12px}
+.score{display:inline-block;padding:3px 12px;border-radius:12px;font-size:12px;font-weight:700;min-width:30px;text-align:center}
+.s-high{background:#e8f5e9;color:#2e7d32}
+.s-med{background:#fff3e0;color:#e65100}
+.s-low{background:#ffebee;color:#c62828}
+.header{background:linear-gradient(135deg,#00897B,#00695C);color:white;padding:28px;border-radius:12px;margin-bottom:28px;text-align:center}
+.header h1{color:white;border:none;margin:0;padding:0;font-size:28px}
+.header p{color:rgba(255,255,255,0.85);margin:6px 0 0;font-size:14px}
+.note{background:#FFF8E1;border-left:4px solid #F9A825;padding:10px 14px;border-radius:0 8px 8px 0;margin:14px 0;font-size:12px}
+.insight{background:#E8F5E9;border-left:4px solid #2E7D32;padding:10px 14px;border-radius:0 8px 8px 0;margin:14px 0;font-size:12px}
+.warning{background:#FFEBEE;border-left:4px solid #C62828;padding:10px 14px;border-radius:0 8px 8px 0;margin:14px 0;font-size:12px}
+code{background:#f5f5f5;padding:2px 6px;border-radius:4px;font-size:11px}
+</style>
+</head>
+<body><a href="index.html" style="display:inline-block;margin-bottom:20px;padding:6px 16px;background:#f0f4f3;border-radius:8px;font-size:13px;font-weight:600;color:#00897B;text-decoration:none">&larr; Back to Documentation Hub</a>
+
+<div class="header"><div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:8px"><div style="width:44px;height:44px;border-radius:12px;background:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#00897B;box-shadow:0 2px 8px rgba(0,0,0,0.15)">iB</div></div>
+<h1>Outreach Probability & Competitive Analysis</h1>
+<p>Which targets will respond? What tools do they currently use?</p>
+</div>
+
+<h2>1. Competitive Landscape — Who's Already There</h2>
+
+<table>
+<tr><th>Competitor</th><th>Pricing</th><th>Strengths</th><th>Weaknesses vs ImpactBadge</th><th>Known Customers</th></tr>
+<tr>
+<td><strong>x2VOL</strong></td>
+<td>Custom/school (paid)</td>
+<td>Market leader in K-12. 75M+ hours tracked. Naviance integration. WBL/CTE support.</td>
+<td>No gamification, no event discovery, no parent controls, no GPS check-in, no Common App export</td>
+<td>Arkansas schools (LEARNS Act), NYC DOE (Chancellor's endorsement), multiple large districts</td>
+</tr>
+<tr>
+<td><strong>Helper Helper</strong></td>
+<td>Custom (paid)</td>
+<td>Kiosk check-in, tamper-proof transcripts, SIS integrations (PowerSchool, Canvas, <strong>ClassLink, Clever</strong>)</td>
+<td>No gamification, no social features, no college app export, no parent dashboard</td>
+<td>Douglas County CO, hundreds of K-12 + universities</td>
+</tr>
+<tr>
+<td><strong>Track It Forward</strong></td>
+<td>Free tier → paid/100 users</td>
+<td>Free for service clubs, GPS/photo verify, <strong>ClassLink integration</strong>, good for small orgs</td>
+<td>No gamification, no event discovery, no parent controls, no Clever SSO</td>
+<td>Many individual schools and service clubs</td>
+</tr>
+<tr>
+<td><strong>MobileServe</strong></td>
+<td>Custom (paid)</td>
+<td>Goal setting by grade, photo reflections, PowerSchool + Blackbaud integration</td>
+<td>No social features, no Common App export, no parent controls, no event discovery</td>
+<td>K-12 schools, universities, Greek organizations</td>
+</tr>
+<tr>
+<td><strong>Paper forms / spreadsheets</strong></td>
+<td>Free</td>
+<td>No software to learn, no cost</td>
+<td>Everything — manual tracking, no automation, no analytics, error-prone, counselor time sink</td>
+<td>Majority of schools (estimated 60-70%)</td>
+</tr>
+</table>
+
+<div class="insight"><strong>Key Insight:</strong> 60-70% of schools still use paper forms and spreadsheets. x2VOL is the biggest competitor but charges per-school fees. Helper Helper has Clever + ClassLink but no gamification. <strong>ImpactBadge's free model + gamification + Common App export is the differentiation play.</strong></div>
+
+<h2>2. What Each Target Currently Uses</h2>
+
+<table>
+<tr><th>District / Org</th><th>Current Tool</th><th>Evidence</th><th>Switching Difficulty</th></tr>
+<tr><td><strong>HCPS (Henrico VA)</strong></td><td>Paper forms (MCPS Form 560-51 equivalent)</td><td>Website shows PDF forms for CSL verification. No mention of x2VOL or digital tool.</td><td><span class="score s-high">EASY</span> No existing tool to displace</td></tr>
+<tr><td><strong>DCPS (Washington DC)</strong></td><td>Paper forms</td><td>Uses "Community Service Verification Form" submitted to counselors. No digital tool mentioned.</td><td><span class="score s-high">EASY</span> Brand new 100-hr requirement</td></tr>
+<tr><td><strong>Arkansas (statewide)</strong></td><td>x2VOL (some), paper (most)</td><td>x2VOL press release mentions Arkansas LEARNS Act. But 237 districts — most are small, rural, using paper.</td><td><span class="score s-med">MEDIUM</span> x2VOL has some presence, but many districts unsolved</td></tr>
+<tr><td><strong>MCPS (Montgomery County MD)</strong></td><td>StudentVUE + paper forms</td><td>Students check hours in StudentVUE. Verification via MCPS Form 560-51. Partner with Montgomery County Volunteer Center (MCVC).</td><td><span class="score s-med">MEDIUM</span> Has a system but it's basic (forms + SIS)</td></tr>
+<tr><td><strong>PGCPS (Prince George's MD)</strong></td><td>Paper forms</td><td>Website references paper service learning forms. No digital tool mentioned.</td><td><span class="score s-high">EASY</span> No tool</td></tr>
+<tr><td><strong>Chicago CPS</strong></td><td>Unknown</td><td>Website describes project-based service learning but doesn't mention tracking tool. "Service Learning" page has no software references.</td><td><span class="score s-med">MEDIUM</span> Large bureaucracy, slow procurement</td></tr>
+<tr><td><strong>LAUSD</strong></td><td>Paper forms</td><td>"Community Service Verification Form" submitted to counselors. No digital tool.</td><td><span class="score s-med">MEDIUM</span> No tool but massive district = slow</td></tr>
+<tr><td><strong>FeedMore</strong></td><td>Internal system</td><td>Large org likely has volunteer management. But student hour verification is manual (email-based).</td><td><span class="score s-high">EASY</span> ImpactBadge adds value, doesn't replace</td></tr>
+<tr><td><strong>Richmond SPCA</strong></td><td>Manual tracking</td><td>Volunteer coordinator manages hours. No mention of digital tool for students.</td><td><span class="score s-high">EASY</span> No existing tool</td></tr>
+<tr><td><strong>Habitat for Humanity RVA</strong></td><td>Manual / VolunteerHub</td><td>National Habitat uses VolunteerHub. Local may use simpler tracking.</td><td><span class="score s-med">MEDIUM</span> May have parent org tool</td></tr>
+</table>
+
+<h2>3. Response Probability Scoring Model</h2>
+
+<p>Each target is scored on 6 factors (0-10 each). Total max = 60.</p>
+
+<table>
+<tr><th>Factor</th><th>Weight</th><th>What It Measures</th></tr>
+<tr><td><strong>Pain Level</strong></td><td>×2</td><td>How much do they struggle with current tracking? Higher = more likely to respond</td></tr>
+<tr><td><strong>No Existing Tool</strong></td><td>×2</td><td>Using paper/spreadsheets = 10. Using x2VOL/Helper = 2. Scoring inversely.</td></tr>
+<tr><td><strong>Mandate Urgency</strong></td><td>×1.5</td><td>New requirement (2026-2027) = 10. Established (1993) = 5. No mandate = 2.</td></tr>
+<tr><td><strong>Decision Speed</strong></td><td>×1</td><td>Single school = 10. Small district = 7. Large district = 4. State-level = 3.</td></tr>
+<tr><td><strong>Free Matters</strong></td><td>×1</td><td>Budget-constrained = 10. Well-funded = 5.</td></tr>
+<tr><td><strong>Relationship</strong></td><td>×1.5</td><td>Warm intro = 10. Cold email with name = 5. Generic = 2.</td></tr>
+</table>
+
+<h3>Scored Results — Districts</h3>
+
+<table>
+<tr><th>Rank</th><th>Target</th><th>Pain</th><th>No Tool</th><th>Urgency</th><th>Speed</th><th>Free</th><th>Relationship</th><th>Total</th><th>Probability</th></tr>
+<tr><td>1</td><td><strong>HCPS (Henrico VA)</strong></td><td>9×2=18</td><td>9×2=18</td><td>7×1.5=10.5</td><td>7×1=7</td><td>8×1=8</td><td>9×1.5=13.5</td><td><strong>75</strong></td><td><span class="score s-high">85%</span></td></tr>
+<tr><td>2</td><td><strong>DCPS (Washington DC)</strong></td><td>10×2=20</td><td>9×2=18</td><td>10×1.5=15</td><td>5×1=5</td><td>7×1=7</td><td>5×1.5=7.5</td><td><strong>72.5</strong></td><td><span class="score s-high">80%</span></td></tr>
+<tr><td>3</td><td><strong>Arkansas DOE</strong></td><td>9×2=18</td><td>7×2=14</td><td>10×1.5=15</td><td>3×1=3</td><td>9×1=9</td><td>5×1.5=7.5</td><td><strong>66.5</strong></td><td><span class="score s-high">70%</span></td></tr>
+<tr><td>4</td><td><strong>PGCPS (Prince George's MD)</strong></td><td>8×2=16</td><td>9×2=18</td><td>5×1.5=7.5</td><td>5×1=5</td><td>8×1=8</td><td>5×1.5=7.5</td><td><strong>62</strong></td><td><span class="score s-med">65%</span></td></tr>
+<tr><td>5</td><td><strong>Chesterfield VA</strong></td><td>7×2=14</td><td>8×2=16</td><td>5×1.5=7.5</td><td>6×1=6</td><td>8×1=8</td><td>5×1.5=7.5</td><td><strong>59</strong></td><td><span class="score s-med">60%</span></td></tr>
+<tr><td>6</td><td><strong>Deep Run HS (pilot)</strong></td><td>8×2=16</td><td>9×2=18</td><td>7×1.5=10.5</td><td>10×1=10</td><td>9×1=9</td><td>3×1.5=4.5</td><td><strong>68</strong></td><td><span class="score s-high">75%</span></td></tr>
+<tr><td>7</td><td><strong>MCPS (Montgomery MD)</strong></td><td>6×2=12</td><td>5×2=10</td><td>5×1.5=7.5</td><td>4×1=4</td><td>6×1=6</td><td>5×1.5=7.5</td><td><strong>47</strong></td><td><span class="score s-med">45%</span></td></tr>
+<tr><td>8</td><td><strong>Chicago CPS</strong></td><td>7×2=14</td><td>7×2=14</td><td>5×1.5=7.5</td><td>2×1=2</td><td>5×1=5</td><td>5×1.5=7.5</td><td><strong>50</strong></td><td><span class="score s-med">40%</span></td></tr>
+<tr><td>9</td><td><strong>LAUSD</strong></td><td>6×2=12</td><td>8×2=16</td><td>5×1.5=7.5</td><td>2×1=2</td><td>5×1=5</td><td>2×1.5=3</td><td><strong>45.5</strong></td><td><span class="score s-low">35%</span></td></tr>
+</table>
+
+<h3>Scored Results — Nonprofits</h3>
+
+<table>
+<tr><th>Rank</th><th>Target</th><th>Pain</th><th>No Tool</th><th>Urgency</th><th>Speed</th><th>Free</th><th>Relationship</th><th>Total</th><th>Probability</th></tr>
+<tr><td>1</td><td><strong>Richmond SPCA</strong></td><td>7×2=14</td><td>9×2=18</td><td>3×1.5=4.5</td><td>9×1=9</td><td>9×1=9</td><td>7×1.5=10.5</td><td><strong>65</strong></td><td><span class="score s-high">70%</span></td></tr>
+<tr><td>2</td><td><strong>FeedMore</strong></td><td>8×2=16</td><td>7×2=14</td><td>3×1.5=4.5</td><td>8×1=8</td><td>9×1=9</td><td>5×1.5=7.5</td><td><strong>59</strong></td><td><span class="score s-med">65%</span></td></tr>
+<tr><td>3</td><td><strong>Youth Volunteer Corps RVA</strong></td><td>8×2=16</td><td>8×2=16</td><td>5×1.5=7.5</td><td>9×1=9</td><td>9×1=9</td><td>3×1.5=4.5</td><td><strong>62</strong></td><td><span class="score s-med">65%</span></td></tr>
+<tr><td>4</td><td><strong>Habitat for Humanity RVA</strong></td><td>6×2=12</td><td>6×2=12</td><td>3×1.5=4.5</td><td>8×1=8</td><td>8×1=8</td><td>7×1.5=10.5</td><td><strong>55</strong></td><td><span class="score s-med">55%</span></td></tr>
+<tr><td>5</td><td><strong>HandsOn Greater Richmond</strong></td><td>5×2=10</td><td>4×2=8</td><td>3×1.5=4.5</td><td>7×1=7</td><td>7×1=7</td><td>3×1.5=4.5</td><td><strong>41</strong></td><td><span class="score s-low">35%</span></td></tr>
+</table>
+
+<h2>4. Strategic Recommendations</h2>
+
+<div class="insight"><strong>Highest ROI Targets (respond first, convert fastest):</strong>
+<ol style="margin:8px 0;font-size:13px">
+<li><strong>HCPS (85%)</strong> — your pilot district, building for their CSL, warm relationship</li>
+<li><strong>DCPS (80%)</strong> — brand new 100-hr mandate starting THIS YEAR, paper-only, desperate for tools</li>
+<li><strong>Deep Run HS (75%)</strong> — single school, fast decision, active Key Club, HCPS pilot candidate</li>
+<li><strong>Arkansas DOE (70%)</strong> — state-level contact, new mandate, 480K students with one meeting</li>
+<li><strong>Richmond SPCA (70%)</strong> — direct contact (Amber Stevens), no existing tool, teens love animals</li>
+</ol>
+</div>
+
+<div class="warning"><strong>Avoid (for now):</strong>
+<ul style="margin:8px 0;font-size:13px">
+<li><strong>LAUSD (35%)</strong> — massive bureaucracy, 18+ month procurement cycles, no warm intro</li>
+<li><strong>Districts already using x2VOL</strong> — switching cost is high; target districts NOT yet committed to a tool</li>
+<li><strong>HandsOn Greater Richmond (35%)</strong> — runs CFengage (competing platform), unlikely to adopt ImpactBadge</li>
+</ul>
+</div>
+
+<h2>5. How to Win Against x2VOL</h2>
+
+<table>
+<tr><th>x2VOL Weakness</th><th>ImpactBadge Advantage</th><th>Pitch Line</th></tr>
+<tr><td>Paid (custom pricing per school)</td><td><strong>Free for students + schools</strong></td><td>"Zero cost to your district. Students download the app, counselors get the dashboard."</td></tr>
+<tr><td>No gamification</td><td><strong>XP, levels, badges, streaks, challenges, leaderboards</strong></td><td>"Students actually want to use ImpactBadge. x2VOL is a chore. We make volunteering fun."</td></tr>
+<tr><td>No event discovery</td><td><strong>GPS-based event discovery with map</strong></td><td>"Students find volunteer opportunities near them, not just log hours they already did."</td></tr>
+<tr><td>No Common App export</td><td><strong>One-click Common App activity export</strong></td><td>"College-bound students export their hours directly to Common App. No other tool does this."</td></tr>
+<tr><td>No parent dashboard</td><td><strong>Parent linking + permissions + notifications</strong></td><td>"Parents see their child's progress. For under-13, we have full COPPA compliance."</td></tr>
+<tr><td>No mobile-first</td><td><strong>Native iOS + Android apps</strong></td><td>"Students live on their phones. ImpactBadge meets them where they are."</td></tr>
+</table>
+
+<h2>6. Competitive Intelligence by Target</h2>
+
+<table>
+<tr><th>Target</th><th>Likely Using</th><th>Win Strategy</th></tr>
+<tr><td>HCPS</td><td>Paper forms</td><td>Replace paper CSL forms with digital. Show compliance dashboard.</td></tr>
+<tr><td>DCPS</td><td>Paper forms</td><td>"100 hours starts this year. How will you track 50K students?" Show monthly digest email.</td></tr>
+<tr><td>Arkansas</td><td>x2VOL (some), paper (most)</td><td>Target the 200+ small/rural districts NOT using x2VOL. Free model wins on budget.</td></tr>
+<tr><td>MCPS (MD)</td><td>StudentVUE + forms</td><td>Complement StudentVUE with mobile check-in + gamification. Students use ImpactBadge, counselors see hours in StudentVUE via export.</td></tr>
+<tr><td>PGCPS (MD)</td><td>Paper forms</td><td>Same as DCPS — paper-based, needs digital solution.</td></tr>
+<tr><td>Chicago CPS</td><td>Unknown (likely manual)</td><td>Service learning project documentation — photos + reflections in ImpactBadge.</td></tr>
+<tr><td>Richmond nonprofits</td><td>Manual / spreadsheets</td><td>Lead with Impact Report PDF for grants. "Generate your grant report in 5 seconds."</td></tr>
+</table>
+
+<p style="text-align:center;color:#aaa;font-size:12px;margin-top:40px;border-top:1px solid #e0e0e0;padding-top:20px">
+ImpactBadge LLC &nbsp;|&nbsp; July 2026
+</p>
+
+</body>
+</html>
