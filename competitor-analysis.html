@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ImpactBadge — Competitive Analysis</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;max-width:1050px;margin:0 auto;padding:40px 20px;color:#333;line-height:1.6;background:#fff}
+h1{color:#00897B;font-size:26px;border-bottom:3px solid #00897B;padding-bottom:10px}
+h2{color:#00695C;font-size:20px;margin-top:36px;border-bottom:1px solid #e0e0e0;padding-bottom:6px}
+h3{color:#333;margin-top:24px;font-size:16px}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:11.5px}
+th{background:#00897B;color:white;padding:8px 8px;text-align:left;font-size:11px;white-space:nowrap}
+td{border:1px solid #e0e0e0;padding:6px 8px;vertical-align:top}
+tr:nth-child(even){background:#f9f9f9}
+.yes{color:#2e7d32;font-weight:700}
+.no{color:#c62828;font-weight:700}
+.partial{color:#e65100;font-weight:700}
+.free{color:#2e7d32;font-weight:700;background:#e8f5e9;padding:2px 8px;border-radius:10px;font-size:11px}
+.paid{color:#c62828;font-size:11px}
+a{color:#00897B;font-size:12px}
+.header{background:linear-gradient(135deg,#00897B,#00695C);color:white;padding:28px;border-radius:12px;margin-bottom:28px;text-align:center}
+.header h1{color:white;border:none;margin:0;padding:0;font-size:28px}
+.header p{color:rgba(255,255,255,0.85);margin:6px 0 0;font-size:14px}
+.back-link{display:inline-block;margin-bottom:20px;padding:6px 16px;background:#f0f4f3;border-radius:8px;font-size:13px;font-weight:600;color:#00897B;text-decoration:none}
+.insight{background:#E8F5E9;border-left:4px solid #2E7D32;padding:10px 14px;border-radius:0 8px 8px 0;margin:14px 0;font-size:12px}
+.warning{background:#FFEBEE;border-left:4px solid #C62828;padding:10px 14px;border-radius:0 8px 8px 0;margin:14px 0;font-size:12px}
+.winner{background:#e8f5e9}
+.footer{text-align:center;color:#aaa;font-size:12px;margin-top:40px;padding-top:20px;border-top:1px solid #e0e0e0}
+.footer a{color:#00897B;text-decoration:none}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back-link">&larr; Back to Documentation Hub</a>
+
+<div class="header">
+<div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:8px"><div style="width:44px;height:44px;border-radius:12px;background:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#00897B;box-shadow:0 2px 8px rgba(0,0,0,0.15)">iB</div></div>
+<h1>Competitive Analysis</h1>
+<p>ImpactBadge vs x2VOL vs Helper Helper vs Track It Forward vs MobileServe</p>
+</div>
+
+<h2>1. Company Overview</h2>
+
+<table>
+<tr><th></th><th>ImpactBadge</th><th>x2VOL</th><th>Helper Helper</th><th>Track It Forward</th><th>MobileServe</th></tr>
+<tr><td><strong>Founded</strong></td><td>2026</td><td>2009</td><td>~2013</td><td>~2014</td><td>~2014</td></tr>
+<tr><td><strong>Focus</strong></td><td>K-12 students (11-18)</td><td>K-12 schools + WBL/CTE</td><td>Schools + universities</td><td>Nonprofits + schools + clubs</td><td>Schools + universities + nonprofits</td></tr>
+<tr><td><strong>Hours Tracked</strong></td><td>New</td><td>75M+ approved hours</td><td>Hundreds of institutions</td><td>Unknown</td><td>Unknown</td></tr>
+<tr><td><strong>Pricing</strong></td><td class="winner"><span class="free">FREE</span></td><td><span class="paid">Custom/school (paid)</span></td><td><span class="paid">Custom (paid)</span></td><td><span class="paid">Free tier → paid/100 users</span></td><td><span class="paid">$500/yr + $250 setup</span></td></tr>
+<tr><td><strong>Website</strong></td><td><a href="https://impactbadge.app">impactbadge.app</a></td><td><a href="https://x2vol.com">x2vol.com</a></td><td><a href="https://helperhelper.com">helperhelper.com</a></td><td><a href="https://trackitforward.com">trackitforward.com</a></td><td><a href="https://mobileserve.com">mobileserve.com</a></td></tr>
+</table>
+
+<h2>2. Platform Availability</h2>
+
+<table>
+<tr><th>Platform</th><th>ImpactBadge</th><th>x2VOL</th><th>Helper Helper</th><th>Track It Forward</th><th>MobileServe</th></tr>
+<tr><td><strong>iOS App</strong></td><td class="yes">&#10004; Native SwiftUI</td><td class="yes">&#10004; Native</td><td class="yes">&#10004; Native</td><td class="yes">&#10004; Native</td><td class="yes">&#10004; Native</td></tr>
+<tr><td><strong>Android App</strong></td><td class="yes">&#10004; React Native</td><td class="yes">&#10004; Native</td><td class="yes">&#10004; Native</td><td class="yes">&#10004; Native</td><td class="yes">&#10004; Native</td></tr>
+<tr><td><strong>Web Dashboard</strong></td><td class="yes">&#10004; React (admin/school/teacher)</td><td class="yes">&#10004; Web portal</td><td class="yes">&#10004; Web portal</td><td class="yes">&#10004; Web portal</td><td class="yes">&#10004; Web portal</td></tr>
+<tr><td><strong>Apple Watch</strong></td><td class="winner"><span class="yes">&#10004; Check-in from wrist</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td><strong>Home Screen Widget</strong></td><td class="winner"><span class="yes">&#10004; Hours + streak</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+</table>
+
+<div class="insight"><strong>ImpactBadge is the only platform with Apple Watch and Home Screen Widget support.</strong></div>
+
+<h2>3. Feature-by-Feature Comparison</h2>
+
+<h3>3.1 Check-In & Hour Logging</h3>
+<table>
+<tr><th>Feature</th><th>ImpactBadge</th><th>x2VOL</th><th>Helper Helper</th><th>Track It Forward</th><th>MobileServe</th></tr>
+<tr><td>GPS Check-In</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td></tr>
+<tr><td>GPS Auto-Verify</td><td class="winner"><span class="yes">&#10004; Auto on checkout</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>PIN Check-In</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>QR Code Check-In</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Kiosk Mode</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td></tr>
+<tr><td>Self-Reported Hours</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td></tr>
+<tr><td>E-Signature Verification</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td></tr>
+<tr><td>Photo Evidence</td><td class="yes">&#10004; Up to 3</td><td class="no">&#10008;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td></tr>
+<tr><td>Supervisor Email Verify</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td></tr>
+<tr><td>Bulk Hour Verification</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+</table>
+
+<h3>3.2 Event Discovery & Management</h3>
+<table>
+<tr><th>Feature</th><th>ImpactBadge</th><th>x2VOL</th><th>Helper Helper</th><th>Track It Forward</th><th>MobileServe</th></tr>
+<tr><td>GPS Event Discovery</td><td class="winner"><span class="yes">&#10004; Map + list</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Category Filtering</td><td class="yes">&#10004; 8 categories</td><td class="no">&#10008;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td></tr>
+<tr><td>AI Recommendations</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Natural Language Search</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Event Registration + Waitlist</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td></tr>
+<tr><td>Multi-Shift Events</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Org Admin Event Creation</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td></tr>
+</table>
+
+<h3>3.3 Gamification & Engagement</h3>
+<table>
+<tr><th>Feature</th><th>ImpactBadge</th><th>x2VOL</th><th>Helper Helper</th><th>Track It Forward</th><th>MobileServe</th></tr>
+<tr><td>XP Points System</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Level Progression (7 tiers)</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Badge System (11+)</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="yes">&#10004; Basic</td><td class="no">&#10008;</td><td class="yes">&#10004; Basic</td></tr>
+<tr><td>Streak Tracking</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Challenges (time-limited)</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>School-vs-School Challenges</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Leaderboard (Global/School/Friends)</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="yes">&#10004; Basic</td><td class="yes">&#10004; Basic</td><td class="no">&#10008;</td></tr>
+<tr><td>Referral Program</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+</table>
+
+<div class="insight"><strong>ImpactBadge is the ONLY platform with a full gamification system.</strong> No competitor offers XP, levels, streaks, school challenges, or referral programs. This is the #1 student engagement differentiator.</div>
+
+<h3>3.4 Social Features</h3>
+<table>
+<tr><th>Feature</th><th>ImpactBadge</th><th>x2VOL</th><th>Helper Helper</th><th>Track It Forward</th><th>MobileServe</th></tr>
+<tr><td>1-on-1 Messaging</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Group Event Chat</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Friends / Follow</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Teams</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Event Reviews</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Reflections / Stories</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="yes">&#10004;</td></tr>
+</table>
+
+<h3>3.5 College & Export</h3>
+<table>
+<tr><th>Feature</th><th>ImpactBadge</th><th>x2VOL</th><th>Helper Helper</th><th>Track It Forward</th><th>MobileServe</th></tr>
+<tr><td>Common App Export</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>PDF Certificate</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="yes">&#10004; Transcript</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Naviance CSV</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Volunteer Portfolio</td><td class="winner"><span class="yes">&#10004; Full PDF</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Impact Report (Grants)</td><td class="winner"><span class="yes">&#10004; PDF emailed</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="partial">~ Reports</td></tr>
+</table>
+
+<h3>3.6 School Admin & Compliance</h3>
+<table>
+<tr><th>Feature</th><th>ImpactBadge</th><th>x2VOL</th><th>Helper Helper</th><th>Track It Forward</th><th>MobileServe</th></tr>
+<tr><td>Graduation Hour Tracking</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td></tr>
+<tr><td>Compliance Dashboard</td><td class="yes">&#10004; Color-coded</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="partial">~ Basic</td></tr>
+<tr><td>Auto Graduation Nudges</td><td class="winner"><span class="yes">&#10004; Monthly push + email</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>District-Level Reporting</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Bulk Student Import (CSV)</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>WBL/CTE Tracking</td><td class="no">&#10008;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Pre-Approval Workflow</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Teacher Read-Only Portal</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+</table>
+
+<h3>3.7 Parent & Guardian Features</h3>
+<table>
+<tr><th>Feature</th><th>ImpactBadge</th><th>x2VOL</th><th>Helper Helper</th><th>Track It Forward</th><th>MobileServe</th></tr>
+<tr><td>Parent Dashboard</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="yes">&#10004; Basic</td><td class="no">&#10008;</td><td class="partial">~ Engagement</td></tr>
+<tr><td>Parent-Child Linking</td><td class="winner"><span class="yes">&#10004; 6-digit code</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Permission Controls</td><td class="winner"><span class="yes">&#10004; Categories, limits</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>COPPA Compliance</td><td class="winner"><span class="yes">&#10004; Under-13 consent</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Parent Notifications</td><td class="winner"><span class="yes">&#10004;</span></td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+</table>
+
+<h3>3.8 Integrations</h3>
+<table>
+<tr><th>Integration</th><th>ImpactBadge</th><th>x2VOL</th><th>Helper Helper</th><th>Track It Forward</th><th>MobileServe</th></tr>
+<tr><td>Clever SSO</td><td class="yes">&#10004; Complete (SSO+Roster+LMS)</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>ClassLink SSO</td><td class="partial">~ Planned</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td></tr>
+<tr><td>Google SSO</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>PowerSchool SIS</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="yes">&#10004;</td></tr>
+<tr><td>Canvas LMS</td><td class="yes">&#10004; Via Clever LMS Connect</td><td class="no">&#10008;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Naviance</td><td class="yes">&#10004;</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Webhook API</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>Partner REST API</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td></tr>
+<tr><td>VolunteerMatch Import</td><td class="yes">&#10004;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="yes">&#10004;</td></tr>
+</table>
+
+<h2>4. Feature Count Summary</h2>
+
+<table>
+<tr><th>Category</th><th>ImpactBadge</th><th>x2VOL</th><th>Helper Helper</th><th>Track It Forward</th><th>MobileServe</th></tr>
+<tr><td>Check-In & Hours</td><td class="winner"><strong>9/10</strong></td><td>4/10</td><td>6/10</td><td>6/10</td><td>6/10</td></tr>
+<tr><td>Event Discovery</td><td class="winner"><strong>7/7</strong></td><td>0/7</td><td>3/7</td><td>2/7</td><td>1/7</td></tr>
+<tr><td>Gamification</td><td class="winner"><strong>8/8</strong></td><td>0/8</td><td>2/8</td><td>1/8</td><td>1/8</td></tr>
+<tr><td>Social</td><td class="winner"><strong>6/6</strong></td><td>1/6</td><td>1/6</td><td>0/6</td><td>1/6</td></tr>
+<tr><td>College & Export</td><td class="winner"><strong>5/5</strong></td><td>2/5</td><td>1/5</td><td>0/5</td><td>1/5</td></tr>
+<tr><td>School Admin</td><td><strong>7/8</strong></td><td class="winner"><strong>8/8</strong></td><td>3/8</td><td>2/8</td><td>2/8</td></tr>
+<tr><td>Parent Features</td><td class="winner"><strong>5/5</strong></td><td>0/5</td><td>1/5</td><td>0/5</td><td>1/5</td></tr>
+<tr><td>Integrations</td><td><strong>7/9</strong></td><td>4/9</td><td class="winner"><strong>5/9</strong></td><td>2/9</td><td>3/9</td></tr>
+<tr style="background:#e0f2f1"><td><strong>TOTAL</strong></td><td class="winner"><strong>54/58 (93%)</strong></td><td><strong>19/58 (33%)</strong></td><td><strong>22/58 (38%)</strong></td><td><strong>13/58 (22%)</strong></td><td><strong>16/58 (28%)</strong></td></tr>
+</table>
+
+<div class="insight"><strong>ImpactBadge covers 93% of all features — 2.5x more than the next closest competitor (Helper Helper at 38%).</strong> The only feature x2VOL has that ImpactBadge doesn't is WBL/CTE tracking (work-based learning), which is a niche feature for career-tech education programs.</div>
+
+<h2>5. Pricing Comparison</h2>
+
+<table>
+<tr><th></th><th>ImpactBadge</th><th>x2VOL</th><th>Helper Helper</th><th>Track It Forward</th><th>MobileServe</th></tr>
+<tr><td><strong>Student Cost</strong></td><td class="winner"><span class="free">FREE</span></td><td>Included in school license</td><td>Included</td><td>Included</td><td>Included</td></tr>
+<tr><td><strong>School Cost</strong></td><td class="winner"><span class="free">FREE</span></td><td>Custom quote (est. $2-5K/yr)</td><td>Custom quote</td><td>~$500-2K/yr (per 100 users)</td><td>$500/yr + $250 setup</td></tr>
+<tr><td><strong>Nonprofit Cost</strong></td><td class="winner"><span class="free">FREE</span></td><td>N/A (school product)</td><td>Custom</td><td>Free for &lt;25 users</td><td>$500/yr</td></tr>
+<tr><td><strong>Free Tier</strong></td><td class="yes">&#10004; Full features</td><td class="no">&#10008;</td><td class="no">&#10008;</td><td class="partial">~ Limited (25 users)</td><td class="partial">~ Limited trial</td></tr>
+</table>
+
+<h2>6. ImpactBadge Unique Differentiators (No Competitor Offers These)</h2>
+
+<table>
+<tr><th>#</th><th>Feature</th><th>Why It Matters</th></tr>
+<tr><td>1</td><td><strong>Common App Export</strong></td><td>Students format hours directly for college activities section — #1 pain point for college-bound teens</td></tr>
+<tr><td>2</td><td><strong>Full Gamification (XP/Levels/Streaks)</strong></td><td>Students actually want to use the app — engagement, not just compliance</td></tr>
+<tr><td>3</td><td><strong>School-vs-School Challenges</strong></td><td>Viral adoption — when one school competes, both schools' students hear about it</td></tr>
+<tr><td>4</td><td><strong>GPS Auto-Verification</strong></td><td>Zero manual work — check in with GPS, hours auto-verified on checkout</td></tr>
+<tr><td>5</td><td><strong>Parent Linking + Permissions + COPPA</strong></td><td>Only platform with full parental controls for under-18 volunteers</td></tr>
+<tr><td>6</td><td><strong>Volunteer Portfolio PDF</strong></td><td>Complete resume with hours, reflections, skills, badges — goes beyond a simple certificate</td></tr>
+<tr><td>7</td><td><strong>Apple Watch Check-In</strong></td><td>Check in from your wrist at the volunteer site</td></tr>
+<tr><td>8</td><td><strong>Grant-Ready Impact Report</strong></td><td>Nonprofits generate PDF with category breakdown, monthly trends, top volunteers — for grant applications</td></tr>
+<tr><td>9</td><td><strong>Referral Program</strong></td><td>Student-to-student viral growth — both earn XP when a friend signs up</td></tr>
+<tr><td>10</td><td><strong>Natural Language Search</strong></td><td>"Find me outdoor events this weekend near me" — AI-powered event discovery</td></tr>
+<tr><td>11</td><td><strong>Monthly Graduation Nudges</strong></td><td>Automatic push notifications to at-risk students + email digest to counselors</td></tr>
+<tr><td>12</td><td><strong>FREE for everyone</strong></td><td>No procurement process, no budget approval, no PO — students download, counselors see data</td></tr>
+</table>
+
+<div class="footer">
+<p>ImpactBadge LLC &nbsp;|&nbsp; <a href="index.html">Documentation Hub</a> &nbsp;|&nbsp; <a href="https://impactbadge.app">impactbadge.app</a> &nbsp;|&nbsp; July 2026</p>
+</div>
+
+</body>
+</html>
