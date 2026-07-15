@@ -58,6 +58,10 @@ tr:nth-child(even){background:#f9f9f9}
 <li>Manage Clever Sync connection</li>
 <li>Register school domains</li>
 <li>Generate Partner API keys</li>
+<li>Send school-wide announcements</li>
+<li>View COPPA compliance dashboard</li>
+<li>Export student data (FERPA requests)</li>
+<li>Restrict / unrestrict student accounts</li>
 </ul>
 </div>
 <div class="role-card" style="background:#f0f9f4">
@@ -93,11 +97,13 @@ tr:nth-child(even){background:#f9f9f9}
 
 <table>
 <tr><th>Section</th><th>What It Shows</th><th>Actions</th></tr>
-<tr><td><strong>Dashboard</strong></td><td>Total students, hours, compliance %, events</td><td>Overview stats, senior deadline alert</td></tr>
-<tr><td><strong>Compliance</strong></td><td>Color-coded student list (on track / at risk / below)</td><td>Filter by grade, search, school year progress</td></tr>
+<tr><td><strong>Dashboard</strong></td><td>Total students, hours, compliance %, events</td><td>Overview stats, senior deadline alert, click student name to open detail panel</td></tr>
+<tr><td><strong>Compliance</strong></td><td>Color-coded student list (on track / at risk / below)</td><td>Filter by grade/status, select at-risk students, bulk export, bulk nudge, click student for full detail</td></tr>
 <tr><td><strong>Approvals</strong></td><td>Pending pre-approval requests + hour verifications</td><td>Approve/reject with comments</td></tr>
 <tr><td><strong>Reports</strong></td><td>HCPS CSL reports (mid-year, annual, senior seal)</td><td>Generate + download as CSV</td></tr>
 <tr><td><strong>Import Students</strong></td><td>CSV roster upload</td><td>Bulk import with email, name, grade, student ID</td></tr>
+<tr><td><strong>Announcements</strong></td><td>Compose school-wide notifications</td><td>Send push + in-app alerts; target all students, at-risk only, below minimum, or by grade</td></tr>
+<tr><td><strong>COPPA</strong></td><td>Under-13 students and parental consent status</td><td>View consent status (granted/pending/rejected/expired), restrict/unrestrict accounts</td></tr>
 <tr><td><strong>Settings</strong></td><td>Graduation requirements, categories, deadlines</td><td>Set grad hours, per-grade mins, quarterly deadlines</td></tr>
 <tr><td><strong>District Report</strong></td><td>Multi-school aggregate statistics</td><td>View and export district-wide data</td></tr>
 <tr><td><strong>Clever Sync</strong></td><td>Roster sync status from Clever</td><td>View counts, trigger manual sync</td></tr>
@@ -175,6 +181,104 @@ tr:nth-child(even){background:#f9f9f9}
 <div class="step"><h4>3. Approve or Reject</h4><p>Approve to let the student proceed, or reject with a comment explaining why.</p></div>
 <div class="step"><h4>4. Student Notified</h4><p>Student receives a notification with the decision. Approved students can begin volunteering.</p></div>
 </div>
+
+<h2>Student Detail Panel</h2>
+
+<p>Click any student's name on the Dashboard or Compliance page to open a slide-out panel showing their complete record:</p>
+<ul>
+<li><strong>Events tab</strong> — every event attended with hours and verification status</li>
+<li><strong>Self-Report tab</strong> — all self-reported hours (pending/verified/rejected) with supervisor details</li>
+<li><strong>Pending tab</strong> — open pre-approval requests</li>
+<li><strong>Progress bar</strong> — hours toward graduation goal, compliance status badge</li>
+<li><strong>FERPA Export button</strong> — download all ImpactBadge data for the student as JSON (see FERPA section below)</li>
+<li><strong>Restrict / Remove Restriction button</strong> — place or lift an account hold</li>
+</ul>
+
+<h2>Announcements</h2>
+
+<p>Send in-app notifications and push alerts to students at your school from <strong>/school/announcements</strong>.</p>
+
+<h3>Targeting Options</h3>
+<table>
+<tr><th>Target</th><th>Who Receives It</th></tr>
+<tr><td>All Students</td><td>Every student at your school</td></tr>
+<tr><td>At-Risk Students</td><td>Students at 50–99% of the graduation goal</td></tr>
+<tr><td>Below Minimum</td><td>Students under 50% of the graduation goal</td></tr>
+<tr><td>Grade Filter</td><td>Any of the above narrowed to a specific grade (9–12)</td></tr>
+</table>
+
+<h3>Quick Templates</h3>
+<ul>
+<li><strong>Senior Deadline Reminder</strong> — alerts seniors that April 30 is approaching</li>
+<li><strong>Hours Check-In</strong> — nudges students who are behind on hours</li>
+<li><strong>New Events Available</strong> — notifies students of new opportunities nearby</li>
+</ul>
+
+<div class="tip"><strong>Bulk Nudge:</strong> On the Compliance page, check the "Select At-Risk" button to select all at-risk students, then click "Nudge X students" to send a targeted announcement in one click — without going to the Announcements page.</div>
+
+<h2>COPPA Compliance</h2>
+
+<p>Access at: <strong>impacthub-prod.web.app/school/coppa</strong></p>
+
+<p>The Children's Online Privacy Protection Act (COPPA) requires verified parental consent before students under 13 can use ImpactBadge. The COPPA dashboard shows every under-13 student at your school and their consent status.</p>
+
+<h3>Consent Statuses</h3>
+<table>
+<tr><th>Status</th><th>Meaning</th><th>Action Required</th></tr>
+<tr><td>✅ Granted</td><td>Parent approved via email link</td><td>None — student is active</td></tr>
+<tr><td>⏳ Pending</td><td>Consent email sent, awaiting parent response</td><td>Account is automatically locked until granted</td></tr>
+<tr><td>❌ Rejected</td><td>Parent clicked "I do not consent"</td><td>Restrict the account; student cannot use the app</td></tr>
+<tr><td>⌛ Expired</td><td>7-day consent link expired before parent responded</td><td>Restrict until new consent obtained</td></tr>
+</table>
+
+<h3>Account States</h3>
+<ul>
+<li><strong>Active</strong> — consent granted, student can fully use the app</li>
+<li><strong>Locked</strong> — automatic hold from <code>parentalConsentGranted: false</code> (set at signup). Student sees "waiting for parent approval" screen in the app.</li>
+<li><strong>Restricted</strong> — manual hold placed by school admin (via Restrict button). Used when consent is rejected or expired and the automatic lock needs reinforcement.</li>
+</ul>
+
+<div class="tip"><strong>Note:</strong> Most under-13 students don't need manual restriction — the automatic consent lock prevents them from acting until a parent approves. Use the Restrict button only when consent has been rejected or expired and you need to enforce the hold manually.</div>
+
+<h3>How the Consent Flow Works</h3>
+<div class="flow">
+<div class="step"><h4>1. Student Signs Up</h4><p>Student enters grade 6 or 7 during signup. App prompts for parent/guardian email.</p></div>
+<div class="step"><h4>2. Consent Email Sent</h4><p>ImpactBadge sends a COPPA consent email to the parent. Includes what data is collected, parent rights, and approve/reject buttons. Link expires in 7 days.</p></div>
+<div class="step"><h4>3. Parent Responds</h4><p>Parent clicks Approve → student account is unlocked. Parent clicks Reject → student is notified and account stays locked.</p></div>
+<div class="step"><h4>4. Counselor Monitors</h4><p>COPPA page shows all under-13 students and consent status. Counselor can restrict accounts for rejected/expired cases.</p></div>
+</div>
+
+<h3>Parent Rights Under COPPA</h3>
+<ul>
+<li>Right to review what data ImpactBadge has collected on their child</li>
+<li>Right to request deletion of their child's data — contact <strong>privacy@impactbadge.app</strong></li>
+<li>Right to revoke consent at any time — contact privacy@impactbadge.app; school admin should then restrict the account</li>
+</ul>
+
+<h2>FERPA — Student Data Access Requests</h2>
+
+<p>The Family Educational Rights and Privacy Act (FERPA) gives parents (and students 18+) the right to access education records. Since volunteer hours tracked in ImpactBadge are used for graduation compliance, they are considered education records once the school uses them officially.</p>
+
+<h3>When a Parent Submits a FERPA Request</h3>
+<div class="flow">
+<div class="step"><h4>1. Parent contacts the school</h4><p>Parent submits a written FERPA data request to the counselor or registrar.</p></div>
+<div class="step"><h4>2. Counselor opens the student's detail panel</h4><p>Go to Compliance → click the student's name.</p></div>
+<div class="step"><h4>3. Click FERPA Export</h4><p>Downloads a complete JSON file of all ImpactBadge data for that student.</p></div>
+<div class="step"><h4>4. Provide to parent within 45 days</h4><p>FERPA requires schools to respond within 45 days of a request.</p></div>
+</div>
+
+<h3>What the FERPA Export Contains</h3>
+<table>
+<tr><th>Section</th><th>Contents</th></tr>
+<tr><td>Profile</td><td>Name, email, grade, school, graduation year, student ID, total hours, badges, interests</td></tr>
+<tr><td>Hour Logs</td><td>Every event attended with hours, date, organization, and verification status</td></tr>
+<tr><td>Self-Reported Hours</td><td>All self-reports with supervisor name/email, description, signature, photos, status</td></tr>
+<tr><td>Parental Consents</td><td>All COPPA consent records with parent email, status, timestamps</td></tr>
+<tr><td>Skills</td><td>All skills on the student's profile</td></tr>
+<tr><td>Reflections</td><td>All post-event reflections submitted by the student</td></tr>
+</table>
+
+<div class="tip"><strong>Audit Trail:</strong> Every FERPA export is automatically logged in Firestore (<code>ferpaExportLog</code>) with the admin's name, timestamp, and student — so you have a complete record if needed.</div>
 
 <h2>Teacher Advisor Dashboard</h2>
 
