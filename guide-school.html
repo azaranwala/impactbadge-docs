@@ -145,13 +145,16 @@ tr:nth-child(even){background:#f9f9f9}
 
 <p>If your district uses Clever Complete, student and teacher rosters sync automatically:</p>
 <ul>
-<li><strong>Daily full sync</strong> at 2:00 AM EST — students, teachers, sections, schools</li>
-<li><strong>Every 15 minutes</strong> — incremental changes (new students, class transfers, removals)</li>
-<li><strong>Removals</strong> — students removed from Clever are archived (not deleted). Their hours are preserved.</li>
-<li><strong>Restorations</strong> — if a student reappears in Clever, they're automatically restored with all historical data.</li>
+<li><strong>Daily full sync</strong> at 2:00 AM EST — students, teachers, staff (counselors), sections, schools</li>
+<li><strong>Every 15 minutes</strong> — incremental changes (new students, class transfers, teacher reassignments, removals)</li>
+<li><strong>History preserved</strong> — every school transfer, grade change, class change, and teacher reassignment is automatically recorded before the profile is updated. Nothing is overwritten without a snapshot being saved first.</li>
+<li><strong>Removals</strong> — students removed from Clever are archived (not deleted). Their hours, history, and badges are preserved.</li>
+<li><strong>Restorations</strong> — if a student reappears in Clever, they're automatically restored with all historical data intact.</li>
 </ul>
 
 <p>View sync status at <strong>/school/clever</strong> — see counts, last sync time, and trigger a manual sync.</p>
+
+<div class="tip"><strong>Year-End Setup:</strong> Go to <strong>Settings → Year-End Date</strong> and enter your last day of school (e.g., 05-31 for May 31). ImpactBadge will automatically archive sections and create compliance snapshots on that date every year — no manual action needed.</div>
 
 <h2>Bulk Student Import (CSV)</h2>
 
@@ -190,8 +193,10 @@ tr:nth-child(even){background:#f9f9f9}
 <li><strong>Self-Report tab</strong> — all self-reported hours (pending/verified/rejected) with supervisor details</li>
 <li><strong>Pending tab</strong> — open pre-approval requests</li>
 <li><strong>Progress bar</strong> — hours toward graduation goal, compliance status badge</li>
-<li><strong>FERPA Export button</strong> — download all ImpactBadge data for the student as JSON (see FERPA section below)</li>
+<li><strong>FERPA Export button</strong> — download all ImpactBadge data for the student as JSON, including full school and class history (see FERPA section below)</li>
 <li><strong>Restrict / Remove Restriction button</strong> — place or lift an account hold</li>
+<li><strong>Under 13 badge</strong> — shown if student is a COPPA minor</li>
+<li><strong>Restricted badge</strong> — shown if a manual hold is active</li>
 </ul>
 
 <h2>Announcements</h2>
@@ -270,15 +275,54 @@ tr:nth-child(even){background:#f9f9f9}
 <h3>What the FERPA Export Contains</h3>
 <table>
 <tr><th>Section</th><th>Contents</th></tr>
-<tr><td>Profile</td><td>Name, email, grade, school, graduation year, student ID, total hours, badges, interests</td></tr>
+<tr><td>Profile</td><td>Name, email, grade, school, district, graduation year, student ID, state ID, total hours, badges, interests</td></tr>
 <tr><td>Hour Logs</td><td>Every event attended with hours, date, organization, and verification status</td></tr>
 <tr><td>Self-Reported Hours</td><td>All self-reports with supervisor name/email, description, signature, photos, status</td></tr>
 <tr><td>Parental Consents</td><td>All COPPA consent records with parent email, status, timestamps</td></tr>
 <tr><td>Skills</td><td>All skills on the student's profile</td></tr>
 <tr><td>Reflections</td><td>All post-event reflections submitted by the student</td></tr>
+<tr><td><strong>School History</strong></td><td>Complete record of every school, district, and grade the student has been in — with dates, hours at departure, and reason for transition (school transfer, district transfer, grade promotion)</td></tr>
+<tr><td><strong>Class / Section History</strong></td><td>Every class the student was ever enrolled in — section name, subject, period, grade level, all teachers assigned, and the full log of any teacher changes while the student was in that class</td></tr>
 </table>
 
-<div class="tip"><strong>Audit Trail:</strong> Every FERPA export is automatically logged in Firestore (<code>ferpaExportLog</code>) with the admin's name, timestamp, and student — so you have a complete record if needed.</div>
+<div class="tip"><strong>Audit Trail:</strong> Every FERPA export is automatically logged (<code>ferpaExportLog</code>) with the admin's name, timestamp, and student. School history and class history are always included, so the export is a complete picture of the student's entire time in ImpactBadge — even across multiple schools and districts.</div>
+
+<h2>Student History Tracking</h2>
+
+<p>ImpactBadge automatically preserves a complete, permanent audit trail for every student — across schools, teachers, classes, grades, and districts. Nothing is ever deleted. The student's volunteer hours, badges, and XP remain tied to their account for life.</p>
+
+<h3>What Gets Tracked Automatically</h3>
+<table>
+<tr><th>Change</th><th>What Triggers It</th><th>What's Preserved</th></tr>
+<tr><td>Grade promotion</td><td>Clever sync detects grade change (e.g., 9 → 10)</td><td>Previous grade, school, hours at time of promotion, date</td></tr>
+<tr><td>School transfer</td><td>Clever sync detects new school name</td><td>Previous school, hours logged there, dates enrolled, reason: school transfer</td></tr>
+<tr><td>District transfer</td><td>Clever sync detects new district</td><td>Previous district and school, hours, dates, reason: district transfer</td></tr>
+<tr><td>Joins a class</td><td>Student added to a section in Clever</td><td>Class name, subject, period, grade level, teacher(s) assigned, date joined</td></tr>
+<tr><td>Leaves a class / switches period</td><td>Student removed from section in Clever</td><td>Date left, teachers at time of departure — record preserved permanently</td></tr>
+<tr><td>Teacher reassignment</td><td>Teacher changes on any section the student is in</td><td>Previous teacher(s), new teacher(s), exact date of change — logged on the student's class record</td></tr>
+<tr><td>Year-end section archival</td><td>School's configured year-end date passes</td><td>All class memberships closed with departure date; annual compliance snapshot created</td></tr>
+</table>
+
+<h3>No Action Required</h3>
+<p>All history is captured automatically by the daily Clever sync (2AM) and the 15-minute real-time event poll. You do not need to take any action for history to be recorded — it happens the moment Clever reports a change.</p>
+
+<h3>Year-End Rollover</h3>
+<p>Configure your school's year-end date once in <strong>Settings → Year-End Date</strong> (e.g., May 31). On that date, ImpactBadge automatically:</p>
+<ul>
+<li>Archives all current Clever sections for your school (they disappear from active views)</li>
+<li>Creates a compliance snapshot for every student — recording their total hours, grade, and on-track status at year-end</li>
+<li>Sends an in-app notification to school admins confirming the rollover completed</li>
+</ul>
+<p>Student volunteer hours are <strong>never reset</strong> — cumulative totals carry forward. Only the active class roster is archived.</p>
+
+<h3>Viewing a Student's History</h3>
+<p>The full history is available in two places:</p>
+<ul>
+<li><strong>FERPA Export</strong> — the downloaded JSON includes the complete school history and class/section history with teacher change logs</li>
+<li><strong>Firestore (for technical staff)</strong> — stored in <code>users/{uid}/schoolHistory</code> and <code>users/{uid}/sectionMemberships</code> subcollections</li>
+</ul>
+
+<div class="tip"><strong>Why this matters:</strong> If a parent questions a student's compliance record after a school transfer, or a district auditor asks which teacher supervised a student in a given semester, ImpactBadge has the complete answer — automatically, with exact dates.</div>
 
 <h2>Teacher Advisor Dashboard</h2>
 
