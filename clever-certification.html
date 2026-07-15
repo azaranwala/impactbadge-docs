@@ -42,7 +42,7 @@ pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:a
   <p>ImpactBadge readiness assessment, gap analysis, and submission checklist for Clever Complete rostering certification</p>
 </div>
 
-<p class="meta"><strong>Status:</strong> Clever Complete contract signed &nbsp;|&nbsp; <strong>Date:</strong> July 13, 2026 &nbsp;|&nbsp; <strong>API Version:</strong> v3.1 &nbsp;|&nbsp; <strong>Integration:</strong> Rostering + SSO + LMS Connect</p>
+<p class="meta"><strong>Status:</strong> Clever Complete contract signed &nbsp;|&nbsp; <strong>Date:</strong> July 15, 2026 &nbsp;|&nbsp; <strong>API Version:</strong> v3.1 &nbsp;|&nbsp; <strong>Integration:</strong> Rostering + SSO + LMS Connect</p>
 
 <div class="section-box">
   <strong>Context:</strong> ImpactBadge has signed the Clever Complete agreement and rostering scopes are pending activation on the developer account. This document covers (1) what is already built, (2) gaps to close before certification submission, (3) new features now unlocked by Complete rostering, and (4) answers to the Clever Partner Engineering certification questionnaire.
@@ -69,10 +69,11 @@ pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:a
 <tr><td>Rate Limiting</td><td>Handle 429 responses</td><td><span class="status-pass">✅ PASS</span></td><td>Reads <code>Retry-After</code> header and waits</td></tr>
 <tr><td>Courses Sync</td><td>If used, handle archival</td><td><span class="status-partial">⚠️ PARTIAL</span></td><td>Course stored as string on sections; no <code>/courses</code> endpoint called</td></tr>
 <tr><td>Terms Sync</td><td>If used, handle archival</td><td><span class="status-partial">⚠️ PARTIAL</span></td><td>Term ID stored on sections; no <code>/terms</code> endpoint called</td></tr>
-<tr><td>Staff Role</td><td>Elevated-access users</td><td><span class="status-partial">⚠️ PARTIAL</span></td><td><code>getStaff()</code> API method exists but not called in daily sync</td></tr>
-<tr><td>Year-End Rollover</td><td>Rollover handling documented</td><td><span class="status-gap">❌ GAP</span></td><td>No rollover strategy implemented yet</td></tr>
-<tr><td>Certification ISD</td><td>Test against Clever test dataset</td><td><span class="status-gap">❌ GAP</span></td><td>Not yet tested against Certification ISD district</td></tr>
-<tr><td>state_id field</td><td>Should be stored if provided</td><td><span class="status-gap">❌ GAP</span></td><td>In CleverUser type but not written to Firestore in upsertStudent</td></tr>
+<tr><td>Staff Role</td><td>Elevated-access users</td><td><span class="status-pass">✅ PASS</span></td><td><code>getStaff()</code> now called in <code>syncDistrict()</code>; counselors/coordinators synced as <code>school_admin</code> role</td></tr>
+<tr><td>Year-End Rollover</td><td>Rollover handling documented</td><td><span class="status-pass">✅ PASS</span></td><td><code>yearEndRolloverJob</code> archives sections + creates <code>yearEndSnapshots</code> on school's configured <code>yearEndDate</code> (MM-DD). History preserved in <code>sectionMemberships</code> subcollection.</td></tr>
+<tr><td>state_id field</td><td>Should be stored if provided</td><td><span class="status-pass">✅ PASS</span></td><td><code>stateId</code> written in <code>upsertStudent()</code> from <code>student.roles.student.state_id</code></td></tr>
+<tr><td>Teacher Change Tracking</td><td>Preserve student-teacher associations</td><td><span class="status-pass">✅ PASS</span></td><td>Teacher reassignments recorded in <code>sectionMemberships.teacherChanges[]</code> + <code>cleverSections/teacherHistory</code></td></tr>
+<tr><td>Certification ISD</td><td>Test against Clever test dataset</td><td><span class="status-gap">❌ GAP</span></td><td>Not yet tested against Certification ISD district. Awaiting credentials from ASM.</td></tr>
 </table>
 
 <h2>2. What's Already Built</h2>
@@ -128,8 +129,8 @@ For teachers:
 <tr>
   <td>1</td>
   <td><strong>Year-End Rollover</strong></td>
-  <td><span class="badge badge-red">CRITICAL</span></td>
-  <td>Define and document strategy: at year end, archive old sections/terms; carry forward student historical data; do not delete volunteer hours. Clever certification asks specifically about rollover approach.</td>
+  <td><span class="badge badge-green">✅ DONE</span></td>
+  <td><code>yearEndRolloverJob</code> (daily 6AM EST) archives Clever sections on each school's configured <code>yearEndDate</code>, creates <code>yearEndSnapshots</code> per student, notifies school admins. Section membership history preserved in <code>users/{uid}/sectionMemberships</code> with teacher change log. Deployed July 14, 2026.</td>
 </tr>
 <tr>
   <td>2</td>
@@ -140,14 +141,14 @@ For teachers:
 <tr>
   <td>3</td>
   <td><strong>state_id Not Stored</strong></td>
-  <td><span class="badge badge-orange">HIGH</span></td>
-  <td>Add <code>stateId: student.roles.student.state_id || null</code> to the updateData object in <code>upsertStudent()</code> and to pendingStudents. Some states use state ID for compliance tracking.</td>
+  <td><span class="badge badge-green">✅ DONE</span></td>
+  <td><code>stateId</code> now written in <code>upsertStudent()</code> from <code>student.roles.student.state_id</code>. Deployed July 14, 2026.</td>
 </tr>
 <tr>
   <td>4</td>
   <td><strong>Staff Role Not Synced</strong></td>
-  <td><span class="badge badge-orange">HIGH</span></td>
-  <td>Call <code>cleverAPI.getStaff(appToken)</code> in <code>syncDistrict()</code> and route to <code>upsertTeacher()</code> with <code>school_admin</code> role. Staff (counselors, coordinators) need access but are not the same as teachers.</td>
+  <td><span class="badge badge-green">✅ DONE</span></td>
+  <td><code>getStaff()</code> now called in <code>syncDistrict()</code> alongside teachers. Staff (counselors, coordinators) routed to <code>upsertTeacher()</code> as <code>school_admin</code> role. Deployed July 14, 2026.</td>
 </tr>
 <tr>
   <td>5</td>
@@ -275,14 +276,14 @@ For teachers:
 
 <table>
 <tr><th>Step</th><th>Action</th><th>Status</th></tr>
-<tr><td>1</td><td>Close Gap #1: Define and document year-end rollover strategy</td><td><span class="badge badge-red">TODO</span></td></tr>
-<tr><td>2</td><td>Close Gap #3: Add <code>stateId</code> field to upsertStudent() and pendingStudents</td><td><span class="badge badge-red">TODO</span></td></tr>
-<tr><td>3</td><td>Close Gap #4: Add staff role to daily sync in syncDistrict()</td><td><span class="badge badge-red">TODO</span></td></tr>
-<tr><td>4</td><td>Request Certification ISD credentials from Application Success Manager</td><td><span class="badge badge-red">TODO</span></td></tr>
-<tr><td>5</td><td>Test full sync against Certification ISD (5-school dataset)</td><td><span class="badge badge-red">TODO</span></td></tr>
-<tr><td>6</td><td>Verify edge cases in Clever's certification spreadsheet</td><td><span class="badge badge-red">TODO</span></td></tr>
-<tr><td>7</td><td>Enable rostering scopes on Clever developer account</td><td><span class="badge badge-red">TODO (Clever-side)</span></td></tr>
-<tr><td>8</td><td>Deploy updated functions to production</td><td><span class="badge badge-red">TODO</span></td></tr>
+<tr><td>1</td><td>Close Gap #1: Year-end rollover strategy — <code>yearEndRolloverJob</code>, <code>yearEndSnapshots</code>, section archival, <code>sectionMemberships</code> history, teacher change tracking</td><td><span class="badge badge-green">✅ DONE Jul 14</span></td></tr>
+<tr><td>2</td><td>Close Gap #3: Add <code>stateId</code> field to upsertStudent()</td><td><span class="badge badge-green">✅ DONE Jul 14</span></td></tr>
+<tr><td>3</td><td>Close Gap #4: Add staff role to daily sync in syncDistrict()</td><td><span class="badge badge-green">✅ DONE Jul 14</span></td></tr>
+<tr><td>4</td><td>Deploy updated functions to production</td><td><span class="badge badge-green">✅ DONE Jul 14</span></td></tr>
+<tr><td>5</td><td>Enable rostering scopes on Clever developer account</td><td><span class="badge badge-red">TODO (Clever-side)</span></td></tr>
+<tr><td>6</td><td>Request Certification ISD credentials from Application Success Manager</td><td><span class="badge badge-red">TODO</span></td></tr>
+<tr><td>7</td><td>Test full sync against Certification ISD (5-school dataset)</td><td><span class="badge badge-red">TODO</span></td></tr>
+<tr><td>8</td><td>Verify edge cases in Clever's certification spreadsheet</td><td><span class="badge badge-red">TODO</span></td></tr>
 <tr><td>9</td><td>Contact ASM for certification form link</td><td><span class="badge badge-red">TODO</span></td></tr>
 <tr><td>10</td><td>Submit certification form to Clever Partner Engineering</td><td><span class="badge badge-red">TODO</span></td></tr>
 <tr><td>11</td><td>Partner Engineering review (typically 1–2 weeks)</td><td><span class="badge badge-red">PENDING</span></td></tr>
@@ -292,32 +293,39 @@ For teachers:
 <h2>7. Implementation Priority Order</h2>
 
 <div class="card">
-<strong>Week 1 — Close Certification Gaps (3 code changes, ~1 day total):</strong>
+<strong>✅ Completed (Jul 14, 2026):</strong>
 <ol>
-<li><strong>Add <code>stateId</code> to upsertStudent()</strong> — 5 minute change in <code>cleverRosterSync.ts</code></li>
-<li><strong>Add staff sync</strong> — call <code>getStaff()</code> in <code>syncDistrict()</code>, route to <code>upsertTeacher()</code></li>
-<li><strong>Document rollover strategy</strong> — define in schoolSettings + describe in cert questionnaire</li>
+<li><strong>stateId</strong> added to <code>upsertStudent()</code></li>
+<li><strong>Staff sync</strong> — <code>getStaff()</code> called in <code>syncDistrict()</code></li>
+<li><strong>Year-end rollover</strong> — <code>yearEndRolloverJob</code>, <code>yearEndSnapshots</code>, <code>schoolSettings.yearEndDate</code></li>
+<li><strong>Full student history</strong> — <code>schoolHistory</code> + <code>sectionMemberships</code> subcollections, teacher change log, section membership tracking in both daily sync and 15-min events poll</li>
+<li><strong>Deployed to production</strong></li>
 </ol>
-<strong>Week 1 — Get Certification ISD Access:</strong>
-<ol start="4">
-<li>Email Application Success Manager for Certification ISD credentials + certification form link</li>
-<li>Test sync against Certification ISD; fix any edge cases found</li>
-</ol>
-<strong>Week 2 — Submit + Build New Features:</strong>
+<strong>Next — Get Certification ISD Access (action required):</strong>
 <ol start="6">
-<li>Submit certification form</li>
-<li>Build teacher section scoping (Feature unlocked by Complete)</li>
-<li>Build parent contact auto-fill for COPPA (Feature unlocked by Complete)</li>
+<li>Email Application Success Manager for Certification ISD credentials + certification form link</li>
+<li>Wait for rostering scopes to be enabled on Clever developer account</li>
+<li>Test sync against Certification ISD 5-school dataset; fix any edge cases found</li>
+</ol>
+<strong>After Certification ISD Pass — Submit:</strong>
+<ol start="9">
+<li>Submit certification form to Clever Partner Engineering</li>
+<li>Build teacher section scoping in Advisor Dashboard (feature unlocked by Complete)</li>
+<li>Build parent contact auto-fill for COPPA (feature unlocked by Complete)</li>
 </ol>
 </div>
 
-<h2>8. Files to Modify for Gap Closure</h2>
+<h2>8. Files Changed for Gap Closure</h2>
 <table>
-<tr><th>File</th><th>Change</th><th>Gap Closed</th></tr>
-<tr><td><code>functions/src/clever/cleverRosterSync.ts</code></td><td>Add <code>stateId</code> to updateData in upsertStudent(); add getStaff() call in syncDistrict()</td><td>#3, #4</td></tr>
-<tr><td><code>functions/src/clever/cleverAPI.ts</code></td><td>Add getAdmins(), getCourses(), getTerms(), getContacts() methods</td><td>#5, #6, #8</td></tr>
-<tr><td><code>functions/src/clever/cleverAdminSetup.ts</code></td><td>Fix triggerCleverSyncCall to run full syncDistrict() including sections</td><td>#7</td></tr>
-<tr><td><code>functions/src/schools/schoolSettings.ts</code></td><td>Add rolloverStrategy field and year-end archival logic</td><td>#1</td></tr>
+<tr><th>File</th><th>Change</th><th>Status</th></tr>
+<tr><td><code>functions/src/clever/cleverRosterSync.ts</code></td><td>Added <code>stateId</code> to upsertStudent(); added getStaff() in syncDistrict(); added <code>recordSchoolTransitionIfChanged()</code> for school/grade/district history; added full section membership diffing (<code>recordStudentSectionJoins</code>, <code>recordStudentSectionDepartures</code>, <code>recordTeacherChange</code>)</td><td><span class="badge badge-green">✅ Deployed</span></td></tr>
+<tr><td><code>functions/src/clever/cleverEventsPoll.ts</code></td><td>sections.updated: diffs studentIds and teacherIds in real-time; sections.deleted: closes all active sectionMemberships</td><td><span class="badge badge-green">✅ Deployed</span></td></tr>
+<tr><td><code>functions/src/schools/yearEndRolloverJob.ts</code></td><td>NEW — daily 6AM job; archives sections on yearEndDate; creates yearEndSnapshots; notifies admins</td><td><span class="badge badge-green">✅ Deployed</span></td></tr>
+<tr><td><code>functions/src/schools/setHourRequirements.ts</code></td><td>Added yearEndDate, rolloverNotifyAdmins, preserveHistoricalCompliance fields to schoolSettings schema</td><td><span class="badge badge-green">✅ Deployed</span></td></tr>
+<tr><td><code>functions/src/schools/getSchoolSettings.ts</code></td><td>Returns new rollover fields</td><td><span class="badge badge-green">✅ Deployed</span></td></tr>
+<tr><td><code>functions/src/schools/exportStudentData.ts</code></td><td>FERPA export now includes schoolHistory and sectionMemberships subcollections</td><td><span class="badge badge-green">✅ Deployed</span></td></tr>
+<tr><td><code>functions/src/clever/cleverAPI.ts</code></td><td>getCourses(), getTerms(), getContacts() — still pending (gaps #5, #6, #8)</td><td><span class="badge badge-orange">Pending</span></td></tr>
+<tr><td><code>functions/src/clever/cleverAdminSetup.ts</code></td><td>Fix triggerCleverSyncCall to include sections — still pending (gap #7)</td><td><span class="badge badge-orange">Pending</span></td></tr>
 </table>
 
 <br>

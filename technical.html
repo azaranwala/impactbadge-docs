@@ -34,7 +34,7 @@ pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:a
 <p>Complete technical reference for the ImpactBadge volunteer tracking platform</p>
 </div>
 
-<p class="meta"><strong>Version:</strong> 1.3.0 &nbsp;|&nbsp; <strong>Date:</strong> July 13, 2026 &nbsp;|&nbsp; <strong>Project:</strong> impacthub-prod</p>
+<p class="meta"><strong>Version:</strong> 1.4.0 &nbsp;|&nbsp; <strong>Date:</strong> July 15, 2026 &nbsp;|&nbsp; <strong>Project:</strong> impacthub-prod</p>
 
 <h2>1. Architecture Overview</h2>
 <table>
@@ -121,12 +121,13 @@ pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:a
 <h3>2.4 Shifts (4), Hours (10), Students (18), Parents (6), Messaging (5), Challenges (4), Referrals (2), Import (5), Nonprofits/Orgs (6), Partner API (2)</h3>
 <p>See <code>functions/src/index.ts</code> for the complete export list of all 135+ functions organized by category.</p>
 
-<h3>2.4 Clever Complete (12 functions)</h3>
+<h3>2.5 Clever Complete (13 functions)</h3>
 <table>
 <tr><th>Function</th><th>Type</th><th>File</th><th>Purpose</th></tr>
 <tr><td>cleverOAuthCallback</td><td>onRequest</td><td>auth/cleverOAuthCallback.ts</td><td>SSO OAuth 2.0 flow (v3.1 API)</td></tr>
-<tr><td>cleverRosterSyncJob</td><td>Pub/Sub daily 2AM</td><td>clever/cleverRosterSync.ts</td><td>Full roster sync (students, teachers, sections, schools)</td></tr>
-<tr><td>cleverEventsPollJob</td><td>Pub/Sub every 15min</td><td>clever/cleverEventsPoll.ts</td><td>Incremental roster change polling</td></tr>
+<tr><td>cleverRosterSyncJob</td><td>Pub/Sub daily 2AM</td><td>clever/cleverRosterSync.ts</td><td>Full roster sync — students (with stateId), teachers, staff, sections, schools. Diffs section membership, records school/grade/district transitions into schoolHistory subcollection.</td></tr>
+<tr><td>cleverEventsPollJob</td><td>Pub/Sub every 15min</td><td>clever/cleverEventsPoll.ts</td><td>Incremental roster change polling. Handles section member joins/departures, teacher reassignments, section archival in real-time.</td></tr>
+<tr><td>yearEndRolloverJob</td><td>Pub/Sub daily 6AM</td><td>schools/yearEndRolloverJob.ts</td><td>On school's configured yearEndDate: archives Clever sections, creates yearEndSnapshots for all students, notifies school admins.</td></tr>
 <tr><td>connectCleverDistrictCall</td><td>onCall</td><td>clever/cleverAdminSetup.ts</td><td>Connect district with app token</td></tr>
 <tr><td>getCleverSyncStatusCall</td><td>onCall</td><td>clever/cleverAdminSetup.ts</td><td>Sync status for dashboard</td></tr>
 <tr><td>triggerCleverSyncCall</td><td>onCall</td><td>clever/cleverAdminSetup.ts</td><td>Manual sync trigger (rate limited 1/hr)</td></tr>
@@ -141,8 +142,10 @@ pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:a
 <h2>3. Firestore Data Model</h2>
 <table>
 <tr><th>Collection</th><th>Key Fields</th><th>Access</th></tr>
-<tr><td>users/{uid}</td><td>name, email, role, schoolName, districtName, studentId, totalHours, xpPoints, streakDays, cleverUserId, cleverDataType</td><td>Owner read/write (role/orgId blocked)</td></tr>
+<tr><td>users/{uid}</td><td>name, email, role, schoolName, districtName, studentId, stateId, totalHours, xpPoints, streakDays, cleverUserId, cleverDataType, cleverArchived, cleverArchivedAt</td><td>Owner read/write (role/orgId blocked)</td></tr>
 <tr><td>users/{uid}/hours/{id}</td><td>eventId, hoursLogged, verified, date, orgName, ein</td><td>Owner read, org admin write</td></tr>
+<tr><td>users/{uid}/schoolHistory/{id}</td><td>schoolName, districtName, cleverDistrictId, grade, totalVerifiedHours, fromDate, toDate, reason (school_transfer | district_transfer | year_end_rollover), snapshotAt</td><td>Cloud Functions write; school admin read via exportStudentData</td></tr>
+<tr><td>users/{uid}/sectionMemberships/{sectionId}</td><td>sectionName, course, subject, period, grade, teacherIds[], teacherChanges[{from, to, changedAt}], joinedAt, leftAt, active, teacherIdsAtDeparture</td><td>Cloud Functions write; school admin read via exportStudentData</td></tr>
 <tr><td>events/{eventId}</td><td>title, orgId, lat, lng, geoHash, startDate, category, maxSlots, registeredCount</td><td>All read, org admin write</td></tr>
 <tr><td>events/{eventId}/registrations/{uid}</td><td>status, checkInAt, checkOutAt, hoursLogged, checkInMethod</td><td>Owner + org admin</td></tr>
 <tr><td>organizations/{orgId}</td><td>name, ein, webhookKey, claimedByOrgId</td><td>All read, org admin write</td></tr>
@@ -150,15 +153,17 @@ pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:a
 <tr><td>selfReportedHours/{id}</td><td>studentUid, supervisorEmail, hoursLogged, status, verificationToken</td><td>Owner read, Cloud Functions write</td></tr>
 <tr><td>conversations/{id}/messages/{id}</td><td>senderUid, text, createdAt</td><td>Participants only (H-1 fix)</td></tr>
 <tr><td>challenges/{id}</td><td>title, metric, targetValue, scope, rewardXP, startsAt, endsAt</td><td>All read, Cloud Functions write</td></tr>
-<tr><td>schoolSettings/{id}</td><td>graduationMinHours, perGradeMinHours, seniorDeadline, requiresPreApproval</td><td>Teacher/school admin read</td></tr>
+<tr><td>schoolSettings/{id}</td><td>graduationMinHours, perGradeMinHours, seniorDeadline, requiresPreApproval, yearEndDate (MM-DD), rolloverNotifyAdmins, preserveHistoricalCompliance, lastRolloverAt, lastRolloverYear</td><td>Teacher/school admin read</td></tr>
 <tr><td>cleverDistricts/{id}</td><td>districtAppToken, syncEnabled, lastSyncAt, syncedStudents</td><td>Deny all client access</td></tr>
 <tr><td>cleverSchools/{id}</td><td>name, ncesId, address, districtId</td><td>Teacher/school admin read</td></tr>
-<tr><td>cleverSections/{id}</td><td>name, teacherIds, studentIds, subject, grade</td><td>Teacher/school admin read</td></tr>
+<tr><td>cleverSections/{id}</td><td>name, teacherIds, studentIds, subject, grade, course, period, termId, schoolId, districtId, archived, archivedAt, archivedReason</td><td>Teacher/school admin read</td></tr>
+<tr><td>cleverSections/{id}/teacherHistory/{id}</td><td>previousTeacherIds[], newTeacherIds[], changedAt</td><td>Cloud Functions write; school admin read</td></tr>
 <tr><td>lmsAssignments/{id}</td><td>cleverAssignmentId, title, sectionId, requiredHours, pointsPossible</td><td>Teacher/school admin read</td></tr>
 <tr><td>lmsSubmissions/{id}</td><td>assignmentId, studentUid, hoursCompleted, grade, status</td><td>Teacher/school admin read</td></tr>
 <tr><td>parental_consents/{id}</td><td>studentUid, parentEmail, status (pending/granted/rejected/expired), createdAt, verifiedAt, expiresAt, token</td><td>Cloud Functions only</td></tr>
 <tr><td>ferpaExportLog/{id}</td><td>studentUid, studentName, schoolName, requestedByUid, requestedByName, exportedAt</td><td>Cloud Functions write, school admin read (audit)</td></tr>
 <tr><td>restrictionLog/{id}</td><td>studentUid, studentName, schoolName, action (restricted/unrestricted), reason, actorUid, actorName, timestamp</td><td>Cloud Functions write, school admin read (audit)</td></tr>
+<tr><td>yearEndSnapshots/{id}</td><td>studentUid, studentName, schoolName, districtName, grade, schoolYear, totalVerifiedHours, graduationMinHours, onTrack, snapshotAt</td><td>Cloud Functions write; school admin read</td></tr>
 </table>
 
 <h3>3.1 Composite Indexes (Key)</h3>
@@ -172,6 +177,25 @@ pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:a
 <tr><td>events</td><td>orgId ASC, startDate DESC</td><td>Org event list</td></tr>
 <tr><td>registrations</td><td>orgId ASC, status ASC</td><td>Org attendance queries</td></tr>
 </table>
+
+<h2>3.2 Student History Tracking</h2>
+<p>Every change to a student's school, grade, district, class, or teacher is preserved permanently. The student's Firebase UID is the immutable anchor — volunteer hours, badges, and XP are never moved or deleted.</p>
+
+<table>
+<tr><th>Transition</th><th>Trigger</th><th>Where Recorded</th></tr>
+<tr><td>Grade promotion (same school)</td><td>Daily Clever sync: <code>grade</code> changes</td><td><code>schoolHistory</code> — reason: <code>year_end_rollover</code></td></tr>
+<tr><td>School transfer</td><td>Daily Clever sync: <code>schoolName</code> changes</td><td><code>schoolHistory</code> — reason: <code>school_transfer</code></td></tr>
+<tr><td>District transfer</td><td>Daily Clever sync: <code>districtName</code> changes</td><td><code>schoolHistory</code> — reason: <code>district_transfer</code></td></tr>
+<tr><td>Joins a class section</td><td>Student appears in section's <code>studentIds</code></td><td><code>sectionMemberships/{sectionId}</code> — <code>joinedAt</code> set, <code>active: true</code></td></tr>
+<tr><td>Leaves a class / switches period</td><td>Student removed from section's <code>studentIds</code></td><td><code>sectionMemberships/{sectionId}</code> — <code>leftAt</code> stamped, <code>active: false</code></td></tr>
+<tr><td>Teacher reassignment</td><td>Section's <code>teacherIds</code> changes</td><td><code>sectionMemberships.teacherChanges[]</code> appended; <code>cleverSections/teacherHistory</code> written</td></tr>
+<tr><td>Section archived (year-end or deleted)</td><td><code>sections.deleted</code> event or <code>yearEndRolloverJob</code></td><td>All active memberships closed with <code>leftAt</code> + <code>departureReason</code></td></tr>
+<tr><td>Annual compliance snapshot</td><td><code>yearEndRolloverJob</code> on school's <code>yearEndDate</code></td><td><code>yearEndSnapshots/{id}</code> — hours, grade, on-track status at year-end</td></tr>
+</table>
+
+<p><strong>Storage estimate per student (6-year K-12 lifecycle):</strong> ~150–300 Firestore documents total across all subcollections. Cost: &lt;$0.01 per student per year. No pruning or TTL applied — all history is permanent.</p>
+
+<p><strong>FERPA export includes:</strong> profile, hourLogs, selfReportedHours, parental consents, skills, reflections, <strong>schoolHistory</strong>, and <strong>sectionMemberships</strong> (with full teacherChanges log per section).</p>
 
 <h2>4. Security Implementation</h2>
 
@@ -363,7 +387,7 @@ CLEVER_WEB_APP_URL=https://impacthub-prod.web.app
 
 <br>
 <p class="meta" style="text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid #e0e0e0;">
-ImpactBadge LLC &nbsp;|&nbsp; Technical Documentation &nbsp;|&nbsp; July 2026 (v1.3.0)<br>
+ImpactBadge LLC &nbsp;|&nbsp; Technical Documentation &nbsp;|&nbsp; July 2026 (v1.4.0)<br>
 Generated by Claude Code
 </p>
 </body>
