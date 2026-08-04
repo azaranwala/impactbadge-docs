@@ -32,8 +32,8 @@ strong{color:#1a1a1a}
 <div style="background:linear-gradient(135deg,#00897B,#00695C);padding:24px 32px;border-radius:12px;margin-bottom:24px;text-align:center"><div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:4px"><div style="width:40px;height:40px;border-radius:10px;background:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#00897B;box-shadow:0 2px 8px rgba(0,0,0,0.15)"><svg width="28" height="28" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"><circle cx="22" cy="22" r="18" fill="#00897B"/><path d="M22 9l4 8 8 2-6 5.5 1.5 8L22 28l-7.5 4.5L16 24.5 10 19l8-2z" fill="white"/></svg></div></div><div style="color:white;font-size:22px;font-weight:800">ImpactBadge</div></div><a href="index.html" class="back-link">&larr; Back to Documentation Hub</a>
 <h1 id="impactbadge--test-coverage-report">ImpactBadge — Test Coverage Report</h1>
 
-<p><strong>Date</strong>: July 5, 2026</p>
-<p><strong>Executed</strong>: 3 rounds across all platforms</p>
+<p><strong>Date</strong>: August 3, 2026</p>
+<p><strong>Executed</strong>: Full audit across all platforms (Phase 2 features complete)</p>
 <p><strong>Result</strong>: 100% pass rate — zero failures</p>
 
 <hr>
@@ -42,29 +42,30 @@ strong{color:#1a1a1a}
 
 <table>
 <tr><th>Metric</th><th>Value</th></tr>
-<tr><td>Total unique tests</td><td><strong>2,316</strong></td></tr>
-<tr><td>Total executions (3 rounds x 4 platforms)</td><td><strong>6,948</strong></td></tr>
+<tr><td>Total unit tests</td><td><strong>2,918</strong></td></tr>
+<tr><td>Total E2E tests</td><td><strong>78</strong> (45 iOS + 33 Android)</td></tr>
+<tr><td>Grand total</td><td><strong>2,996</strong></td></tr>
 <tr><td>Total failures</td><td><strong>0</strong></td></tr>
 <tr><td>Pass rate</td><td><strong>100%</strong></td></tr>
 </table>
 
 <hr>
 
-<h2 id="3-round-test-results">3-Round Test Results</h2>
+<h2 id="platform-test-results">Platform Test Results</h2>
 
 <table>
-<tr><th>Platform</th><th>Round 1</th><th>Round 2</th><th>Round 3</th><th>Status</th></tr>
-<tr><td><strong>Backend (Jest)</strong></td><td>1,209/1,209</td><td>1,209/1,209</td><td>1,209/1,209</td><td>ALL PASSED</td></tr>
-<tr><td><strong>Web Portal (Vitest)</strong></td><td>92/92</td><td>92/92</td><td>92/92</td><td>ALL PASSED</td></tr>
-<tr><td><strong>Android (Jest)</strong></td><td>336/336</td><td>336/336</td><td>336/336</td><td>ALL PASSED</td></tr>
-<tr><td><strong>iOS (XCTest)</strong></td><td>678/678</td><td>679/679</td><td>679/679</td><td>ALL PASSED</td></tr>
+<tr><th>Platform</th><th>Unit Tests</th><th>E2E Tests</th><th>Total</th><th>Status</th></tr>
+<tr><td><strong>Backend (Jest)</strong></td><td>1,673 (78 files)</td><td>—</td><td>1,673</td><td>ALL PASSED</td></tr>
+<tr><td><strong>Web Portal (Vitest)</strong></td><td>92 (8 files)</td><td>—</td><td>92</td><td>ALL PASSED</td></tr>
+<tr><td><strong>Android (Jest + Detox)</strong></td><td>469 (20 files)</td><td>33 (7 files)</td><td>502</td><td>ALL PASSED</td></tr>
+<tr><td><strong>iOS (XCTest)</strong></td><td>684 (22 files, 5 skipped)</td><td>45 (10 files)</td><td>729</td><td>ALL PASSED</td></tr>
 </table>
 
 <hr>
 
 <h2 id="unit-test-coverage-by-category">Unit Test Coverage by Category</h2>
 
-<h3 id="backend--59-suites-1209-tests">Backend — 59 Suites, 1,209 Tests</h3>
+<h3 id="backend--78-suites-1673-tests">Backend — 78 Suites, 1,673 Tests</h3>
 
 <table>
 <tr><th>Category</th><th>Suite</th><th>Tests</th><th>Type</th><th>Covers</th></tr>
@@ -144,7 +145,7 @@ strong{color:#1a1a1a}
 <tr><td>api</td><td>31</td><td>Unit</td><td>All 37 API function declarations</td></tr>
 </table>
 
-<h3 id="android--14-suites-336-tests">Android — 14 Suites, 336 Tests</h3>
+<h3 id="android--20-suites-469-unit--33-e2e-tests">Android — 20 Suites, 469 Unit + 33 Detox E2E Tests</h3>
 
 <table>
 <tr><th>Suite</th><th>Tests</th><th>Type</th><th>Covers</th></tr>
@@ -164,7 +165,7 @@ strong{color:#1a1a1a}
 <tr><td>SelfReportScreen</td><td>0</td><td>Skipped</td><td>Pre-existing react-native-view-shot mock issue</td></tr>
 </table>
 
-<h3 id="ios--22-suites-679-tests">iOS — 22 Suites, 679 Tests</h3>
+<h3 id="ios--22-suites-684-unit--45-e2e-tests">iOS — 22 Suites, 684 Unit + 45 E2E Tests</h3>
 
 <table>
 <tr><th>Suite</th><th>Tests</th><th>Type</th><th>Covers</th></tr>
@@ -195,6 +196,25 @@ strong{color:#1a1a1a}
 <tr><td><strong>Views (1 suite)</strong></td><td></td><td></td><td></td></tr>
 <tr><td>ColorHexTests</td><td>~10</td><td>Unit</td><td>Hex color parsing, tealPrimary, accentOrange</td></tr>
 </table>
+
+<h3 id="ios-e2e--10-suites-45-tests">iOS E2E — 10 Suites, 45 Tests</h3>
+
+<table>
+<tr><th>Suite</th><th>Tests</th><th>Type</th><th>Covers</th></tr>
+<tr><td>AdminTests</td><td>4</td><td>E2E</td><td>Admin flows</td></tr>
+<tr><td>AuthTests</td><td>7</td><td>E2E</td><td>Sign in, sign up, sign out</td></tr>
+<tr><td>CheckInTests</td><td>3</td><td>E2E</td><td>GPS/PIN check-in flows</td></tr>
+<tr><td>EventsTests</td><td>9</td><td>E2E</td><td>Event discovery, detail, registration</td></tr>
+<tr><td>HoursTests</td><td>6</td><td>E2E</td><td>Hours dashboard, self-report</td></tr>
+<tr><td>LaunchTests</td><td>3</td><td>E2E</td><td>App launch, onboarding</td></tr>
+<tr><td>MessagingTests</td><td>3</td><td>E2E</td><td>Messaging flows</td></tr>
+<tr><td>ProfileTests</td><td>9</td><td>E2E</td><td>Profile view, edit, settings</td></tr>
+<tr><td>RegressionTests</td><td>1</td><td>E2E</td><td>Critical regression checks</td></tr>
+</table>
+
+<h3 id="android-e2e--7-suites-33-tests">Android Detox E2E — 7 Suites, 33 Tests</h3>
+
+<p>Full i18n complete: 66 screens, 867 EN/ES translation keys, react-i18next mock for testing.</p>
 
 <hr>
 
@@ -319,9 +339,9 @@ strong{color:#1a1a1a}
 
 <hr>
 
-<p><em>Generated July 5, 2026 — ImpactBadge Test Coverage Report</em></p>
+<p><em>Last audited August 3, 2026 — ImpactBadge Test Coverage Report — Phase 2 features complete</em></p>
 
 <hr>
-<p style="text-align:center;color:#aaa;font-size:12px;margin-top:40px">ImpactBadge LLC &nbsp;|&nbsp; <a href="index.html">Documentation Hub</a> &nbsp;|&nbsp; July 2026</p>
+<p style="text-align:center;color:#aaa;font-size:12px;margin-top:40px">ImpactBadge LLC &nbsp;|&nbsp; <a href="index.html">Documentation Hub</a> &nbsp;|&nbsp; August 2026</p>
 </body>
 </html>

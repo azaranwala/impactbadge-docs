@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ImpactBadge — Remaining Features & Roadmap</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8faf9;color:#333;min-height:100vh}
+.hero{background:linear-gradient(135deg,#00897B 0%,#00695C 100%);color:white;padding:48px 32px 40px;text-align:center}
+.hero h1{font-size:32px;font-weight:800;letter-spacing:-0.5px;margin-bottom:6px}
+.hero p{font-size:14px;opacity:0.8;max-width:600px;margin:0 auto}
+.container{max-width:900px;margin:0 auto;padding:32px 20px 60px}
+.back{display:inline-block;margin-bottom:20px;color:#00897B;text-decoration:none;font-size:13px;font-weight:600}
+.back:hover{text-decoration:underline}
+h2{font-size:20px;font-weight:700;margin:28px 0 12px;color:#1a1a1a}
+h3{font-size:15px;font-weight:700;margin:20px 0 8px;color:#00897B}
+table{width:100%;border-collapse:collapse;margin-bottom:24px;font-size:13px}
+th{background:#f0f4f3;text-align:left;padding:10px 14px;font-weight:600;color:#555;border-bottom:2px solid #e0e0e0}
+td{padding:10px 14px;border-bottom:1px solid #f0f0f0}
+tr:hover{background:#f8faf9}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.badge-done{background:#e8f5e9;color:#2e7d32}
+.badge-blocked{background:#ffebee;color:#c62828}
+.badge-pending{background:#fff3e0;color:#e65100}
+.section{background:white;border-radius:14px;padding:24px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.04);border:1px solid #e8ece9}
+.completed{margin-top:24px;padding:20px 24px;background:#e8f5e9;border-radius:14px;border:1px solid #c8e6c9}
+.completed h3{color:#2e7d32;margin-top:0}
+.footer{text-align:center;padding:30px 20px;color:#aaa;font-size:11px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Remaining Features & Roadmap</h1>
+  <p>Updated August 3, 2026 — Phase 2 complete, Clever certification ready</p>
+</div>
+
+<div class="container">
+<a href="index.html" class="back">&larr; Back to Documentation Hub</a>
+
+<div class="completed">
+<h3>Phase 2 — COMPLETE</h3>
+<p style="font-size:13px;color:#2e7d32;margin-top:6px">All 6 Phase 2 features shipped: Auto Graduation Tracking & Nudges, Volunteer CRM for Orgs, School-vs-School Challenges, Impact Reports for Grants, Teacher/Advisor Portal, Android i18n (66 screens, 867 EN/ES keys).</p>
+</div>
+
+<h2>P0 — Critical</h2>
+<div class="section">
+<table>
+<thead><tr><th>#</th><th>Feature</th><th>Status</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Clever Certification ISD Testing</td><td><span class="badge badge-blocked">BLOCKED</span></td><td>All code deployed. Awaiting ASM credentials for Certification ISD dataset. Does not block form submission.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>P1 — High Priority</h2>
+<div class="section">
+<table>
+<thead><tr><th>#</th><th>Feature</th><th>Effort</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>2</td><td>iOS Spanish Localization</td><td>~1 day</td><td>88 missing keys in es.lproj/Localizable.strings (762 EN vs 674 ES). Missing: shifts (21), common_app (13), org_volunteers (8), student_import (5).</td></tr>
+<tr><td>3</td><td>Web Portal E2E Tests</td><td>~2 days</td><td>No Playwright/Cypress tests. Only 92 unit tests for 3 of 9 pages.</td></tr>
+<tr><td>4</td><td>COPPA Grade 8+ Consent Checkbox</td><td>~0.5 day</td><td>No "I am 13 or older" checkbox. Currently relies on age calculation from date of birth.</td></tr>
+<tr><td>5</td><td>COPPA Messaging Restrictions</td><td>~1 day</td><td>No messaging blocks for users under 13. Need to gate DM/group chat features.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>P2 — Standard Backlog</h2>
+<div class="section">
+<table>
+<thead><tr><th>#</th><th>Feature</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>6</td><td>Web Dashboard: 6 Remaining Pages</td><td>Analytics, Availability, Import, Compliance, Settings, District Report pages not built.</td></tr>
+<tr><td>7</td><td>Android Home Screen Widget</td><td>iOS has widget (hours, streak, badges). Android does not.</td></tr>
+<tr><td>8</td><td>Webhook HMAC-SHA256 Signatures</td><td>Currently API key only. Need HMAC validation for partner webhooks.</td></tr>
+<tr><td>9</td><td>Deep Linking / Android Calendar Sync</td><td>Universal links for event sharing. Calendar integration for registered events.</td></tr>
+<tr><td>10</td><td>Waitlist Auto-Promote / Rate Limit UI</td><td>Auto-promote waitlisted users when spots open. Visual rate limit feedback.</td></tr>
+<tr><td>11</td><td>Idealist/VolunteerMatch Resilience Tests</td><td>Timeout and failure scenario coverage for external API integrations.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>P3 — Long-term</h2>
+<div class="section">
+<table>
+<thead><tr><th>#</th><th>Feature</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>12</td><td>WCAG 2.1 AA Accessibility Audit</td><td>iOS ~60% compliant. Android 0% audited.</td></tr>
+<tr><td>13</td><td>SOC 2 / FERPA Formal Documentation</td><td>Compliance implemented in code. Need formal documentation and audit trail.</td></tr>
+<tr><td>14</td><td>Kiosk Check-in / Background Checks</td><td>Tablet kiosk mode for event check-in. Background check integration for nonprofits.</td></tr>
+<tr><td>15</td><td>EventBrite + AllForGood API</td><td>Currently seed data only. Need live API integrations.</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2>Current Test Status</h2>
+<div class="section">
+<table>
+<thead><tr><th>Platform</th><th>Unit Tests</th><th>E2E Tests</th><th>Total</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>iOS</td><td>684</td><td>45</td><td>729</td><td><span class="badge badge-done">ALL PASS</span></td></tr>
+<tr><td>Android</td><td>469</td><td>33</td><td>502</td><td><span class="badge badge-done">ALL PASS</span></td></tr>
+<tr><td>Backend</td><td>1,673</td><td>—</td><td>1,673</td><td><span class="badge badge-done">ALL PASS</span></td></tr>
+<tr><td>Web</td><td>92</td><td>—</td><td>92</td><td><span class="badge badge-done">ALL PASS</span></td></tr>
+<tr style="font-weight:700"><td>Total</td><td>2,918</td><td>78</td><td>2,996</td><td></td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="footer">ImpactBadge Documentation &mdash; August 3, 2026</div>
+</div>
+</body>
+</html>
