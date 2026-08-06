@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FERPA Compliance Documentation — ImpactBadge</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8faf9;color:#333;min-height:100vh}
+.hero{background:linear-gradient(135deg,#00897B 0%,#00695C 100%);color:white;padding:48px 32px 40px;text-align:center}
+.hero h1{font-size:32px;font-weight:800;letter-spacing:-0.5px;margin-bottom:6px}
+.hero p{font-size:14px;opacity:0.8;max-width:600px;margin:0 auto}
+.container{max-width:900px;margin:0 auto;padding:32px 20px 60px}
+.back{display:inline-block;margin-bottom:20px;color:#00897B;text-decoration:none;font-size:13px;font-weight:600}
+.back:hover{text-decoration:underline}
+h2{font-size:18px;font-weight:700;margin:28px 0 12px;color:#00897B;border-bottom:2px solid #e0e0e0;padding-bottom:8px}
+h3{font-size:15px;font-weight:700;margin:18px 0 8px;color:#00695C}
+.section{background:white;border-radius:14px;padding:24px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);border:1px solid #e8ece9}
+p{margin:8px 0;font-size:14px;line-height:1.7}
+ul,ol{margin:8px 0 8px 24px;font-size:14px;line-height:1.7}
+li{margin:4px 0}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+th{background:#f0f4f3;text-align:left;padding:8px 12px;font-weight:600;color:#555}
+td{padding:8px 12px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+tr:hover{background:#fafcfb}
+code{background:#f0f4f3;padding:2px 6px;border-radius:4px;font-size:12px;font-family:'SF Mono',Consolas,monospace;color:#00695C}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.badge-pass{background:#e8f5e9;color:#2e7d32}
+.badge-info{background:#e3f2fd;color:#1565c0}
+.badge-warn{background:#fff3e0;color:#e65100}
+.callout{background:#e8f5e9;border-left:4px solid #2e7d32;padding:16px 20px;border-radius:0 10px 10px 0;margin:16px 0;font-size:14px}
+.callout-warn{background:#fff3e0;border-left:4px solid #e65100;padding:16px 20px;border-radius:0 10px 10px 0;margin:16px 0;font-size:14px}
+.checklist{list-style:none;padding-left:0;margin:12px 0}
+.checklist li{padding:8px 12px;border-bottom:1px solid #f0f0f0;font-size:14px}
+.checklist li:before{content:"\\2610";margin-right:10px;font-size:16px;color:#00897B}
+.footer{text-align:center;padding:30px 20px;color:#aaa;font-size:11px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>FERPA Compliance Documentation</h1>
+  <p>Family Educational Rights and Privacy Act compliance for the ImpactBadge K-12 platform</p>
+</div>
+
+<div class="container">
+  <a href="index.html" class="back">&larr; Back to Documentation Hub</a>
+
+  <!-- FERPA Compliance Statement -->
+  <h2>1. FERPA Compliance Statement</h2>
+  <div class="section">
+    <div class="callout">
+      <strong>ImpactBadge acts as a "school official" under FERPA &sect; 99.31(a)(1).</strong>
+    </div>
+    <p>Under the Family Educational Rights and Privacy Act (20 U.S.C. &sect; 1232g; 34 CFR Part 99), ImpactBadge LLC operates as a <strong>school official with a legitimate educational interest</strong> when providing volunteer hour tracking services to K-12 school districts. This designation is established through the Data Processing Agreement (DPA) executed between ImpactBadge and each contracting school district.</p>
+    <p>As a school official, ImpactBadge:</p>
+    <ul>
+      <li>Performs institutional services or functions that the school would otherwise perform itself</li>
+      <li>Is under the direct control of the school district with respect to the use and maintenance of education records</li>
+      <li>Uses education records only for the purposes for which the disclosure was made (volunteer hour tracking and related reporting)</li>
+      <li>Meets the criteria set forth in the school district's annual FERPA notification regarding school officials</li>
+    </ul>
+    <p><strong>Last updated:</strong> August 5, 2026</p>
+  </div>
+
+  <!-- Data Categories -->
+  <h2>2. Data Categories</h2>
+  <div class="section">
+    <p>ImpactBadge collects and processes the minimum data necessary to fulfill its volunteer tracking function. The following table details what is and is not stored:</p>
+    <table>
+      <tr><th>Category</th><th>Fields Stored</th><th>Fields NOT Stored</th><th>Legal Basis</th></tr>
+      <tr>
+        <td><strong>Directory Information</strong></td>
+        <td>Full name, email address, grade level, school name, school district ID</td>
+        <td>Home address, phone number, date of birth, Social Security number, photo (unless voluntarily uploaded)</td>
+        <td>FERPA &sect; 99.31(a)(1) — school official exception</td>
+      </tr>
+      <tr>
+        <td><strong>Activity Records</strong></td>
+        <td>Volunteer hours (date, duration, organization, description), events attended, badges earned, XP points, check-in/check-out timestamps</td>
+        <td>N/A — all activity fields are directly related to volunteer service</td>
+        <td>FERPA &sect; 99.31(a)(1) — legitimate educational interest (service learning, graduation requirements)</td>
+      </tr>
+      <tr>
+        <td><strong>Authentication Data</strong></td>
+        <td>Firebase Auth UID, authentication provider (email, Google, Apple, Clever), last login timestamp</td>
+        <td>Passwords (hashed by Firebase, not accessible to ImpactBadge), OAuth tokens (managed by Firebase Auth)</td>
+        <td>Necessary for platform access control</td>
+      </tr>
+      <tr>
+        <td><strong>Not Collected</strong></td>
+        <td colspan="2">Academic grades, transcripts, GPA, test scores, disciplinary records, financial aid information, health/medical records, disability status, counselor notes, behavioral records</td>
+        <td>Outside scope — not relevant to volunteer tracking</td>
+      </tr>
+    </table>
+    <div class="callout">
+      <strong>Data Minimization Principle:</strong> ImpactBadge does not collect or store any education records beyond what is strictly necessary for volunteer hour tracking, badge awards, and graduation requirement reporting.
+    </div>
+  </div>
+
+  <!-- Access Control -->
+  <h2>3. Access Control</h2>
+  <div class="section">
+    <p>FERPA requires that access to student education records be limited to parties with a legitimate educational interest. ImpactBadge enforces this through Firestore Security Rules and Cloud Function authorization checks.</p>
+
+    <h3>School-Scoped Access (<code>isSameSchool()</code>)</h3>
+    <p>The <code>isSameSchool()</code> helper function is called on every data access operation involving student records. It ensures that:</p>
+    <ul>
+      <li><strong>School admins</strong> can only view/export data for students enrolled in their school</li>
+      <li><strong>Teachers</strong> can only view data for students in their assigned sections</li>
+      <li><strong>Students</strong> can only view their own records and public school-wide data (leaderboards, events)</li>
+      <li><strong>Parents</strong> can only view data for their linked child(ren)</li>
+      <li><strong>Org admins</strong> can only view volunteer data for students who participated in their organization's events</li>
+    </ul>
+    <p>Cross-school data access is <strong>not possible</strong> at the application level. Firestore Security Rules provide a second layer of enforcement at the database level, independent of application code.</p>
+
+    <h3>Elevated Access Logging</h3>
+    <p>Any action that exports or bulk-accesses student data is logged to the <code>ferpaExportLog</code> collection (see Section 4). This includes:</p>
+    <ul>
+      <li>CSV/PDF report generation</li>
+      <li>Graduation tracking exports</li>
+      <li>Roster data views (bulk student lists)</li>
+      <li>FERPA-designated data export operations</li>
+    </ul>
+  </div>
+
+  <!-- Audit Logging -->
+  <h2>4. Audit Logging</h2>
+  <div class="section">
+    <p>ImpactBadge maintains a dedicated <code>ferpaExportLog</code> Firestore collection that records every instance of student data access or export by school administrators:</p>
+    <table>
+      <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+      <tr><td><code>adminUid</code></td><td>string</td><td>Firebase Auth UID of the school admin performing the export</td></tr>
+      <tr><td><code>adminName</code></td><td>string</td><td>Display name of the admin (for human-readable audit trail)</td></tr>
+      <tr><td><code>timestamp</code></td><td>Timestamp</td><td>Server-generated timestamp of the export event</td></tr>
+      <tr><td><code>studentIds</code></td><td>array</td><td>List of student UIDs included in the export</td></tr>
+      <tr><td><code>exportReason</code></td><td>string</td><td>Stated reason for the export (e.g., "graduation report", "counselor request")</td></tr>
+      <tr><td><code>exportFormat</code></td><td>string</td><td>Format of export: CSV, PDF, or on-screen view</td></tr>
+      <tr><td><code>schoolId</code></td><td>string</td><td>School district identifier (for cross-referencing)</td></tr>
+      <tr><td><code>ipAddress</code></td><td>string</td><td>IP address of the requesting client</td></tr>
+    </table>
+    <p>Audit log entries are <strong>append-only</strong>. They cannot be modified or deleted by school admins. Retention period: 7 years.</p>
+  </div>
+
+  <!-- Parent & Student Rights -->
+  <h2>5. Parent &amp; Student Rights</h2>
+  <div class="section">
+    <p>Under FERPA, parents (and eligible students aged 18+) have the following rights with respect to education records maintained by ImpactBadge:</p>
+
+    <h3>Right to Access</h3>
+    <p>Parents and eligible students may request access to all volunteer records maintained by ImpactBadge. Data is available in real-time through the parent portal (for linked accounts) or upon written request to <a href="mailto:privacy@impactbadge.app">privacy@impactbadge.app</a>. Requests fulfilled within 45 days per FERPA requirements.</p>
+
+    <h3>Right to Amend</h3>
+    <p>If a parent or eligible student believes volunteer records are inaccurate or misleading, they may request an amendment by contacting their school admin or emailing <a href="mailto:privacy@impactbadge.app">privacy@impactbadge.app</a>. The school district makes the final determination on amendment requests, as ImpactBadge acts as a school official under their authority.</p>
+
+    <h3>Right to Delete</h3>
+    <p>Parents and eligible students may request deletion of their ImpactBadge account and all associated data. Upon receiving a verified deletion request:</p>
+    <ul>
+      <li>All PII is removed from Firestore within 30 days</li>
+      <li>Firebase Auth account is permanently deleted</li>
+      <li>Volunteer hour counts are de-identified and retained in aggregate form only</li>
+      <li>The requesting party receives email confirmation upon completion</li>
+    </ul>
+
+    <h3>Right to Consent</h3>
+    <p>For students under 13, COPPA-compliant verifiable parental consent is required before account creation. Consent records are stored in the <code>parental_consents</code> Firestore collection with parent email, timestamp, and consent method.</p>
+
+    <p><strong>Contact:</strong> <a href="mailto:privacy@impactbadge.app">privacy@impactbadge.app</a></p>
+  </div>
+
+  <!-- DPA Summary -->
+  <h2>6. Data Processing Agreement (DPA) Summary</h2>
+  <div class="section">
+    <p>ImpactBadge executes a Data Processing Agreement with each contracting school district. Key terms include:</p>
+    <table>
+      <tr><th>Term</th><th>Commitment</th></tr>
+      <tr>
+        <td><strong>Purpose Limitation</strong></td>
+        <td>Student data is used exclusively for volunteer hour tracking, badge/XP awards, graduation requirement reporting, and related analytics. Data is never used for advertising, marketing, profiling, or sale to third parties.</td>
+      </tr>
+      <tr>
+        <td><strong>Data Minimization</strong></td>
+        <td>Only the minimum data necessary for platform functionality is collected: name, email, grade, school, and volunteer activity records. No academic, financial, health, or disciplinary data is collected.</td>
+      </tr>
+      <tr>
+        <td><strong>School Ownership</strong></td>
+        <td>The school district retains ownership of all student education records. ImpactBadge acts as a data processor under the district's authority.</td>
+      </tr>
+      <tr>
+        <td><strong>Deletion Timeline</strong></td>
+        <td>All student PII deleted within 60 days of contract termination. School admin notified 30 days before deletion begins. Option to export all data before deletion.</td>
+      </tr>
+      <tr>
+        <td><strong>Breach Notification</strong></td>
+        <td>School district notified within 72 hours of discovering a data breach affecting student records. Notification includes: nature of breach, data affected, number of students impacted, remediation steps.</td>
+      </tr>
+      <tr>
+        <td><strong>Subprocessor Disclosure</strong></td>
+        <td>All third-party subprocessors disclosed (see Section 8). Changes to subprocessors communicated 30 days in advance.</td>
+      </tr>
+      <tr>
+        <td><strong>Audit Rights</strong></td>
+        <td>School district may audit ImpactBadge's data handling practices upon 30 days written notice. FERPA export logs available on demand.</td>
+      </tr>
+      <tr>
+        <td><strong>No Secondary Use</strong></td>
+        <td>Student data is never used for purposes beyond the contracted service. No advertising, no data sales, no behavioral profiling, no AI/ML training on student data.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Breach Notification Procedures -->
+  <h2>7. Breach Notification Procedures</h2>
+  <div class="section">
+    <div class="callout-warn">
+      <strong>72-Hour Notification Commitment:</strong> ImpactBadge will notify affected school districts within 72 hours of discovering a confirmed data breach involving student education records.
+    </div>
+
+    <h3>Breach Response Timeline</h3>
+    <table>
+      <tr><th>Timeframe</th><th>Action</th></tr>
+      <tr><td><strong>0-4 hours</strong></td><td>Incident detected (via Cloud Monitoring alerts, Crashlytics, or manual report). Initial assessment and severity classification (P0-P3).</td></tr>
+      <tr><td><strong>4-24 hours</strong></td><td>Containment measures implemented. Affected systems isolated. Scope of breach determined: which data, which students, which schools.</td></tr>
+      <tr><td><strong>24-72 hours</strong></td><td>School district notification sent via email to designated FERPA compliance officer. Notification includes breach details (see below).</td></tr>
+      <tr><td><strong>72 hours - 30 days</strong></td><td>Full root cause analysis. Remediation measures implemented. Updated notification sent to affected districts with final scope and preventive actions.</td></tr>
+    </table>
+
+    <h3>Breach Notification Contents</h3>
+    <p>Each notification to an affected school district includes:</p>
+    <ul>
+      <li>Date and time the breach was discovered</li>
+      <li>Nature of the breach (unauthorized access, data exposure, system compromise, etc.)</li>
+      <li>Categories of data affected (names, emails, volunteer hours, etc.)</li>
+      <li>Approximate number of students affected</li>
+      <li>Steps taken to contain and remediate the breach</li>
+      <li>Recommended actions for the school district</li>
+      <li>Point of contact: <a href="mailto:privacy@impactbadge.app">privacy@impactbadge.app</a></li>
+    </ul>
+
+    <h3>Contact for Security Concerns</h3>
+    <p>Report suspected data breaches or security concerns to: <a href="mailto:privacy@impactbadge.app">privacy@impactbadge.app</a></p>
+  </div>
+
+  <!-- Third-Party Subprocessors -->
+  <h2>8. Third-Party Subprocessors</h2>
+  <div class="section">
+    <p>ImpactBadge discloses all third-party services that process student data. School districts are notified 30 days before any new subprocessor is added.</p>
+    <table>
+      <tr><th>Subprocessor</th><th>Service</th><th>Data Processed</th><th>SOC 2 Status</th></tr>
+      <tr>
+        <td><strong>Google Cloud / Firebase</strong></td>
+        <td>Infrastructure: Firestore (database), Firebase Auth (authentication), Cloud Functions (backend logic), Cloud Storage (file uploads), Cloud Monitoring (observability)</td>
+        <td>All application data including student PII, volunteer records, authentication credentials (hashed)</td>
+        <td><span class="badge badge-pass">SOC 2 Type II</span></td>
+      </tr>
+      <tr>
+        <td><strong>Clever</strong></td>
+        <td>SSO (Instant Login), Secure Sync (roster data), LMS Connect</td>
+        <td>Student roster data: name, email, grade, school, section assignments. OAuth tokens (managed by Clever).</td>
+        <td><span class="badge badge-pass">SOC 2 Type II</span></td>
+      </tr>
+      <tr>
+        <td><strong>Zoho</strong></td>
+        <td>SMTP email delivery (transactional emails: password resets, notifications, consent requests)</td>
+        <td>Email addresses only. No student names, volunteer data, or other PII included in email payloads.</td>
+        <td><span class="badge badge-info">ISO 27001</span></td>
+      </tr>
+    </table>
+    <p><strong>No additional subprocessors</strong> are used. ImpactBadge does not use any advertising networks, analytics platforms that process PII, or data brokers.</p>
+  </div>
+
+  <!-- Data Retention Schedule -->
+  <h2>9. Data Retention Schedule</h2>
+  <div class="section">
+    <table>
+      <tr><th>Data Type</th><th>Retention Period</th><th>Disposal Method</th></tr>
+      <tr>
+        <td><strong>Student PII</strong> (name, email, grade, school)</td>
+        <td>Duration of active account + 60 days after contract termination</td>
+        <td>Firestore document deletion. Firebase Auth account deletion. Confirmation sent to school admin.</td>
+      </tr>
+      <tr>
+        <td><strong>Volunteer activity records</strong> (hours, events, badges)</td>
+        <td>Duration of active account + 60 days after contract termination</td>
+        <td>PII removed. Aggregate counts (total hours per school, per event category) retained in de-identified form.</td>
+      </tr>
+      <tr>
+        <td><strong>FERPA export logs</strong></td>
+        <td>7 years</td>
+        <td>Automated deletion via Firestore TTL policy after retention period expires.</td>
+      </tr>
+      <tr>
+        <td><strong>COPPA consent records</strong></td>
+        <td>Duration of account + 3 years</td>
+        <td>Retained for legal compliance verification. Deleted with associated student record after retention period.</td>
+      </tr>
+      <tr>
+        <td><strong>Clever webhook logs</strong></td>
+        <td>1 year</td>
+        <td>Automated deletion. Contain event metadata only (no student PII in webhook log entries).</td>
+      </tr>
+      <tr>
+        <td><strong>Authentication tokens</strong></td>
+        <td>1 hour (JWT expiry)</td>
+        <td>Tokens expire automatically. Refresh tokens managed by Firebase Auth and revoked on account deletion.</td>
+      </tr>
+      <tr>
+        <td><strong>Crashlytics / error logs</strong></td>
+        <td>90 days (Google-managed)</td>
+        <td>Automatically purged by Google. No PII included in crash reports.</td>
+      </tr>
+      <tr>
+        <td><strong>Aggregated analytics</strong></td>
+        <td>Retained indefinitely</td>
+        <td>N/A — fully de-identified. Contains no PII. Example: "School X had 1,200 total volunteer hours in 2026."</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Annual Compliance Checklist -->
+  <h2>10. Annual Compliance Checklist</h2>
+  <div class="section">
+    <p>School districts should complete the following checklist annually to verify ongoing FERPA compliance with ImpactBadge:</p>
+    <ul class="checklist">
+      <li><strong>DPA Review:</strong> Confirm Data Processing Agreement is current and signed. Verify purpose limitation and data minimization terms are unchanged.</li>
+      <li><strong>Access Audit:</strong> Review list of school admins and teachers with ImpactBadge access. Remove any staff who have left the district or changed roles.</li>
+      <li><strong>Export Log Review:</strong> Review <code>ferpaExportLog</code> entries for the past 12 months. Verify all exports had a legitimate educational purpose.</li>
+      <li><strong>Subprocessor Review:</strong> Confirm the subprocessor list (Section 8) has not changed without 30-day prior notification. Verify all subprocessors maintain current compliance certifications.</li>
+      <li><strong>Consent Verification:</strong> For students under 13, verify COPPA consent records are on file in the <code>parental_consents</code> collection. Follow up on any missing consents.</li>
+      <li><strong>Data Accuracy:</strong> Spot-check a sample of student records for accuracy. Process any pending amendment requests from parents or eligible students.</li>
+      <li><strong>Roster Sync Validation:</strong> If using Clever Secure Sync, verify that roster data (students, sections, teachers) matches the district's Student Information System (SIS).</li>
+      <li><strong>Breach Response Test:</strong> Verify that the designated FERPA compliance officer's contact information is current in ImpactBadge's notification system. Confirm the 72-hour notification channel is operational.</li>
+      <li><strong>Deletion Verification:</strong> Confirm that any students who graduated, transferred, or withdrew have been properly handled (accounts deactivated or deleted per district policy).</li>
+      <li><strong>Annual FERPA Notice:</strong> Verify that the district's annual FERPA notification to parents includes ImpactBadge as a school official with legitimate educational interest, per &sect; 99.31(a)(1).</li>
+    </ul>
+    <p>Questions about this checklist or FERPA compliance? Contact: <a href="mailto:privacy@impactbadge.app">privacy@impactbadge.app</a></p>
+  </div>
+
+</div>
+
+<div class="footer">
+  ImpactBadge LLC &nbsp;|&nbsp; FERPA Compliance Documentation &nbsp;|&nbsp; August 5, 2026
+</div>
+
+</body>
+</html>

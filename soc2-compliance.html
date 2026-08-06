@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SOC 2 Compliance &amp; Security Controls — ImpactBadge</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8faf9;color:#333;min-height:100vh}
+.hero{background:linear-gradient(135deg,#00897B 0%,#00695C 100%);color:white;padding:48px 32px 40px;text-align:center}
+.hero h1{font-size:32px;font-weight:800;letter-spacing:-0.5px;margin-bottom:6px}
+.hero p{font-size:14px;opacity:0.8;max-width:600px;margin:0 auto}
+.container{max-width:900px;margin:0 auto;padding:32px 20px 60px}
+.back{display:inline-block;margin-bottom:20px;color:#00897B;text-decoration:none;font-size:13px;font-weight:600}
+.back:hover{text-decoration:underline}
+h2{font-size:18px;font-weight:700;margin:28px 0 12px;color:#00897B;border-bottom:2px solid #e0e0e0;padding-bottom:8px}
+h3{font-size:15px;font-weight:700;margin:18px 0 8px;color:#00695C}
+.section{background:white;border-radius:14px;padding:24px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);border:1px solid #e8ece9}
+p{margin:8px 0;font-size:14px;line-height:1.7}
+ul,ol{margin:8px 0 8px 24px;font-size:14px;line-height:1.7}
+li{margin:4px 0}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+th{background:#f0f4f3;text-align:left;padding:8px 12px;font-weight:600;color:#555}
+td{padding:8px 12px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+tr:hover{background:#fafcfb}
+code{background:#f0f4f3;padding:2px 6px;border-radius:4px;font-size:12px;font-family:'SF Mono',Consolas,monospace;color:#00695C}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.badge-pass{background:#e8f5e9;color:#2e7d32}
+.badge-info{background:#e3f2fd;color:#1565c0}
+.badge-warn{background:#fff3e0;color:#e65100}
+.badge-na{background:#f5f5f5;color:#757575}
+.footer{text-align:center;padding:30px 20px;color:#aaa;font-size:11px}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin:16px 0}
+.summary-card{background:#f0f4f3;border-radius:10px;padding:16px;text-align:center;border:1px solid #d0e8e4}
+.summary-card .num{font-size:28px;font-weight:800;color:#00897B}
+.summary-card .lbl{font-size:11px;color:#555;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>SOC 2 Compliance &amp; Security Controls</h1>
+  <p>Trust Service Criteria mapping for ImpactBadge K-12 volunteer tracking platform</p>
+</div>
+
+<div class="container">
+  <a href="index.html" class="back">&larr; Back to Documentation Hub</a>
+
+  <!-- Overview -->
+  <h2>1. Overview</h2>
+  <div class="section">
+    <p>ImpactBadge is built entirely on <strong>Firebase / Google Cloud Platform</strong>, which maintains SOC 2 Type II certification across all services used by ImpactBadge (Cloud Functions, Firestore, Firebase Auth, Cloud Storage, Cloud Monitoring). This document maps ImpactBadge's application-level security controls to the five SOC 2 Trust Service Criteria (TSC), demonstrating that our platform meets enterprise-grade compliance requirements for K-12 school district deployments.</p>
+    <div class="summary-grid">
+      <div class="summary-card"><div class="num">5</div><div class="lbl">TSC Categories</div></div>
+      <div class="summary-card"><div class="num">105+</div><div class="lbl">Cloud Functions</div></div>
+      <div class="summary-card"><div class="num">3,231</div><div class="lbl">Automated Tests</div></div>
+      <div class="summary-card"><div class="num">8</div><div class="lbl">Uptime Checks</div></div>
+      <div class="summary-card"><div class="num">6</div><div class="lbl">Alert Policies</div></div>
+    </div>
+    <p><strong>Last updated:</strong> August 5, 2026</p>
+  </div>
+
+  <!-- Trust Service Criteria Mapping -->
+  <h2>2. Trust Service Criteria Mapping</h2>
+  <div class="section">
+    <h3>CC1: Security (Common Criteria)</h3>
+    <table>
+      <tr><th style="width:80px">Criteria</th><th style="width:100px">Category</th><th>ImpactBadge Implementation</th><th style="width:70px">Status</th></tr>
+      <tr>
+        <td>CC1.1</td>
+        <td>Security</td>
+        <td>Firebase Authentication enforces identity verification for all users. Supports email/password, Google, Apple, and Clever SSO (OAuth 2.0).</td>
+        <td><span class="badge badge-pass">PASS</span></td>
+      </tr>
+      <tr>
+        <td>CC1.2</td>
+        <td>Security</td>
+        <td>Firestore Security Rules enforce document-level access control. All reads/writes validated against authenticated user context.</td>
+        <td><span class="badge badge-pass">PASS</span></td>
+      </tr>
+      <tr>
+        <td>CC1.3</td>
+        <td>Security</td>
+        <td>Role-based access control (RBAC) with 5 roles: <code>student</code>, <code>org_admin</code>, <code>school_admin</code>, <code>teacher</code>, <code>parent</code>. Role checked on every Cloud Function invocation.</td>
+        <td><span class="badge badge-pass">PASS</span></td>
+      </tr>
+      <tr>
+        <td>CC1.4</td>
+        <td>Security</td>
+        <td><code>isSameSchool()</code> helper function enforces school-scoped data isolation. Users can only access data within their assigned school district.</td>
+        <td><span class="badge badge-pass">PASS</span></td>
+      </tr>
+      <tr>
+        <td>CC1.5</td>
+        <td>Security</td>
+        <td>Input validation via Zod schemas on all 105+ Cloud Functions. Malformed or unexpected input is rejected before processing.</td>
+        <td><span class="badge badge-pass">PASS</span></td>
+      </tr>
+    </table>
+
+    <h3>CC2: Availability</h3>
+    <table>
+      <tr><th style="width:80px">Criteria</th><th style="width:100px">Category</th><th>ImpactBadge Implementation</th><th style="width:70px">Status</th></tr>
+      <tr>
+        <td>CC2.1</td>
+        <td>Availability</td>
+        <td>Google Cloud Platform provides 99.95% uptime SLA for all Firebase services (Firestore, Auth, Cloud Functions, Hosting).</td>
+        <td><span class="badge badge-pass">PASS</span></td>
+      </tr>
+      <tr>
+        <td>CC2.2</td>
+        <td>Availability</td>
+        <td>8 uptime checks monitor critical endpoints (API health, web portal, auth endpoints, webhook receivers). Alerts fire within 5 minutes of downtime.</td>
+        <td><span class="badge badge-pass">PASS</span></td>
+      </tr>
+      <tr>
+        <td>CC2.3</td>
+        <td>Availability</td>
+        <td>6 alert policies configured in Cloud Monitoring: error rate spikes, latency thresholds, function crash rates, billing anomalies. Cloud Monitoring dashboard provides real-time visibility.</td>
+        <td><span class="badge badge-pass">PASS</span></td>
+      </tr>
+    </table>
+
+    <h3>CC3: Processing Integrity</h3>
+    <table>
+      <tr><th style="width:80px">Criteria</th><th style="width:100px">Category</th><th>ImpactBadge Implementation</th><th style="width:70px">Status</th></tr>
+      <tr>
+        <td>CC3.1</td>
+        <td>Processing Integrity</td>
+        <td>Zod schema validation on all 105+ Cloud Functions ensures data conforms to expected types, formats, and constraints before processing.</td>
+        <td><span class="badge badge-pass">PASS</span></td>
+      </tr>
+      <tr>
+        <td>CC3.2</td>
+        <td>Processing Integrity</td>
+        <td>Transaction-safe Firestore writes for all multi-document operations (hour logging, badge awards, XP calculations). Atomic batch writes prevent partial updates.</td>
+        <td><span class="badge badge-pass">PASS</span></td>
+      </tr>
+      <tr>
+        <td>CC3.3</td>
+        <td>Processing Integrity</td>
+        <td>Rate limiting on Cloud Functions prevents abuse. Per-user and per-IP limits enforced on sensitive endpoints (auth, data export, hour submission).</td>
+        <td><span class="badge badge-pass">PASS</span></td>
+      </tr>
+      <tr>
+        <td>CC3.4</td>
+        <td>Processing Integrity</td>
+        <td>3,231 automated tests validate business logic across all platforms (iOS, Android, Backend, Web). CI pipeline runs full suite on every deploy.</td>
+        <td><span class="badge badge-pass">PASS</span></td>
+      </tr>
+    </table>
+
+    <h3>CC4: Confidentiality</h3>
+    <table>
+      <tr><th style="width:80px">Criteria</th><th style="width:100px">Category</th><th>ImpactBadge Implementation</th><th style="width:70px">Status</th></tr>
+      <tr>
+        <td>CC4.1</td>
+        <td>Confidentiality</td>
+        <td>TLS 1.3 encryption for all data in transit. AES-256 encryption for all data at rest in Firestore and Cloud Storage. Google-managed encryption keys with automatic rotation.</td>
+        <td><span class="badge badge-pass">PASS</span></td>
+      </tr>
+      <tr>
+        <td>CC4.2</td>
+        <td>Confidentiality</td>
+        <td>No PII logged in Cloud Functions logs or Crashlytics. HMAC webhook signatures verify Clever roster sync payloads. Sensitive fields excluded from analytics events.</td>
+        <td><span class="badge badge-pass">PASS</span></td>
+      </tr>
+    </table>
+
+    <h3>CC5: Privacy</h3>
+    <table>
+      <tr><th style="width:80px">Criteria</th><th style="width:100px">Category</th><th>ImpactBadge Implementation</th><th style="width:70px">Status</th></tr>
+      <tr>
+        <td>CC5.1</td>
+        <td>Privacy</td>
+        <td>COPPA consent flow: verifiable parental consent required for users under 13. Consent recorded in <code>parental_consents</code> collection with timestamp and parent email.</td>
+        <td><span class="badge badge-pass">PASS</span></td>
+      </tr>
+      <tr>
+        <td>CC5.2</td>
+        <td>Privacy</td>
+        <td>FERPA school-scoped access: <code>isSameSchool()</code> ensures student data is only accessible to authorized personnel within the same school district. Parent controls allow visibility restrictions.</td>
+        <td><span class="badge badge-pass">PASS</span></td>
+      </tr>
+      <tr>
+        <td>CC5.3</td>
+        <td>Privacy</td>
+        <td>Data deletion within 60 days of school contract termination. Individual deletion requests honored within 30 days. Aggregated, de-identified data retained indefinitely for reporting.</td>
+        <td><span class="badge badge-pass">PASS</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Infrastructure Security -->
+  <h2>3. Infrastructure Security</h2>
+  <div class="section">
+    <p>ImpactBadge runs entirely on <strong>Google Cloud Platform / Firebase</strong>, inheriting Google's world-class infrastructure security:</p>
+    <table>
+      <tr><th>Control</th><th>Details</th></tr>
+      <tr><td><strong>Data Centers</strong></td><td>Google-operated data centers with 24/7 physical security, biometric access, video surveillance, and multi-layer perimeter controls. SOC 2 Type II, ISO 27001, and FedRAMP certified.</td></tr>
+      <tr><td><strong>Network Security</strong></td><td>Google's private global network with DDoS protection, intrusion detection, and traffic encryption between data centers. All Firebase services accessible only via HTTPS.</td></tr>
+      <tr><td><strong>Encryption</strong></td><td>AES-256 at rest (automatic), TLS 1.3 in transit. Google manages encryption key lifecycle including generation, storage, rotation, and destruction.</td></tr>
+      <tr><td><strong>Certifications</strong></td><td>SOC 1/2/3 Type II, ISO 27001/27017/27018, FedRAMP Moderate, PCI DSS, HIPAA (BAA available). Full list at <code>cloud.google.com/security/compliance</code>.</td></tr>
+      <tr><td><strong>Disaster Recovery</strong></td><td>Firestore provides automatic multi-region replication. Point-in-time recovery (PITR) enabled. RPO &lt; 1 minute, RTO &lt; 1 hour for regional outages.</td></tr>
+    </table>
+  </div>
+
+  <!-- Access Control Matrix -->
+  <h2>4. Access Control Matrix</h2>
+  <div class="section">
+    <p>ImpactBadge enforces role-based access control (RBAC) across all data operations. The following matrix defines permissions for each role:</p>
+    <table>
+      <tr><th>Role</th><th>Read Access</th><th>Write Access</th><th>Admin Actions</th></tr>
+      <tr>
+        <td><strong>student</strong></td>
+        <td>Own profile, own hours, public events, own badges/XP, school leaderboard</td>
+        <td>Own profile fields, hour submissions (pending approval), event check-ins</td>
+        <td>None</td>
+      </tr>
+      <tr>
+        <td><strong>org_admin</strong></td>
+        <td>Org profile, org events, volunteers at org events, org hour submissions</td>
+        <td>Org profile, create/edit events, approve/reject hours, volunteer CRM notes</td>
+        <td>Invite org members, export org reports, configure webhooks</td>
+      </tr>
+      <tr>
+        <td><strong>school_admin</strong></td>
+        <td>All students in school, school-wide hours/reports, graduation tracking, FERPA export logs</td>
+        <td>School settings, graduation requirements, pre-approved orgs list</td>
+        <td>FERPA data export, roster import/sync, manage teachers, bulk operations, school challenges</td>
+      </tr>
+      <tr>
+        <td><strong>teacher</strong></td>
+        <td>Students in assigned sections, section hours/reports, school events</td>
+        <td>Section settings, hour approvals for section students</td>
+        <td>Section-level reports, flag student hours</td>
+      </tr>
+      <tr>
+        <td><strong>parent</strong></td>
+        <td>Linked child's profile, hours, badges, events (subject to child's privacy settings)</td>
+        <td>COPPA consent, notification preferences</td>
+        <td>Grant/revoke COPPA consent, request data deletion</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Authentication Methods -->
+  <h2>5. Authentication Methods</h2>
+  <div class="section">
+    <table>
+      <tr><th>Method</th><th>Protocol</th><th>Details</th></tr>
+      <tr>
+        <td><strong>Email / Password</strong></td>
+        <td>Firebase Auth</td>
+        <td>Password hashed with scrypt (Firebase-managed). Email verification required. Password reset via secure email link.</td>
+      </tr>
+      <tr>
+        <td><strong>Google Sign-In</strong></td>
+        <td>OAuth 2.0 / OpenID Connect</td>
+        <td>Federated identity via Google. No password stored by ImpactBadge. Supports school Google Workspace accounts.</td>
+      </tr>
+      <tr>
+        <td><strong>Apple Sign-In</strong></td>
+        <td>OAuth 2.0 / OpenID Connect</td>
+        <td>Required per Apple App Store Review Guideline 4.8. Supports "Hide My Email" relay. Always visible in iOS app (never behind feature flag).</td>
+      </tr>
+      <tr>
+        <td><strong>Clever SSO</strong></td>
+        <td>OAuth 2.0</td>
+        <td>Instant Login (IL) for K-12 districts. PKCE flow. Roster data synced via Clever Secure Sync API. HMAC-signed webhooks for real-time updates.</td>
+      </tr>
+    </table>
+    <p>All authentication methods produce a Firebase Auth token (JWT) that is validated on every Cloud Function invocation. Tokens expire after 1 hour and are automatically refreshed by client SDKs.</p>
+  </div>
+
+  <!-- Data Encryption -->
+  <h2>6. Data Encryption</h2>
+  <div class="section">
+    <table>
+      <tr><th>Layer</th><th>Standard</th><th>Implementation</th></tr>
+      <tr>
+        <td><strong>In Transit</strong></td>
+        <td>TLS 1.3</td>
+        <td>All client-server communication over HTTPS. Firebase SDKs enforce TLS. Certificate pinning not required (managed by Google).</td>
+      </tr>
+      <tr>
+        <td><strong>At Rest</strong></td>
+        <td>AES-256</td>
+        <td>All Firestore documents, Cloud Storage objects, and Cloud Functions environment variables encrypted automatically by Google.</td>
+      </tr>
+      <tr>
+        <td><strong>Key Management</strong></td>
+        <td>Google-managed</td>
+        <td>Encryption keys managed by Google Cloud KMS. Automatic key rotation. Keys never exposed to application code or developers.</td>
+      </tr>
+      <tr>
+        <td><strong>Backup Encryption</strong></td>
+        <td>AES-256</td>
+        <td>Firestore PITR backups and scheduled exports encrypted with the same Google-managed keys.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Monitoring & Incident Response -->
+  <h2>7. Monitoring &amp; Incident Response</h2>
+  <div class="section">
+    <h3>Monitoring Infrastructure</h3>
+    <table>
+      <tr><th>Component</th><th>Count</th><th>Details</th></tr>
+      <tr><td><strong>Uptime Checks</strong></td><td>8</td><td>HTTP(S) checks every 60 seconds on API health, web portal, auth endpoints, webhook receivers, Clever SSO callback, and critical Cloud Functions.</td></tr>
+      <tr><td><strong>Alert Policies</strong></td><td>6</td><td>Error rate &gt; 1%, latency &gt; 5s (p95), function crash rate, 5xx responses, billing threshold, and uptime check failure.</td></tr>
+      <tr><td><strong>Cloud Error Reporting</strong></td><td>Enabled</td><td>Automatic error grouping, stack trace analysis, and notification for new error types.</td></tr>
+      <tr><td><strong>Crashlytics</strong></td><td>iOS + Android</td><td>Real-time crash reporting with device/OS context. Crash-free rate tracked per release.</td></tr>
+      <tr><td><strong>Cloud Monitoring Dashboard</strong></td><td>1</td><td>Custom dashboard with function invocation counts, error rates, latency percentiles, and active users.</td></tr>
+    </table>
+
+    <h3>Incident Response Procedures</h3>
+    <ul>
+      <li><strong>Detection:</strong> Automated alerts via Cloud Monitoring and Crashlytics. Alert channels: email and mobile push.</li>
+      <li><strong>Triage:</strong> Severity classification (P0-P3). P0 (data breach or full outage) triggers immediate response.</li>
+      <li><strong>Containment:</strong> Affected Cloud Functions can be disabled within minutes via Firebase console. Firestore Security Rules can be updated to restrict access.</li>
+      <li><strong>Notification:</strong> 72-hour breach notification to affected school districts per FERPA requirements. Notification includes: nature of breach, data affected, remediation steps, and point of contact.</li>
+      <li><strong>Post-Incident:</strong> Root cause analysis documented. Preventive controls implemented. Affected parties notified of resolution.</li>
+    </ul>
+  </div>
+
+  <!-- Change Management -->
+  <h2>8. Change Management</h2>
+  <div class="section">
+    <table>
+      <tr><th>Control</th><th>Implementation</th></tr>
+      <tr><td><strong>Version Control</strong></td><td>All source code stored in Git (GitHub). 5 repositories: backend, iOS, Android, website, docs. Full commit history maintained.</td></tr>
+      <tr><td><strong>Code Review</strong></td><td>All changes reviewed before merge. Pull request workflow enforced on main branches.</td></tr>
+      <tr><td><strong>CI/CD Pipeline</strong></td><td>Firebase CLI deploy for backend functions and hosting. Automated test suite runs before production deployment.</td></tr>
+      <tr><td><strong>Automated Testing</strong></td><td>3,231 tests across all platforms: Backend (1,673), iOS (729), Android (502), Web (92), iOS E2E (45), Android E2E (190). All passing as of August 2026.</td></tr>
+      <tr><td><strong>Environment Separation</strong></td><td>Development and production Firebase projects. Clever sandbox environment for integration testing.</td></tr>
+      <tr><td><strong>Rollback</strong></td><td>Firebase Functions support instant rollback to previous version. Firestore PITR enables data recovery.</td></tr>
+    </table>
+  </div>
+
+  <!-- Vendor Assessment -->
+  <h2>9. Vendor Assessment</h2>
+  <div class="section">
+    <table>
+      <tr><th>Vendor</th><th>Service</th><th>Data Processed</th><th>Compliance Status</th></tr>
+      <tr>
+        <td><strong>Google Cloud / Firebase</strong></td>
+        <td>Infrastructure (Firestore, Auth, Cloud Functions, Cloud Storage, Hosting, Monitoring)</td>
+        <td>All application data including student PII, volunteer hours, authentication credentials</td>
+        <td><span class="badge badge-pass">SOC 2 Type II</span></td>
+      </tr>
+      <tr>
+        <td><strong>Clever</strong></td>
+        <td>SSO, Secure Sync (Rostering), LMS Connect</td>
+        <td>Student roster data (name, email, grade, school, sections). OAuth tokens.</td>
+        <td><span class="badge badge-pass">SOC 2 Type II</span></td>
+      </tr>
+      <tr>
+        <td><strong>Zoho</strong></td>
+        <td>SMTP email delivery (transactional emails)</td>
+        <td>Email addresses only. No student data in email bodies.</td>
+        <td><span class="badge badge-info">ISO 27001</span></td>
+      </tr>
+    </table>
+    <p>All vendors reviewed annually for continued compliance. Vendor access is limited to the minimum data necessary for their service function.</p>
+  </div>
+
+  <!-- Data Retention & Disposal -->
+  <h2>10. Data Retention &amp; Disposal</h2>
+  <div class="section">
+    <table>
+      <tr><th>Scenario</th><th>Retention Period</th><th>Disposal Method</th></tr>
+      <tr>
+        <td><strong>Active accounts</strong></td>
+        <td>Indefinite (while account is active)</td>
+        <td>N/A</td>
+      </tr>
+      <tr>
+        <td><strong>School contract termination</strong></td>
+        <td>60 days after termination notice</td>
+        <td>Firestore document deletion + Cloud Storage object deletion. School admin notified before deletion begins.</td>
+      </tr>
+      <tr>
+        <td><strong>Individual deletion request</strong></td>
+        <td>Processed within 30 days</td>
+        <td>All PII removed from Firestore. Firebase Auth account deleted. Volunteer hours de-identified (aggregated counts retained).</td>
+      </tr>
+      <tr>
+        <td><strong>Aggregated / de-identified data</strong></td>
+        <td>Retained indefinitely</td>
+        <td>N/A — contains no PII. Used for platform-wide impact reporting.</td>
+      </tr>
+      <tr>
+        <td><strong>Audit logs</strong></td>
+        <td>7 years</td>
+        <td>Retained for compliance verification. Deleted via automated lifecycle policy after retention period.</td>
+      </tr>
+      <tr>
+        <td><strong>Crashlytics / error logs</strong></td>
+        <td>90 days (Google-managed)</td>
+        <td>Automatically purged by Google. No PII included in logs.</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Audit Trail -->
+  <h2>11. Audit Trail</h2>
+  <div class="section">
+    <p>ImpactBadge maintains comprehensive audit trails across multiple Firestore collections to support compliance verification, incident investigation, and FERPA audit requirements:</p>
+    <table>
+      <tr><th>Collection</th><th>Purpose</th><th>Fields Logged</th></tr>
+      <tr>
+        <td><code>ferpaExportLog</code></td>
+        <td>Tracks all FERPA data exports by school admins</td>
+        <td>Admin UID, admin name, timestamp, student IDs exported, export reason, export format, IP address</td>
+      </tr>
+      <tr>
+        <td><code>webhookLogs</code></td>
+        <td>Records all incoming Clever webhook events</td>
+        <td>Event type, timestamp, payload hash (HMAC verified), processing status, error details (if any)</td>
+      </tr>
+      <tr>
+        <td><code>schoolHistory</code></td>
+        <td>Tracks changes to school configuration and settings</td>
+        <td>Changed field, old value, new value, changed by (UID), timestamp</td>
+      </tr>
+      <tr>
+        <td><code>sectionMemberships</code></td>
+        <td>Records student-to-section assignments (Clever rostering)</td>
+        <td>Student UID, section ID, school ID, assignment date, source (manual/Clever), removal date</td>
+      </tr>
+      <tr>
+        <td><code>parental_consents</code></td>
+        <td>COPPA consent records for users under 13</td>
+        <td>Child UID, parent email, consent granted (boolean), timestamp, consent method (email/in-app), IP address</td>
+      </tr>
+    </table>
+    <p>All audit log entries are append-only. Deletion of audit records requires elevated privileges and is itself logged.</p>
+  </div>
+
+</div>
+
+<div class="footer">
+  ImpactBadge LLC &nbsp;|&nbsp; SOC 2 Compliance Documentation &nbsp;|&nbsp; August 5, 2026
+</div>
+
+</body>
+</html>
