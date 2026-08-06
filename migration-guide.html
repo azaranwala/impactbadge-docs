@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ImpactBadge — Migration Guide: Switch from x2VOL, Helper Helper & Others</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f8faf9;color:#333;min-height:100vh}
+.hero{background:linear-gradient(135deg,#00897B 0%,#00695C 100%);color:white;padding:48px 32px 40px;text-align:center}
+.hero h1{font-size:32px;font-weight:800;letter-spacing:-0.5px;margin-bottom:6px}
+.hero p{font-size:14px;opacity:0.8;max-width:600px;margin:0 auto}
+.container{max-width:900px;margin:0 auto;padding:32px 20px 60px}
+.back{display:inline-block;margin-bottom:20px;color:#00897B;text-decoration:none;font-size:13px;font-weight:600}
+.back:hover{text-decoration:underline}
+h2{font-size:20px;font-weight:700;margin:32px 0 12px;color:#00897B;border-bottom:2px solid #e0e0e0;padding-bottom:8px}
+h3{font-size:16px;font-weight:700;margin:20px 0 8px;color:#333}
+p,li{font-size:14px;line-height:1.7}
+p{margin-bottom:12px}
+ol,ul{margin:8px 0 16px 24px}
+.section{background:white;border-radius:14px;padding:24px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);border:1px solid #e8ece9}
+table{width:100%;border-collapse:collapse;font-size:12px;margin:12px 0}
+th{background:#f0f4f3;text-align:left;padding:8px 10px;font-weight:600;color:#555;border-bottom:2px solid #ddd}
+td{padding:8px 10px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600}
+.badge-free{background:#e8f5e9;color:#2e7d32}
+.badge-time{background:#e3f2fd;color:#1565c0}
+.callout{background:#e8f5e9;border-left:4px solid #00897B;padding:16px 20px;border-radius:0 10px 10px 0;margin:16px 0;font-size:13px}
+.callout-warn{background:#fff3e0;border-left-color:#E65100}
+code{background:#f0f4f3;padding:2px 6px;border-radius:4px;font-size:12px;font-family:'SF Mono',Monaco,monospace}
+pre{background:#1a1a2e;color:#e0e0e0;padding:16px;border-radius:10px;overflow-x:auto;font-size:12px;line-height:1.6;margin:12px 0}
+.step{display:flex;gap:16px;margin-bottom:20px}
+.step-num{width:36px;height:36px;border-radius:50%;background:#00897B;color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;flex-shrink:0}
+.step-content{flex:1}
+.step-content h3{margin-top:4px}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+.compare-card{background:white;border-radius:12px;padding:20px;border:1px solid #e8ece9}
+.compare-card h4{font-size:14px;font-weight:700;margin-bottom:8px}
+.compare-card.old{border-color:#ffcdd2}
+.compare-card.new{border-color:#c8e6c9}
+.footer{text-align:center;padding:30px 20px;color:#aaa;font-size:11px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Migration Guide</h1>
+  <p>Switch from x2VOL, Helper Helper, Track It Forward, MobileServe, or paper forms to ImpactBadge in under 30 minutes</p>
+</div>
+
+<div class="container">
+<a href="index.html" class="back">&larr; Back to Documentation Hub</a>
+
+<div class="callout">
+  <strong>Migration is free, and every student's hours carry over.</strong> No data is lost. Students keep their full volunteer history, verified hours, and progress toward graduation requirements.
+</div>
+
+<!-- ─── Why Switch ─── -->
+<h2>Why Schools Switch to ImpactBadge</h2>
+<div class="section">
+  <div class="compare">
+    <div class="compare-card old">
+      <h4>What You're Paying For Now</h4>
+      <ul>
+        <li>x2VOL: $2,000-5,000/year per school</li>
+        <li>Helper Helper: Custom pricing (paid)</li>
+        <li>Track It Forward: $500-2,000/year</li>
+        <li>MobileServe: $500/year + $250 setup</li>
+        <li>Paper forms: Free but 10+ hours/month of counselor time</li>
+      </ul>
+    </div>
+    <div class="compare-card new">
+      <h4>What You Get with ImpactBadge</h4>
+      <ul>
+        <li><strong>Free</strong> &mdash; no cost, no PO, no procurement</li>
+        <li>Gamification that students actually want to use</li>
+        <li>Common App export (no competitor has this)</li>
+        <li>Parent dashboard with COPPA compliance</li>
+        <li>Clever SSO &mdash; zero IT setup</li>
+        <li>Auto graduation tracking with monthly nudges</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ─── Migration Paths ─── -->
+<h2>Migration Paths by Current System</h2>
+
+<!-- x2VOL -->
+<h3>From x2VOL</h3>
+<div class="section">
+  <p><span class="badge badge-time">~20 minutes</span> <span class="badge badge-free">FREE</span></p>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h3>Export Student Data from x2VOL</h3>
+      <p>Log into your x2VOL admin dashboard. Go to <strong>Reports</strong> &rarr; <strong>Export</strong>. Download the student hours report as CSV. This includes: student email, name, organization, date, hours, and verification status.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h3>Format the CSV (if needed)</h3>
+      <p>ImpactBadge accepts this CSV format. Rename columns if needed:</p>
+      <pre>studentEmail,studentName,grade,organizationName,date,hours,description,category
+alice@school.edu,Alice Smith,10,Richmond Food Bank,03/15/2026,4.5,Sorted donations,hunger
+bob@school.edu,Bob Lee,11,Public Library,2026-01-20,2.0,Tutoring,education</pre>
+      <p><strong>Required columns:</strong> studentEmail, studentName, organizationName, date, hours</p>
+      <p><strong>Optional columns:</strong> grade, description, category</p>
+      <p><strong>Date formats:</strong> Both <code>MM/DD/YYYY</code> and <code>YYYY-MM-DD</code> are accepted.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <h3>Upload to ImpactBadge</h3>
+      <p>Log into the <a href="https://impacthub-prod.web.app" style="color:#00897B">ImpactBadge web portal</a> as a school admin. Go to <strong>Import Students</strong>. Upload the CSV file. ImpactBadge will:</p>
+      <ul>
+        <li><strong>Match existing students</strong> by email &rarr; hours imported immediately</li>
+        <li><strong>Pre-register new students</strong> &rarr; hours import when they create accounts</li>
+        <li>All hours marked as <strong>verified</strong> (pre-verified from x2VOL)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-content">
+      <h3>Invite Students</h3>
+      <p>Students download ImpactBadge from the App Store or Google Play. If your school uses Clever, students sign in with one tap &mdash; no account creation needed. Their migrated hours appear immediately.</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>What carries over:</strong> All verified hours, organization names, dates, and descriptions. Students see their full history from day one.<br>
+    <strong>What doesn't carry over:</strong> x2VOL-specific data like WBL/CTE tracking, supervisor signatures (replaced by ImpactBadge's own verification system).
+  </div>
+</div>
+
+<!-- Helper Helper -->
+<h3>From Helper Helper</h3>
+<div class="section">
+  <p><span class="badge badge-time">~20 minutes</span> <span class="badge badge-free">FREE</span></p>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h3>Export from Helper Helper</h3>
+      <p>Log into Helper Helper admin. Go to <strong>Reports</strong> &rarr; <strong>Student Hours</strong>. Export as CSV or Excel. The export includes student name, email, event, date, and hours.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h3>Map Columns to ImpactBadge Format</h3>
+      <p>Rename columns to match: <code>studentEmail</code>, <code>studentName</code>, <code>organizationName</code>, <code>date</code>, <code>hours</code>. Save as CSV.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-content">
+      <h3>Upload &amp; Invite</h3>
+      <p>Same as x2VOL: upload CSV in the web portal, invite students to download the app.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Track It Forward -->
+<h3>From Track It Forward</h3>
+<div class="section">
+  <p><span class="badge badge-time">~15 minutes</span> <span class="badge badge-free">FREE</span></p>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h3>Export from Track It Forward</h3>
+      <p>Go to <strong>Admin</strong> &rarr; <strong>Reports</strong> &rarr; <strong>Export All Hours</strong>. Download as CSV. Track It Forward exports include: volunteer name, email, organization, date, hours, and category.</p>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h3>Rename &amp; Upload</h3>
+      <p>Rename columns to match ImpactBadge format and upload via the web portal.</p>
+    </div>
+  </div>
+</div>
+
+<!-- MobileServe -->
+<h3>From MobileServe</h3>
+<div class="section">
+  <p><span class="badge badge-time">~20 minutes</span> <span class="badge badge-free">FREE</span></p>
+  <p>MobileServe supports CSV export of student hours. Export from the admin dashboard, rename columns to match ImpactBadge's format, and upload via the web portal. Same 3-step process.</p>
+</div>
+
+<!-- Paper Forms -->
+<h3>From Paper Forms / Spreadsheets</h3>
+<div class="section">
+  <p><span class="badge badge-time">~30 minutes</span> <span class="badge badge-free">FREE</span></p>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-content">
+      <h3>Enter Data into a Spreadsheet</h3>
+      <p>If your hours are on paper forms, enter them into a spreadsheet (Google Sheets or Excel) with these columns:</p>
+      <pre>studentEmail,studentName,grade,organizationName,date,hours
+jane@school.edu,Jane Doe,9,Habitat for Humanity,09/15/2025,3.0
+john@school.edu,John Smith,10,Food Bank,10/20/2025,4.5</pre>
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-content">
+      <h3>Save as CSV &amp; Upload</h3>
+      <p>File &rarr; Download &rarr; CSV. Then upload via the ImpactBadge web portal.</p>
+    </div>
+  </div>
+
+  <div class="callout-warn callout">
+    <strong>Tip for large paper migrations:</strong> Start with current-year data only. Historical hours from previous years are less critical &mdash; students can self-report older hours with the self-report feature, which includes e-signature and photo evidence.
+  </div>
+</div>
+
+<!-- ─── CSV Format Reference ─── -->
+<h2>CSV Format Reference</h2>
+<div class="section">
+  <table>
+    <thead><tr><th>Column</th><th>Required</th><th>Description</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><code>studentEmail</code></td><td><strong>Yes</strong></td><td>Student's email (used for matching)</td><td>alice@school.edu</td></tr>
+      <tr><td><code>studentName</code></td><td><strong>Yes</strong></td><td>Full name</td><td>Alice Smith</td></tr>
+      <tr><td><code>organizationName</code></td><td><strong>Yes</strong></td><td>Where they volunteered</td><td>Richmond Food Bank</td></tr>
+      <tr><td><code>date</code></td><td><strong>Yes</strong></td><td>Date of service (MM/DD/YYYY or YYYY-MM-DD)</td><td>03/15/2026</td></tr>
+      <tr><td><code>hours</code></td><td><strong>Yes</strong></td><td>Hours worked (0.5 to 500)</td><td>4.5</td></tr>
+      <tr><td><code>grade</code></td><td>No</td><td>Grade level (6-12)</td><td>10</td></tr>
+      <tr><td><code>description</code></td><td>No</td><td>What the student did</td><td>Sorted food donations</td></tr>
+      <tr><td><code>category</code></td><td>No</td><td>Service category</td><td>hunger, education, environment, health, animals, arts, seniors, community</td></tr>
+    </tbody>
+  </table>
+
+  <p><strong>Limits:</strong> Up to 5,000 records per upload. For larger schools, split into multiple files.</p>
+</div>
+
+<!-- ─── What Happens After Import ─── -->
+<h2>What Happens After Import</h2>
+<div class="section">
+  <table>
+    <thead><tr><th>Scenario</th><th>What Happens</th></tr></thead>
+    <tbody>
+      <tr><td>Student email matches an existing ImpactBadge account</td><td>Hours imported immediately. Student sees them in the Hours tab.</td></tr>
+      <tr><td>Student email doesn't match any account</td><td>Student is pre-registered. When they create an account with that email (or sign in via Clever), hours appear automatically.</td></tr>
+      <tr><td>Duplicate email in CSV</td><td>Each row creates a separate hour entry. Multiple events for the same student are fine.</td></tr>
+      <tr><td>Invalid date or email</td><td>Skipped with error count. Other records still import successfully.</td></tr>
+      <tr><td>Student already has hours in ImpactBadge</td><td>Migrated hours are added to existing hours (cumulative). No data is overwritten.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ─── Clever SSO Setup ─── -->
+<h2>Bonus: Set Up Clever SSO (Optional)</h2>
+<div class="section">
+  <p>If your school uses Clever, you can enable single sign-on so students log in with one tap &mdash; no separate account creation needed.</p>
+  <ol>
+    <li>Find <strong>ImpactBadge</strong> in the Clever Library catalog</li>
+    <li>Click <strong>"Add to Portal"</strong> &mdash; no IT approval needed</li>
+    <li>Students see ImpactBadge in their Clever portal and sign in with one click</li>
+    <li>For full roster sync (auto-provision all students), contact us to enable Clever Secure Sync</li>
+  </ol>
+  <p>Students who signed in via Clever are automatically matched with any pre-registered migration data by email.</p>
+</div>
+
+<!-- ─── FAQ ─── -->
+<h2>Frequently Asked Questions</h2>
+<div class="section">
+  <h3>How long does migration take?</h3>
+  <p>15-30 minutes for a typical school. Export CSV from your current system, upload to ImpactBadge, done.</p>
+
+  <h3>Do students need to create new accounts?</h3>
+  <p>If your school uses Clever, no &mdash; students sign in with their existing Clever credentials. Otherwise, students download the app and create an account with their school email. Their migrated hours appear automatically.</p>
+
+  <h3>Will students lose any data?</h3>
+  <p>No. All verified hours, organization names, dates, and descriptions are preserved. Students see their complete history from day one.</p>
+
+  <h3>Can we run both systems during transition?</h3>
+  <p>Yes. Many schools run ImpactBadge alongside their existing system for a semester before fully switching. New hours go into ImpactBadge while historical data remains accessible in the old system.</p>
+
+  <h3>What if some students don't have email addresses?</h3>
+  <p>For Clever schools, students don't need email &mdash; Clever Library SSO works without student email. For non-Clever schools, students can use any email to create an account.</p>
+
+  <h3>Is there a cost to migrate?</h3>
+  <p><strong>No.</strong> Migration is free. ImpactBadge is free. There is no cost at any step.</p>
+
+  <h3>Can we import from multiple systems?</h3>
+  <p>Yes. The migration tool accepts a <code>sourceSystem</code> parameter. You can import from x2VOL, Helper Helper, Track It Forward, MobileServe, or any other system &mdash; just format the CSV to match.</p>
+
+  <h3>What about Naviance integration?</h3>
+  <p>ImpactBadge exports Naviance-compatible CSV files. Students can also export directly to Common App format &mdash; a feature no other platform offers.</p>
+</div>
+
+<!-- ─── Support ─── -->
+<h2>Need Help?</h2>
+<div class="section">
+  <p>We'll walk you through the migration for free. Contact us:</p>
+  <ul>
+    <li><strong>Email:</strong> schools@impactbadge.app</li>
+    <li><strong>Support:</strong> support@impactbadge.app</li>
+    <li><strong>Documentation:</strong> <a href="https://azaranwala.github.io/impactbadge-docs/" style="color:#00897B">azaranwala.github.io/impactbadge-docs</a></li>
+  </ul>
+</div>
+
+<div class="footer">ImpactBadge &mdash; Migration Guide &mdash; August 2026</div>
+</div>
+</body>
+</html>
