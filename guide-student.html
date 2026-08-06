@@ -45,10 +45,10 @@ tr:nth-child(even){background:#f9f9f9}
 <h2>Getting Started</h2>
 
 <h3>Step 1: Create Your Account</h3>
-<p>You have 4 ways to sign up:</p>
+<p>You have 4 ways to sign up. All methods include an age confirmation checkbox — you must confirm you are 13 or older (students under 13 require parental consent; see the <a href="guide-parent.html">Parent Guide</a> for COPPA details).</p>
 <table>
 <tr><th>Method</th><th>Best For</th><th>What Happens</th></tr>
-<tr><td><strong>Email & Password</strong></td><td>Any student</td><td>Enter name, email, school, grade, Student ID → account created immediately</td></tr>
+<tr><td><strong>Email & Password</strong></td><td>Any student</td><td>Enter name, email, school, grade, Student ID → confirm age (13+) → account created immediately</td></tr>
 <tr><td><strong>Sign in with Google</strong></td><td>Gmail or Google Workspace users</td><td>One-tap sign in → school auto-detected if using school email domain</td></tr>
 <tr><td><strong>Sign in with Apple</strong></td><td>iPhone users</td><td>Face ID / Touch ID → account created with Apple ID email</td></tr>
 <tr><td><strong>Sign in with Clever</strong></td><td>Schools using Clever</td><td>Click from Clever portal → school info auto-populated from district SIS</td></tr>
@@ -75,7 +75,11 @@ tr:nth-child(even){background:#f9f9f9}
 <p>Tap "Register" to secure your spot. If the event is full, you'll be added to the waitlist. You'll get a push notification 24 hours before the event.</p>
 </div>
 <div class="step">
-<h4>4. Multi-Shift Events</h4>
+<h4>4. Add to Calendar</h4>
+<p>After registering, tap "Add to Calendar" to save the event to your device calendar. On iOS this uses the native Calendar app; on Android it uses expo-calendar. The calendar entry includes the event title, time, and location.</p>
+</div>
+<div class="step">
+<h4>5. Multi-Shift Events</h4>
 <p>Some events have multiple shifts (e.g., Morning 9-12, Afternoon 1-4). Choose the shift that works for you.</p>
 </div>
 </div>
@@ -140,8 +144,8 @@ tr:nth-child(even){background:#f9f9f9}
 <div class="feature-card"><div class="feature-icon">📈</div><div><h4>Level Up</h4><p>Progress through 7 levels: Greenhorn → Volunteer → Helper → Hero → Champion → Legend → Sage</p></div></div>
 <div class="feature-card"><div class="feature-icon">🏅</div><div><h4>Badges</h4><p>Earn 11 badges: First Step, 5hr Hero, 10hr Champ, streak badges, and more.</p></div></div>
 <div class="feature-card"><div class="feature-icon">🔥</div><div><h4>Streaks</h4><p>Volunteer on consecutive days to build streaks. Hit 100 days for the Century Streak badge!</p></div></div>
-<div class="feature-card"><div class="feature-icon">🏆</div><div><h4>Challenges</h4><p>Join time-limited challenges like "Log 10 hours this week" for bonus XP rewards.</p></div></div>
-<div class="feature-card"><div class="feature-icon">🏫</div><div><h4>School Challenges</h4><p>Compete school-vs-school! Your hours count toward your school's total on the leaderboard.</p></div></div>
+<div class="feature-card"><div class="feature-icon">🏆</div><div><h4>Challenges (Dual Tab)</h4><p>Two tabs: <strong>My Challenges</strong> — personal goals like "Log 10 hours this week." <strong>School Challenges</strong> — school-vs-school competitions with a live leaderboard.</p></div></div>
+<div class="feature-card"><div class="feature-icon">🏫</div><div><h4>School-vs-School Challenges</h4><p>Compete against other schools! Every verified hour you log counts toward your school's total. View the leaderboard to see how your school ranks against others in your district or region.</p></div></div>
 </div>
 
 <h2>Leaderboard</h2>
@@ -165,7 +169,7 @@ tr:nth-child(even){background:#f9f9f9}
 </table>
 
 <h2>Graduation Hour Tracking</h2>
-<p>If your school has set graduation hour requirements, you'll see a progress bar on your Profile:</p>
+<p>If your school has set graduation hour requirements, you'll see a dynamic progress bar on your Profile. The required hours are pulled from your school's settings (e.g., 75 hours, 100 hours) — they are not hardcoded. If your school admin changes the requirement, your progress bar updates automatically.</p>
 <ul>
 <li><strong>Green</strong> — On track (≥100% of expected hours by now)</li>
 <li><strong>Yellow</strong> — At risk (50-99%)</li>
@@ -186,7 +190,7 @@ tr:nth-child(even){background:#f9f9f9}
 <table>
 <tr><th>Feature</th><th>How to Use</th></tr>
 <tr><td>Follow Students</td><td>Search for friends → tap Follow → see them on Friends leaderboard</td></tr>
-<tr><td>Direct Messages</td><td>Tap a student's profile → Send Message (feature-flagged)</td></tr>
+<tr><td>Direct Messages</td><td>Tap a student's profile → Send Message. <strong>Note:</strong> Messaging is restricted for students under 13 (COPPA compliance) — under-13 users cannot send or receive direct messages or group chats.</td></tr>
 <tr><td>Group Chat</td><td>After registering for an event → tap "Event Chat" to coordinate with other volunteers</td></tr>
 <tr><td>Teams</td><td>Create a team → share the join code → register for events together</td></tr>
 <tr><td>Reflections</td><td>Write about your volunteer experience → toggle "Make Public" to share on your profile</td></tr>
@@ -298,14 +302,23 @@ tr:nth-child(even){background:#f9f9f9}
 <li>See your hours and streak at a glance</li>
 </ul>
 
-<h2>Home Screen Widget (iOS)</h2>
+<h2>Home Screen Widget (iOS + Android)</h2>
 
-<p>Add an ImpactBadge widget to your iPhone home screen:</p>
+<p>Add an ImpactBadge widget to your home screen on either platform:</p>
 <ul>
-<li><strong>Small widget:</strong> Shows your total hours and current streak</li>
-<li><strong>Medium widget:</strong> Shows hours, streak, and your next upcoming event</li>
+<li><strong>Small widget:</strong> Shows your total hours, current streak, and badge count</li>
+<li><strong>Medium widget:</strong> Shows hours, streak, badges, and your next upcoming event</li>
 </ul>
-<p>Long-press your home screen → tap "+" → search "ImpactBadge" → select widget size.</p>
+<p><strong>iOS:</strong> Long-press your home screen → tap "+" → search "ImpactBadge" → select widget size.<br>
+<strong>Android:</strong> Long-press your home screen → Widgets → find ImpactBadge → drag to home screen.</p>
+
+<h2>Deep Linking</h2>
+
+<p>ImpactBadge supports deep links that open directly to specific content in the app:</p>
+<ul>
+<li><strong>Event deep link:</strong> <code>impactbadge://event/{id}</code> — opens the event detail screen for a specific event. Useful when sharing events via text, email, or social media.</li>
+<li>If you don't have the app installed, the link opens the App Store / Play Store page.</li>
+</ul>
 
 <h2>Referral Program</h2>
 
@@ -385,16 +398,21 @@ tr:nth-child(even){background:#f9f9f9}
 <tr><td>45</td><td>Email verification</td><td>Profile → Verify Email banner</td></tr>
 <tr><td>46</td><td>Nonprofit search</td><td>Explore → search → Nonprofits</td></tr>
 <tr><td>47</td><td>Apple Watch</td><td>Watch app (iOS only)</td></tr>
-<tr><td>48</td><td>Home screen widget</td><td>iOS widget (hours + streak)</td></tr>
+<tr><td>48</td><td>Home screen widget</td><td>iOS + Android widget (hours, streak, badges)</td></tr>
 <tr><td>49</td><td>Dark mode</td><td>Automatic (follows system)</td></tr>
-<tr><td>50</td><td>Spanish language</td><td>Automatic (follows device language)</td></tr>
+<tr><td>50</td><td>Spanish language</td><td>Automatic (follows device language, iOS + Android)</td></tr>
 <tr><td>51</td><td>Delete account</td><td>Profile → Settings → Delete Account</td></tr>
 <tr><td>52</td><td>Clever SSO login</td><td>Login → Sign in with Clever</td></tr>
 <tr><td>53</td><td>Forgot password</td><td>Login → Forgot Password?</td></tr>
+<tr><td>54</td><td>Add to Calendar</td><td>Event detail → Add to Calendar (iOS native / Android expo-calendar)</td></tr>
+<tr><td>55</td><td>Deep linking</td><td>impactbadge://event/{id} opens event detail</td></tr>
+<tr><td>56</td><td>Age confirmation</td><td>Signup → 13+ age confirmation checkbox</td></tr>
+<tr><td>57</td><td>Under-13 messaging restriction</td><td>Automatic — DMs and group chat disabled for under-13</td></tr>
 </table>
 
 <div class="footer">
 <p>ImpactBadge LLC &nbsp;|&nbsp; <a href="index.html">Documentation Hub</a> &nbsp;|&nbsp; <a href="https://impactbadge.app">impactbadge.app</a></p>
+<p>Last updated: August 5, 2026</p>
 </div>
 </body>
 </html>

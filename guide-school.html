@@ -109,11 +109,13 @@ tr:nth-child(even){background:#f9f9f9}
 <tr><td><strong>Clever Sync</strong></td><td>Roster sync status from Clever</td><td>View counts, trigger manual sync</td></tr>
 </table>
 
-<h2>Setting Graduation Requirements</h2>
+<h2>Setting Graduation Requirements (Dynamic Hours)</h2>
+
+<p>Graduation hour requirements are fully configurable per school — they are not hardcoded. The hours you set here drive the student progress bars, compliance color-coding, and monthly nudge notifications throughout the platform.</p>
 
 <div class="flow">
 <div class="step"><h4>1. Go to Settings</h4><p>School Dashboard → Settings page.</p></div>
-<div class="step"><h4>2. Set Graduation Minimum Hours</h4><p>e.g., 75 hours for graduation, 10 hours per grade per year.</p></div>
+<div class="step"><h4>2. Set Graduation Minimum Hours</h4><p>e.g., 75 hours for graduation, 10 hours per grade per year. Students' progress bars dynamically reflect whatever value you set here.</p></div>
 <div class="step"><h4>3. Set Deadlines</h4><p>Senior deadline (e.g., May 1), quarterly checkpoints.</p></div>
 <div class="step"><h4>4. Configure Categories</h4><p>Which volunteer categories count toward graduation (CSL categories for HCPS).</p></div>
 <div class="step"><h4>5. Save</h4><p>Settings are saved and apply immediately. Students see their progress bar update.</p></div>
@@ -141,9 +143,9 @@ tr:nth-child(even){background:#f9f9f9}
 <li>Emails the school admin a compliance digest with counts and a CSV attachment</li>
 </ol>
 
-<h2>Clever Sync (Roster Management)</h2>
+<h2>Clever Secure Sync (Roster Management)</h2>
 
-<p>If your district uses Clever Complete, student and teacher rosters sync automatically:</p>
+<p>If your district uses Clever Complete, student and teacher rosters sync automatically via Clever Secure Sync:</p>
 <ul>
 <li><strong>Daily full sync</strong> at 2:00 AM EST — students, teachers, staff (counselors), sections, schools</li>
 <li><strong>Every 15 minutes</strong> — incremental changes (new students, class transfers, teacher reassignments, removals)</li>
@@ -167,14 +169,18 @@ tr:nth-child(even){background:#f9f9f9}
 
 <h2>Reports & Exports</h2>
 
+<p>The Reports page (<strong>/school/reports</strong>) provides 4 report types accessible from the dashboard:</p>
+
 <table>
 <tr><th>Report</th><th>Format</th><th>Contents</th></tr>
-<tr><td>School Hours CSV</td><td>CSV download</td><td>All students with name, grade, total hours, verified hours</td></tr>
-<tr><td>District Report</td><td>Web + CSV</td><td>Multi-school aggregate: participation rate, hours by school</td></tr>
-<tr><td>HCPS CSL Report</td><td>Web view</td><td>Mid-year, annual, senior seal status, WinSchool export</td></tr>
-<tr><td>WinSchool Export</td><td>CSV</td><td>Formatted for WinSchool SIS import</td></tr>
-<tr><td>Naviance CSV</td><td>CSV</td><td>Formatted for Naviance college planning system</td></tr>
+<tr><td><strong>1. School Hours CSV</strong></td><td>CSV download</td><td>All students with name, grade, total hours, verified hours, compliance status</td></tr>
+<tr><td><strong>2. District Report</strong></td><td>Web + CSV</td><td>Multi-school aggregate: participation rate, hours by school, at-risk counts</td></tr>
+<tr><td><strong>3. HCPS CSL Report</strong></td><td>Web view</td><td>Mid-year, annual, senior seal status, WinSchool export</td></tr>
+<tr><td><strong>4. Naviance / WinSchool Export</strong></td><td>CSV</td><td>Formatted for Naviance college planning system or WinSchool SIS import</td></tr>
 </table>
+
+<h3>School-vs-School Challenges</h3>
+<p>School admins can view and promote school-vs-school challenges from the dashboard. When a challenge is active, every verified hour logged by your students counts toward your school's total. The challenge leaderboard ranks participating schools by cumulative hours. Use the Announcements page to notify students about active challenges and drive participation.</p>
 
 <h2>Pre-Approval Workflow (HCPS CSL)</h2>
 
@@ -346,6 +352,7 @@ tr:nth-child(even){background:#f9f9f9}
 
 <div class="footer">
 <p>ImpactBadge LLC &nbsp;|&nbsp; <a href="index.html">Documentation Hub</a> &nbsp;|&nbsp; <a href="https://impactbadge.app">impactbadge.app</a></p>
+<p>Last updated: August 5, 2026</p>
 </div>
 </body>
 </html>

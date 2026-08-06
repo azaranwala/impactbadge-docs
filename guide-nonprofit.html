@@ -69,6 +69,9 @@ tr:nth-child(even){background:#f9f9f9}
 <li>Cancel the event (all registered volunteers are notified automatically)</li>
 </ul>
 
+<h3>Waitlist Auto-Promote</h3>
+<p>When a confirmed volunteer cancels their registration, the first person on the waitlist is automatically promoted to "Confirmed." They receive both a push notification and an email letting them know their spot has been secured. No manual action is needed from you — the system handles the promotion instantly.</p>
+
 <h2>Verifying Hours</h2>
 
 <h3>Automatic Verification (GPS)</h3>
@@ -97,12 +100,12 @@ tr:nth-child(even){background:#f9f9f9}
 <tr><td><strong>Last Event</strong></td><td>Most recent participation date</td></tr>
 </table>
 
-<p>Sort by hours, events, reliability, or recency. Click any volunteer to see their full event history with your organization.</p>
+<p>Sort by hours, events, reliability, or recency. Tap any volunteer to open their full profile — see their complete event history with your organization, total hours contributed, skills listed on their profile, and participation timeline. This CRM view helps you identify your most reliable volunteers, re-engage lapsed ones, and write personalized recommendation letters.</p>
 
 <h2>Impact Reports (Grant-Ready PDF)</h2>
 
 <div class="flow">
-<div class="step"><h4>1. Go to Analytics → "Download Impact Report"</h4><p>Select date range (defaults to last 6 months). Optionally include top 20 volunteers.</p></div>
+<div class="step"><h4>1. Go to Analytics → "Generate Impact Report"</h4><p>Select date range (defaults to last 6 months). Optionally include top 20 volunteers.</p></div>
 <div class="step"><h4>2. Generate Report</h4><p>ImpactBadge compiles: total hours, unique volunteers, events hosted, repeat rate, check-in rate, category breakdown, monthly trends, and estimated community impact.</p></div>
 <div class="step"><h4>3. Receive PDF</h4><p>A professional grant-ready PDF is emailed to your account and available for download. Includes your EIN and organization details.</p></div>
 </div>
@@ -135,6 +138,9 @@ tr:nth-child(even){background:#f9f9f9}
 <li>Rate limited to 10 requests/hour, 1,000 events per request</li>
 </ol>
 
+<h3>Webhook Security — HMAC-SHA256 Signatures</h3>
+<p>All webhook payloads are signed with HMAC-SHA256 for secure data exchange. When you generate a webhook key, ImpactBadge provides a signing secret. Each outgoing webhook includes an <code>X-Signature-256</code> header containing the HMAC-SHA256 hash of the request body using your secret. Verify this signature on your server to confirm the request came from ImpactBadge and was not tampered with.</p>
+
 <h2>Web Portal</h2>
 <p>Access your full dashboard from any browser at <strong>impacthub-prod.web.app</strong>. Log in with your org admin credentials. The web portal includes:</p>
 <ul>
@@ -147,6 +153,7 @@ tr:nth-child(even){background:#f9f9f9}
 
 <div class="footer">
 <p>ImpactBadge LLC &nbsp;|&nbsp; <a href="index.html">Documentation Hub</a> &nbsp;|&nbsp; <a href="https://impactbadge.app">impactbadge.app</a></p>
+<p>Last updated: August 5, 2026</p>
 </div>
 </body>
 </html>
