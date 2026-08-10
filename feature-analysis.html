@@ -69,7 +69,7 @@ strong{color:#1a1a1a}
 <tr><td>Android Screens</td><td>58</td></tr>
 <tr><td>Web Portal Pages</td><td>10</td></tr>
 <tr><td>Firestore Collections</td><td>27</td></tr>
-<tr><td>Composite Indexes</td><td>23</td></tr>
+<tr><td>Composite Indexes</td><td>31</td></tr>
 <tr><td>Feature Flags</td><td>9</td></tr>
 <tr><td>User Roles</td><td>4</td></tr>
 <tr><td>Supported Languages</td><td>2 (English, Spanish)</td></tr>
@@ -751,18 +751,31 @@ Result:      1 FAILURE (Layout component text matching)
 <tr><td><code>webhookLogs/{id}</code></td><td>Webhook audit logs</td><td>Internal</td></tr>
 </table>
 
-<h3 id="102-composite-indexes-23">10.2 Composite Indexes (23)</h3>
+<h3 id="102-composite-indexes-31">10.2 Composite Indexes (31)</h3>
 
 <p>Key indexes for performance:</p>
 <ul>
 <li><code>events</code>: geoHash + startDate (geo-proximity queries)</li>
 <li><code>events</code>: category + startDate (category filtering)</li>
+<li><code>events</code>: orgId + startDate (org dashboard)</li>
 <li><code>users</code>: role + totalHours (leaderboards)</li>
 <li><code>users</code>: role + schoolName + totalHours (school rankings)</li>
+<li><code>users</code>: role + schoolName + name (student lists)</li>
+<li><code>users</code>: role + districtName (district filtering)</li>
 <li><code>users</code>: role + interests (ARRAY_CONTAINS for matching)</li>
+<li><code>users</code>: studentId + schoolName (Clever student matching)</li>
+<li><code>users</code>: cleverDistrictId + cleverArchived (Clever sync)</li>
+<li><code>users</code>: schoolName + role + isMinor (COPPA compliance)</li>
+<li><code>users</code>: isTestData + role / createdAt (business metrics)</li>
 <li><code>conversations</code>: participants + lastMessageAt (chat list)</li>
 <li><code>notifications</code>: uid + createdAt (activity feed)</li>
-<li><code>selfReportedHours</code>: studentUid + status (admin review)</li>
+<li><code>notifications</code>: eventId + type + createdAt (event notifications)</li>
+<li><code>selfReportedHours</code>: studentUid + status / createdAt (admin review)</li>
+<li><code>preApprovals</code>: schoolName + status + createdAt / reviewedAt (CSL approvals)</li>
+<li><code>registrations</code>: uid + status / orgId + status (collection group)</li>
+<li><code>teams</code>: members + createdAt (team listing)</li>
+<li><code>parental_consents</code>: studentUid + createdAt (consent history)</li>
+<li><code>nonprofits</code>: cityLower + nameLower / category + nameLower (search)</li>
 </ul>
 
 <h3 id="103-cloud-storage-buckets-5">10.3 Cloud Storage Buckets (5)</h3>
