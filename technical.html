@@ -119,6 +119,17 @@ pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:a
 </table>
 
 <h3>2.4 Shifts (4), Hours (10), Students (18), Parents (6), Messaging (5), Challenges (4), Referrals (2), Import (5), Nonprofits/Orgs (6), Partner API (2)</h3>
+
+<h3>2.5 Public HTTP Endpoints (No Auth Required)</h3>
+<table>
+<tr><th>Function</th><th>Method</th><th>URL</th><th>Purpose</th></tr>
+<tr><td>getPublicProfile</td><td>GET</td><td>/getPublicProfile?uid=xxx</td><td>Student's public volunteer profile</td></tr>
+<tr><td>getPublicStory</td><td>GET</td><td>/getPublicStory?uid=xxx&reflectionId=xxx</td><td>Public volunteer reflection/story</td></tr>
+<tr><td>getPublicEvent</td><td>GET</td><td>/getPublicEvent?eventId=xxx</td><td>Public event details for social sharing (added Aug 29, 2026)</td></tr>
+<tr><td>verifySelfReportedHours</td><td>GET</td><td>/verifySelfReportedHours?token=xxx&action=verify</td><td>Supervisor hour verification via email link</td></tr>
+<tr><td>verifyParentalConsent</td><td>GET</td><td>/verifyParentalConsent?token=xxx&action=approve</td><td>Parent COPPA consent via email link</td></tr>
+<tr><td>verifyOrgClaim</td><td>GET</td><td>/verifyOrgClaim?token=xxx</td><td>Org claim verification via email link</td></tr>
+</table>
 <p>See <code>functions/src/index.ts</code> for the complete export list of all 135+ functions organized by category.</p>
 
 <h3>2.5 Clever Complete (13 functions)</h3>
