@@ -41,11 +41,38 @@ tr:nth-child(even){background:#f9f9f9}
 <h2>Getting Started — Claim Your Organization</h2>
 
 <div class="flow">
-<div class="step"><h4>1. Create an Account</h4><p>Sign up with your organization email (email/password or Google).</p></div>
-<div class="step"><h4>2. Search for Your Nonprofit</h4><p>Go to "Nonprofit Search" → enter your organization name. We search the IRS nonprofit registry.</p></div>
-<div class="step"><h4>3. Claim Your Organization</h4><p>Tap "Claim This Organization" → enter your name, role, and contact email. A verification email is sent.</p></div>
-<div class="step"><h4>4. Verify via Email</h4><p>Click the "Verify Organization" link in the email (expires in 7 days). Your account is upgraded to Org Admin.</p></div>
-<div class="step"><h4>5. Access Your Dashboard</h4><p>After verification, you land on the Org Admin Dashboard with full event and volunteer management.</p></div>
+<div class="step"><h4>1. Create an Account</h4><p>Sign up with your organization email (email/password or Google). Your name and email will be pre-filled in the claim form.</p></div>
+<div class="step"><h4>2. Search for Your Nonprofit</h4><p>Go to "Nonprofit Search" (or Settings → "Claim Your Organization") → enter your organization name. We search the IRS nonprofit registry.</p></div>
+<div class="step"><h4>3. Claim Your Organization</h4><p>Tap "Claim This Organization." Your name and email are pre-filled from your profile — just verify and tap "Submit Claim." If you represent a <strong>local chapter or branch</strong>, toggle "I represent a local chapter" and enter your chapter name (e.g., "Richmond, VA").</p></div>
+<div class="step"><h4>4. Verify via Email</h4><p>Click the verification link in the email (expires in 7 days). Your account is upgraded to Org Admin (or Chapter Admin if you claimed a chapter).</p></div>
+<div class="step"><h4>5. Access Your Dashboard</h4><p>After verification, you land on the Org Admin Dashboard with full event and volunteer management — scoped to your chapter if applicable.</p></div>
+</div>
+
+<h2>Multi-Chapter / Branch Organizations</h2>
+
+<p>If your nonprofit has multiple chapters or branches (e.g., North South Foundation with 50+ state chapters), ImpactBadge supports independent chapter management under a single organization.</p>
+
+<h3>How It Works</h3>
+<ul>
+<li><strong>Bottom-Up:</strong> Each chapter director can claim independently — no need to wait for the national org to join. Just toggle "I represent a local chapter" during the claim process.</li>
+<li><strong>Top-Down:</strong> If the national org is already on ImpactBadge, the org owner can create chapters and invite directors from the Chapters management page.</li>
+<li><strong>Independent Operation:</strong> Each chapter creates its own events, manages its own volunteers, and verifies its own hours.</li>
+<li><strong>National Visibility:</strong> When a national director joins (claiming the entire organization), they see all chapters, all events, and aggregated hours — perfect for grant reporting.</li>
+</ul>
+
+<h3>Roles</h3>
+<table>
+<tr><th>Role</th><th>Scope</th><th>Can Do</th></tr>
+<tr><td><strong>Org Owner</strong></td><td>Entire organization</td><td>Create chapters, invite chapter admins, view all chapter data, create events under any chapter, generate org-wide reports</td></tr>
+<tr><td><strong>Chapter Admin</strong></td><td>Their chapter only</td><td>Create events, verify hours, manage volunteers, view analytics — all scoped to their chapter</td></tr>
+</table>
+
+<h3>Managing Chapters (Org Owner)</h3>
+<div class="flow">
+<div class="step"><h4>1. Open Chapters</h4><p>Tap the building icon on your dashboard (iOS) or go to the web portal at <strong>impacthub-prod.web.app/admin/chapters</strong>.</p></div>
+<div class="step"><h4>2. Create a Chapter</h4><p>Tap "+" → enter chapter name and region (e.g., "Virginia" / "VA").</p></div>
+<div class="step"><h4>3. Invite a Director</h4><p>Swipe on a chapter → "Invite Admin" → enter their email. They receive an invitation link.</p></div>
+<div class="step"><h4>4. Monitor All Chapters</h4><p>Your analytics dashboard shows per-chapter breakdown: events, hours, volunteers for each chapter.</p></div>
 </div>
 
 <h2>Creating Events</h2>
@@ -58,6 +85,14 @@ tr:nth-child(even){background:#f9f9f9}
 </div>
 
 <div class="tip"><strong>Check-In PIN:</strong> Share this 4-digit code with volunteers who can't use GPS check-in. Find it on the event detail page.</div>
+
+<h3>Sharing Events on Social Media</h3>
+<p>Tap the <strong>share icon</strong> on any event detail page to share it on social media (Facebook, Instagram, LinkedIn, TikTok, WhatsApp, X, etc.). ImpactBadge generates a branded event card image (iOS) or formatted text (Android) with a link to a public event page:</p>
+<ul>
+<li><strong>Public event page:</strong> <code>impacthub-prod.web.app/events/{eventId}</code> — anyone can view event details without an account</li>
+<li><strong>Registration requires login:</strong> To sign up, users must download the app and create an account</li>
+<li><strong>Students can share too:</strong> After registering, students see a "Share my registration" button to tell friends</li>
+</ul>
 
 <h2>Managing Registrations</h2>
 
@@ -145,15 +180,16 @@ tr:nth-child(even){background:#f9f9f9}
 <p>Access your full dashboard from any browser at <strong>impacthub-prod.web.app</strong>. Log in with your org admin credentials. The web portal includes:</p>
 <ul>
 <li>Dashboard with stats and pending verifications</li>
-<li>Analytics with charts</li>
+<li>Analytics with charts and per-chapter breakdown</li>
 <li>Volunteer CRM with search and detail view</li>
 <li>Availability heatmap</li>
 <li>CSV import tool</li>
+<li>Chapter management (create, invite admins, deactivate)</li>
 </ul>
 
 <div class="footer">
 <p>ImpactBadge LLC &nbsp;|&nbsp; <a href="index.html">Documentation Hub</a> &nbsp;|&nbsp; <a href="https://impactbadge.app">impactbadge.app</a></p>
-<p>Last updated: August 5, 2026</p>
+<p>Last updated: August 30, 2026</p>
 </div>
 </body>
 </html>
