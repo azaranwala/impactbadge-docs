@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ImpactBadge — Event Aggregation Pipeline</title>
+<style>
+  body { font-family: 'Segoe UI', Calibri, Arial, sans-serif; max-width: 850px; margin: 40px auto; padding: 0 20px; color: #333; line-height: 1.6; }
+  h1 { color: #00897B; border-bottom: 3px solid #00897B; padding-bottom: 10px; }
+  h2 { color: #00695C; margin-top: 36px; border-bottom: 1px solid #e0e0e0; padding-bottom: 6px; }
+  h3 { color: #444; margin-top: 24px; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+  th { background: #00897B; color: white; padding: 10px 14px; text-align: left; font-size: 14px; }
+  td { border: 1px solid #e0e0e0; padding: 8px 14px; font-size: 13px; }
+  tr:nth-child(even) { background: #f9f9f9; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .badge-green { background: #e8f5e9; color: #2e7d32; }
+  .header-bar { background: #00897B; color: white; padding: 30px 32px; border-radius: 12px; margin-bottom: 30px; }
+  .header-bar h1 { color: white; border: none; margin: 0; padding: 0; }
+  .header-bar p { color: rgba(255,255,255,0.85); margin: 6px 0 0 0; }
+  .section-card { background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+  .back { display: inline-block; margin-bottom: 16px; color: #00897B; text-decoration: none; font-size: 14px; }
+  .back:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back">&larr; Back to Documentation Hub</a>
+
+<div class="header-bar">
+  <h1>Event Aggregation Pipeline</h1>
+  <p>5-source import system ensuring users always see volunteer events — deployed September 2026</p>
+</div>
+
+<h2>Problem Solved</h2>
+<p>New users opening ImpactBadge saw no events because all events were created by org admins (who hadn't signed up yet). The aggregation pipeline imports events from external sources automatically, so every user sees volunteer opportunities from day one.</p>
+
+<h2>Import Sources</h2>
+<table>
+  <tr><th>Schedule</th><th>Source</th><th>Function</th><th>Coverage</th></tr>
+  <tr><td>3 AM EST</td><td>Idealist API</td><td><code>idealistImportFunction</code></td><td>Global (sandbox key)</td></tr>
+  <tr><td>4 AM EST</td><td>VolunteerMatch API</td><td><code>volunteerMatchImportFunction</code></td><td>Richmond, 25mi radius</td></tr>
+  <tr><td>5 AM EST</td><td>SerpAPI Google Events</td><td><code>serpApiEventsImportFunction</code></td><td>Richmond VA, 8 queries</td></tr>
+  <tr><td>6 AM EST</td><td>iCal Feeds</td><td><code>icalFeedImportFunction</code></td><td>Richmond SPCA + Lewis Ginter</td></tr>
+  <tr><td>On-demand</td><td>Client-triggered</td><td><code>onDemandImportCall</code></td><td>User's location, 20 US cities</td></tr>
+</table>
+
+<h2>On-Demand Import</h2>
+<div class="section-card">
+  <p>When a user opens the app, the client calls <code>onDemandImportCall({ lat, lng })</code>. The backend:</p>
+  <ol>
+    <li>Maps coordinates to the nearest of 20 major US cities</li>
+    <li>Checks a cooldown grid (~11km cells, 6-hour cooldown per cell)</li>
+    <li>If not recently imported, runs VolunteerMatch + SerpAPI in parallel for that city</li>
+    <li>New events appear in the user's feed immediately</li>
+  </ol>
+  <p>Cooldown tracked in Firestore collection: <code>importCooldowns/{geoCell}</code></p>
+</div>
+
+<h2>Dynamic Radius Expansion</h2>
+<div class="section-card">
+  <p><code>getEventsNearbyCall</code> enhanced with <code>autoExpand: true</code> parameter:</p>
+  <ul>
+    <li>If fewer than 10 events found at requested radius, auto-expands</li>
+    <li>Expansion steps: 10 &rarr; 25 &rarr; 50 &rarr; 100 km</li>
+    <li>Response includes <code>effectiveRadiusKm</code> and <code>autoExpanded</code> flag</li>
+    <li>Fully backwards compatible (defaults: <code>autoExpand=false</code>)</li>
+  </ul>
+</div>
+
+<h2>iCal Feed Sources</h2>
+<p>Adding new feeds requires only adding an entry to the <code>ICAL_FEEDS</code> array in <code>icalFeedImport.ts</code>:</p>
+<table>
+  <tr><th>Organization</th><th>Feed URL</th><th>Events</th><th>Category</th></tr>
+  <tr><td>Richmond SPCA</td><td><code>richmondspca.org/events/list/?ical=1</code></td><td>~21</td><td>Animals</td></tr>
+  <tr><td>Lewis Ginter Botanical Garden</td><td><code>lewisginter.org/events/list/?ical=1</code></td><td>~30</td><td>Environment</td></tr>
+</table>
+<p>Any WordPress site using "The Events Calendar" plugin will work with this parser.</p>
+
+<h2>SerpAPI Configuration</h2>
+<div class="section-card">
+  <p><strong>Engine:</strong> <code>google</code> (free tier, 250 searches/month)</p>
+  <p><strong>Account:</strong> ops@impactbadge.app</p>
+  <p><strong>Queries (8):</strong> volunteer events, community service, nonprofit events, charity events, food bank volunteer, cleanup events, animal shelter volunteer, habitat for humanity — all in Richmond VA</p>
+  <p><strong>Category detection:</strong> Regex-based from title + event type (animals, hunger, environment, education, health, seniors, arts, community)</p>
+</div>
+
+<h2>Deduplication</h2>
+<p>All imported events use a shared deduplication system in <code>importHelpers.ts</code>:</p>
+<ul>
+  <li>MD5 hash of <code>title | date | address[:20]</code></li>
+  <li>Stored as <code>dedupKey</code> on each event document</li>
+  <li>Checked before every write — prevents duplicate imports across sources</li>
+</ul>
+
+<h2>Tests</h2>
+<p><span class="badge badge-green">112 tests</span> — 31 SerpAPI + 47 iCal + 23 on-demand + 11 auto-expand. All passing.</p>
+
+<h2>Key Files</h2>
+<table>
+  <tr><th>File</th><th>Purpose</th></tr>
+  <tr><td><code>functions/src/import/serpApiEventsImport.ts</code></td><td>SerpAPI Google Events importer</td></tr>
+  <tr><td><code>functions/src/import/icalFeedImport.ts</code></td><td>iCal feed parser (zero dependencies)</td></tr>
+  <tr><td><code>functions/src/import/onDemandImport.ts</code></td><td>On-demand import callable</td></tr>
+  <tr><td><code>functions/src/events/getEventsNearby.ts</code></td><td>Auto-expand radius logic</td></tr>
+  <tr><td><code>functions/src/import/importHelpers.ts</code></td><td>Shared dedup, category mapping, writeImportedEvent</td></tr>
+</table>
+
+</body>
+</html>

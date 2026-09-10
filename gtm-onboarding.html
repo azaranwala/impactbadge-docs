@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ImpactBadge — One-Link Nonprofit Onboarding</title>
+<style>
+  body { font-family: 'Segoe UI', Calibri, Arial, sans-serif; max-width: 850px; margin: 40px auto; padding: 0 20px; color: #333; line-height: 1.6; }
+  h1 { color: #00897B; border-bottom: 3px solid #00897B; padding-bottom: 10px; }
+  h2 { color: #00695C; margin-top: 36px; border-bottom: 1px solid #e0e0e0; padding-bottom: 6px; }
+  h3 { color: #444; margin-top: 24px; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+  th { background: #00897B; color: white; padding: 10px 14px; text-align: left; font-size: 14px; }
+  td { border: 1px solid #e0e0e0; padding: 8px 14px; font-size: 13px; }
+  tr:nth-child(even) { background: #f9f9f9; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .badge-green { background: #e8f5e9; color: #2e7d32; }
+  .badge-orange { background: #fff3e0; color: #e65100; }
+  .badge-blue { background: #e3f2fd; color: #1565c0; }
+  .badge-gray { background: #f5f5f5; color: #616161; }
+  .header-bar { background: #00897B; color: white; padding: 30px 32px; border-radius: 12px; margin-bottom: 30px; }
+  .header-bar h1 { color: white; border: none; margin: 0; padding: 0; }
+  .header-bar p { color: rgba(255,255,255,0.85); margin: 6px 0 0 0; }
+  .section-card { background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+  .flow-step { display: flex; align-items: flex-start; gap: 12px; margin: 12px 0; }
+  .flow-num { background: #00897B; color: white; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+  .back { display: inline-block; margin-bottom: 16px; color: #00897B; text-decoration: none; font-size: 14px; }
+  .back:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back">&larr; Back to Documentation Hub</a>
+
+<div class="header-bar">
+  <h1>One-Link Nonprofit Onboarding</h1>
+  <p>Reduce nonprofit onboarding from 6 steps to 3 clicks — deployed September 2026</p>
+</div>
+
+<h2>The Problem</h2>
+<p>Previously, onboarding a nonprofit required 6 steps across 2 platforms: download app &rarr; create account &rarr; navigate to organizations &rarr; search &rarr; claim &rarr; verify email. This created massive friction and killed GTM conversion.</p>
+
+<h2>The Solution</h2>
+<p>A GTM lead generates a <strong>single shareable link</strong> (with QR code) for a specific nonprofit. The nonprofit contact clicks it, enters their name + email, and gets verified — all without downloading the app.</p>
+
+<h2>End-to-End Flow</h2>
+
+<h3>GTM Lead (You)</h3>
+<div class="section-card">
+  <div class="flow-step"><div class="flow-num">1</div><div>Log in to <code>impacthub-prod.web.app</code> as super_admin</div></div>
+  <div class="flow-step"><div class="flow-num">2</div><div>Navigate to <strong>Nonprofit Onboarding</strong> in the sidebar</div></div>
+  <div class="flow-step"><div class="flow-num">3</div><div>Click <strong>"Generate Invite Link"</strong> &rarr; search for the nonprofit</div></div>
+  <div class="flow-step"><div class="flow-num">4</div><div>Optionally check <strong>"This is a local chapter"</strong> and enter chapter name</div></div>
+  <div class="flow-step"><div class="flow-num">5</div><div>Get the link + QR code. Copy or screenshot. Send via email/text.</div></div>
+  <div class="flow-step"><div class="flow-num">6</div><div>Track status on the dashboard: Generated &rarr; Email Submitted &rarr; Verified &rarr; First Event Created</div></div>
+</div>
+
+<h3>Nonprofit Contact</h3>
+<div class="section-card">
+  <div class="flow-step"><div class="flow-num">1</div><div>Clicks the link (or scans QR code)</div></div>
+  <div class="flow-step"><div class="flow-num">2</div><div>Sees branded page with org name pre-filled + benefit list</div></div>
+  <div class="flow-step"><div class="flow-num">3</div><div>Enters name + email &rarr; clicks <strong>"Accept & Verify Email"</strong></div></div>
+  <div class="flow-step"><div class="flow-num">4</div><div>Gets verification email &rarr; clicks verify link</div></div>
+  <div class="flow-step"><div class="flow-num">5</div><div>Account created automatically &rarr; becomes org_admin</div></div>
+  <div class="flow-step"><div class="flow-num">6</div><div>Downloads app, signs in, creates first event</div></div>
+</div>
+
+<h2>Chapter Support (Bottom-Up Adoption)</h2>
+<div class="section-card">
+  <p>For organizations with multiple local chapters (e.g., Habitat for Humanity, Boys & Girls Club):</p>
+  <ul>
+    <li>GTM lead checks <strong>"This is a local chapter"</strong> when generating the invite</li>
+    <li>Chapter contact becomes <code>chapter_admin</code> (not <code>org_owner</code>)</li>
+    <li>Multiple chapter invites allowed per EIN (each with different chapter name)</li>
+    <li>Chapter invites work even if the parent org is already claimed</li>
+    <li>Parent org created automatically if it doesn't exist yet</li>
+  </ul>
+  <p><strong>Use case:</strong> North South Foundation has chapters in Richmond, Virginia Beach, and Norfolk. Each chapter gets its own invite link and onboards independently.</p>
+</div>
+
+<h2>Automated Reminder Emails</h2>
+<p>After a nonprofit verifies, automated emails encourage them to create their first event:</p>
+<table>
+  <tr><th>Day</th><th>Subject</th><th>Content</th></tr>
+  <tr><td><span class="badge badge-blue">Day 1</span></td><td>"Welcome — Create Your First Event"</td><td>Step-by-step with app download links</td></tr>
+  <tr><td><span class="badge badge-orange">Day 3</span></td><td>"Students Are Waiting"</td><td>Urgency nudge + help offer</td></tr>
+  <tr><td><span class="badge badge-gray">Day 7</span></td><td>"Need Help Getting Started?"</td><td>Offer 10-min call + download links</td></tr>
+</table>
+<p>Reminders <strong>auto-stop</strong> when the org creates their first event. The invite status updates to "First Event Created".</p>
+
+<h2>Status Lifecycle</h2>
+<table>
+  <tr><th>Status</th><th>Meaning</th><th>Dashboard Badge</th></tr>
+  <tr><td>generated</td><td>Link created, not yet sent or clicked</td><td><span class="badge badge-gray">Link Sent</span></td></tr>
+  <tr><td>email_submitted</td><td>Contact entered email on join page</td><td><span class="badge badge-orange">Email Submitted</span></td></tr>
+  <tr><td>verified</td><td>Contact clicked verify link, org_admin role set</td><td><span class="badge badge-green">Verified</span></td></tr>
+  <tr><td>first_event_created</td><td>Org created their first volunteer event</td><td><span class="badge badge-green">First Event Created</span></td></tr>
+  <tr><td>expired</td><td>30 days elapsed without verification</td><td><span class="badge" style="background:#ffebee;color:#c62828">Expired</span></td></tr>
+</table>
+
+<h2>URLs</h2>
+<table>
+  <tr><th>URL</th><th>Purpose</th><th>Auth Required</th></tr>
+  <tr><td><code>impacthub-prod.web.app/join/{code}</code></td><td>Public landing page for nonprofit</td><td>No</td></tr>
+  <tr><td><code>impacthub-prod.web.app/business/gtm</code></td><td>GTM dashboard</td><td>super_admin</td></tr>
+  <tr><td><code>.../verifyOrgInvite?token={token}</code></td><td>Email verification endpoint</td><td>No</td></tr>
+</table>
+
+<h2>Cloud Functions</h2>
+<table>
+  <tr><th>Function</th><th>Type</th><th>Purpose</th></tr>
+  <tr><td><code>generateOrgInviteCall</code></td><td>Callable</td><td>Generate invite (super_admin). Accepts optional <code>chapterName</code></td></tr>
+  <tr><td><code>getOrgInvite</code></td><td>HTTP GET</td><td>Public. Returns invite data for landing page</td></tr>
+  <tr><td><code>submitOrgInvite</code></td><td>HTTP POST</td><td>Public. Processes form + sends verification email</td></tr>
+  <tr><td><code>verifyOrgInvite</code></td><td>HTTP GET</td><td>Creates Auth user + org/chapter + sets role. Renders HTML</td></tr>
+  <tr><td><code>listOrgInvitesCall</code></td><td>Callable</td><td>Returns all invites for GTM dashboard</td></tr>
+  <tr><td><code>orgInviteReminderJob</code></td><td>Pub/Sub</td><td>Daily 10 AM EST. Day 1/3/7 reminder emails</td></tr>
+</table>
+
+<h2>Firestore Collection</h2>
+<p><code>orgInvites/{inviteCode}</code> — 8-char URL-safe code, 30-day expiry</p>
+<p>Fields: inviteCode, ein, nonprofitId, orgName, chapterName, city, state, category, status, contactName, contactEmail, verificationToken, reminderDay1Sent/Day3/Day7, expiresAt, orgId, createdByOrgUid</p>
+
+<h2>Tests</h2>
+<p><span class="badge badge-green">36 tests</span> — Invite code generation, input validation, status transitions, expiry logic, orgId generation, reminder calculations. All passing.</p>
+
+</body>
+</html>

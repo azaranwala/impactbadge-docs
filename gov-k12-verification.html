@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ImpactBadge — Gov/K12 Domain Verification</title>
+<style>
+  body { font-family: 'Segoe UI', Calibri, Arial, sans-serif; max-width: 850px; margin: 40px auto; padding: 0 20px; color: #333; line-height: 1.6; }
+  h1 { color: #00897B; border-bottom: 3px solid #00897B; padding-bottom: 10px; }
+  h2 { color: #00695C; margin-top: 36px; border-bottom: 1px solid #e0e0e0; padding-bottom: 6px; }
+  h3 { color: #444; margin-top: 24px; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+  th { background: #00897B; color: white; padding: 10px 14px; text-align: left; font-size: 14px; }
+  td { border: 1px solid #e0e0e0; padding: 8px 14px; font-size: 13px; }
+  tr:nth-child(even) { background: #f9f9f9; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .badge-green { background: #e8f5e9; color: #2e7d32; }
+  .badge-red { background: #ffebee; color: #c62828; }
+  .header-bar { background: #00897B; color: white; padding: 30px 32px; border-radius: 12px; margin-bottom: 30px; }
+  .header-bar h1 { color: white; border: none; margin: 0; padding: 0; }
+  .header-bar p { color: rgba(255,255,255,0.85); margin: 6px 0 0 0; }
+  .section-card { background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+  .back { display: inline-block; margin-bottom: 16px; color: #00897B; text-decoration: none; font-size: 14px; }
+  .back:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back">&larr; Back to Documentation Hub</a>
+
+<div class="header-bar">
+  <h1>Gov/K12 Domain Verification</h1>
+  <p>Enable government agencies and school staff to create volunteer events — deployed September 2026</p>
+</div>
+
+<h2>Problem Solved</h2>
+<p>Previously, only 501(c)(3) nonprofits could create events on ImpactBadge (via IRS EIN lookup). This excluded parks departments, public libraries, county programs, teachers, and school counselors — all of whom regularly organize volunteer opportunities.</p>
+
+<h2>Supported Domains</h2>
+<table>
+  <tr><th>Domain Pattern</th><th>Classification</th><th>Examples</th></tr>
+  <tr><td><code>.gov</code></td><td>Government</td><td>richmond.gov, henrico.gov, virginia.gov, parks.richmond.gov</td></tr>
+  <tr><td><code>.k12.*.us</code></td><td>K-12 School</td><td>richmond.k12.va.us, schools.k12.fl.us, hcps.k12.va.us</td></tr>
+  <tr><td><code>.edu</code></td><td>K-12 School</td><td>fcps.edu, pwcs.edu</td></tr>
+  <tr><td><code>schoolDomains</code> collection</td><td>K-12 School</td><td>hcps.net, vbschools.com (registered in Firestore)</td></tr>
+</table>
+
+<h2>3 Layers of Student Protection</h2>
+<p>Since students also have .k12 email addresses, three safeguards prevent them from registering as event creators:</p>
+
+<div class="section-card">
+  <h3>Layer 1: Student Subdomain Blocking (Backend)</h3>
+  <p>Automatically rejects email domains starting with known student prefixes:</p>
+  <table>
+    <tr><th>Prefix</th><th>Example</th><th>Result</th></tr>
+    <tr><td><code>student.</code></td><td>student.hcps.net</td><td><span class="badge badge-red">BLOCKED</span></td></tr>
+    <tr><td><code>stu.</code></td><td>stu.fcps.edu</td><td><span class="badge badge-red">BLOCKED</span></td></tr>
+    <tr><td><code>s.</code></td><td>s.henrico.k12.va.us</td><td><span class="badge badge-red">BLOCKED</span></td></tr>
+    <tr><td><code>students.</code></td><td>students.school.org</td><td><span class="badge badge-red">BLOCKED</span></td></tr>
+    <tr><td><code>learner.</code></td><td>learner.district.edu</td><td><span class="badge badge-red">BLOCKED</span></td></tr>
+  </table>
+</div>
+
+<div class="section-card">
+  <h3>Layer 2: Staff Role Validation (Backend)</h3>
+  <p>For .k12 and .edu domains, the <code>contactRole</code> field is <strong>required</strong> and must contain a recognized staff keyword:</p>
+  <p><span class="badge badge-green">Accepted:</span> Teacher, Principal, Counselor, Librarian, Coach, Dean, Coordinator, Advisor, Instructor, Specialist, Superintendent, Director, Administrator, Faculty, Staff</p>
+  <p><span class="badge badge-red">Rejected:</span> Student, Volunteer, Member, or anything under 3 characters</p>
+  <p>Government <code>.gov</code> domains skip this check (park rangers, librarians, etc. have unique titles).</p>
+</div>
+
+<div class="section-card">
+  <h3>Layer 3: UI Gating (iOS + Android)</h3>
+  <p>The "Register Your Agency" button is <strong>hidden</strong> from users who:</p>
+  <ul>
+    <li>Already have <code>role: org_admin</code> (already registered)</li>
+    <li>Have <code>schoolName</code> set (enrolled students auto-detected via school domain)</li>
+  </ul>
+  <p>Only users who are NOT enrolled students see the button.</p>
+</div>
+
+<h2>User Flow</h2>
+<table>
+  <tr><th>User</th><th>Email</th><th>What Happens</th></tr>
+  <tr><td>Student</td><td>jsmith@student.hcps.net</td><td>Layer 1: blocked by student subdomain</td></tr>
+  <tr><td>Student</td><td>jsmith@richmond.k12.va.us</td><td>Layer 3: button hidden. If bypassed &rarr; Layer 2: role "Student" rejected</td></tr>
+  <tr><td>Teacher</td><td>jdoe@richmond.k12.va.us</td><td><span class="badge badge-green">Passes all 3 layers</span> with role "Teacher"</td></tr>
+  <tr><td>Park Ranger</td><td>ranger@richmond.gov</td><td><span class="badge badge-green">Passes all layers</span> (.gov, no student check needed)</td></tr>
+  <tr><td>Librarian</td><td>lib@henrico.gov</td><td><span class="badge badge-green">Passes all layers</span></td></tr>
+  <tr><td>Spammer</td><td>fake@gmail.com</td><td>Blocked by public email domain check</td></tr>
+</table>
+
+<h2>OrgId Format</h2>
+<table>
+  <tr><th>Type</th><th>Format</th><th>Example</th></tr>
+  <tr><td>Government</td><td><code>org_gov_{sanitized_domain}</code></td><td>org_gov_richmond_gov</td></tr>
+  <tr><td>K-12 School</td><td><code>org_k12_{sanitized_domain}</code></td><td>org_k12_richmond_k12_va_us</td></tr>
+  <tr><td>Nonprofit (existing)</td><td><code>org_{EIN}</code></td><td>org_541234567</td></tr>
+</table>
+<p>No collision between domain-based and EIN-based orgIds.</p>
+
+<h2>Cloud Functions</h2>
+<table>
+  <tr><th>Function</th><th>Purpose</th></tr>
+  <tr><td><code>requestPublicAgencyClaimCall</code></td><td>Callable. Validates domain, sends verification email</td></tr>
+  <tr><td><code>verifyOrgClaim</code></td><td>HTTP. Extended to handle <code>claimType: "public_agency"</code></td></tr>
+</table>
+
+<h2>Key Files</h2>
+<table>
+  <tr><th>File</th><th>Purpose</th></tr>
+  <tr><td><code>functions/src/orgs/domainValidation.ts</code></td><td>classifyDomain, isStudentSubdomain, isStaffRole, domainToOrgId</td></tr>
+  <tr><td><code>functions/src/orgs/requestPublicAgencyClaim.ts</code></td><td>Callable function for domain-based claims</td></tr>
+  <tr><td><code>functions/src/orgs/verifyOrgClaim.ts</code></td><td>Extended for public_agency claim type</td></tr>
+  <tr><td>iOS: <code>PublicAgencyClaimView.swift</code></td><td>Gov/School type picker + form</td></tr>
+  <tr><td>Android: <code>PublicAgencyClaimScreen.tsx</code></td><td>Gov/School toggle + form</td></tr>
+</table>
+
+<h2>Tests</h2>
+<p><span class="badge badge-green">53 tests</span> — Domain validation, student subdomain blocking, staff role validation, orgId generation, input schemas, end-to-end flows. All passing.</p>
+
+</body>
+</html>
