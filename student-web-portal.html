@@ -36,6 +36,18 @@
 <h2>Problem Solved</h2>
 <p>Many K-12 schools have strict no-cell-phone policies in classrooms. Without a web portal, students could only use ImpactBadge on their mobile apps before/after school. The student web portal enables full access from school Chromebooks and laptops — removing the primary blocker for school-wide rollouts.</p>
 
+<h2>Login Flow</h2>
+<div class="section-card">
+  <ol>
+    <li>Student goes to <code>impacthub-prod.web.app</code></li>
+    <li>Clicks <strong>"Login"</strong> button (top-right nav bar, always visible)</li>
+    <li>Enters email + password (or signs in with Clever SSO)</li>
+    <li>Clicks <strong>"Sign In"</strong></li>
+    <li>Automatically routed to <code>/student</code> dashboard</li>
+  </ol>
+  <p><strong>Note:</strong> The Login and Sign In buttons use inline <code>style={{ background: "#00897B" }}</code> because Tailwind CSS 4's <code>bg-teal-primary</code> custom class doesn't resolve without a config file. All brand-color buttons in the web portal must use inline styles.</p>
+</div>
+
 <h2>Architecture</h2>
 <div class="section-card">
   <p><strong>Same app, role-based routing.</strong> The student portal lives inside the existing React app at <code>impacthub-prod.web.app</code>. When a student logs in, they're automatically routed to <code>/student/*</code> pages with a student-specific layout. Admin users continue to see their existing admin dashboards — zero impact on existing functionality.</p>
