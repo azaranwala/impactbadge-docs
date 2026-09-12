@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ImpactBadge — Student Web Portal</title>
+<style>
+  body { font-family: 'Segoe UI', Calibri, Arial, sans-serif; max-width: 850px; margin: 40px auto; padding: 0 20px; color: #333; line-height: 1.6; }
+  h1 { color: #00897B; border-bottom: 3px solid #00897B; padding-bottom: 10px; }
+  h2 { color: #00695C; margin-top: 36px; border-bottom: 1px solid #e0e0e0; padding-bottom: 6px; }
+  h3 { color: #444; margin-top: 24px; }
+  table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+  th { background: #00897B; color: white; padding: 10px 14px; text-align: left; font-size: 14px; }
+  td { border: 1px solid #e0e0e0; padding: 8px 14px; font-size: 13px; }
+  tr:nth-child(even) { background: #f9f9f9; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .badge-green { background: #e8f5e9; color: #2e7d32; }
+  .header-bar { background: #00897B; color: white; padding: 30px 32px; border-radius: 12px; margin-bottom: 30px; }
+  .header-bar h1 { color: white; border: none; margin: 0; padding: 0; }
+  .header-bar p { color: rgba(255,255,255,0.85); margin: 6px 0 0 0; }
+  .section-card { background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; margin: 16px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+  .back { display: inline-block; margin-bottom: 16px; color: #00897B; text-decoration: none; font-size: 14px; }
+  .back:hover { text-decoration: underline; }
+  .mockup { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 12px; white-space: pre; overflow-x: auto; }
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back">&larr; Back to Documentation Hub</a>
+
+<div class="header-bar">
+  <h1>Student Web Portal</h1>
+  <p>10 pages for Chromebook &amp; laptop access — solves no-cell-phone policy blocker. Deployed September 2026.</p>
+</div>
+
+<h2>Problem Solved</h2>
+<p>Many K-12 schools have strict no-cell-phone policies in classrooms. Without a web portal, students could only use ImpactBadge on their mobile apps before/after school. The student web portal enables full access from school Chromebooks and laptops — removing the primary blocker for school-wide rollouts.</p>
+
+<h2>Architecture</h2>
+<div class="section-card">
+  <p><strong>Same app, role-based routing.</strong> The student portal lives inside the existing React app at <code>impacthub-prod.web.app</code>. When a student logs in, they're automatically routed to <code>/student/*</code> pages with a student-specific layout. Admin users continue to see their existing admin dashboards — zero impact on existing functionality.</p>
+  <p><strong>Zero backend changes.</strong> All 10 student pages call existing Cloud Functions that were already deployed for the mobile apps. No new API endpoints were created.</p>
+</div>
+
+<h2>Pages</h2>
+<table>
+  <tr><th>Page</th><th>Route</th><th>What Students Can Do</th></tr>
+  <tr><td><strong>Dashboard</strong></td><td><code>/student</code></td><td>View hours summary, XP progress, upcoming events, quick action buttons</td></tr>
+  <tr><td><strong>Event Discovery</strong></td><td><code>/student/events</code></td><td>Browse events with category filters (8 categories), search by name/org</td></tr>
+  <tr><td><strong>Event Detail</strong></td><td><code>/student/events/:id</code></td><td>View event info, register/unregister, see check-in PIN (after registration)</td></tr>
+  <tr><td><strong>Check In</strong></td><td><code>/student/checkin</code></td><td>Enter 4-digit PIN from teacher to check in. Auto-advance between digits.</td></tr>
+  <tr><td><strong>Check Out</strong></td><td><code>/student/checkout</code></td><td>Log hours when done volunteering</td></tr>
+  <tr><td><strong>Hours</strong></td><td><code>/student/hours</code></td><td>View all hours (verified/pending/rejected), progress bar toward goal</td></tr>
+  <tr><td><strong>Self-Report</strong></td><td><code>/student/hours/report</code></td><td>Log kind deeds with description, date, hours, optional photo</td></tr>
+  <tr><td><strong>Profile</strong></td><td><code>/student/profile</code></td><td>View XP, level, tier, badges grid, personal stats</td></tr>
+  <tr><td><strong>Leaderboard</strong></td><td><code>/student/leaderboard</code></td><td>School / Friends / Global tabs with rankings</td></tr>
+  <tr><td><strong>Export</strong></td><td><code>/student/export</code></td><td>Download certificate PDF, Common App export, college data export</td></tr>
+</table>
+
+<h2>Student Layout</h2>
+<div class="section-card">
+  <p><strong>Desktop (Chromebook):</strong> Left sidebar with navigation, XP progress bar, level badge, quick stats (hours/badges/streak), and sign out button.</p>
+  <p><strong>Tablet / Mobile:</strong> Bottom tab bar with 5 nav items + compact header with level and XP.</p>
+  <p><strong>Gamification always visible:</strong> XP bar with gradient fill (teal → orange), level number, tier name (Newcomer → Luminary), and streak count in the sidebar.</p>
+</div>
+
+<h2>Check-In Flow (No GPS Needed)</h2>
+<div class="section-card">
+  <p>School Chromebooks typically don't share location. The web portal uses <strong>PIN-only check-in</strong>:</p>
+  <ol>
+    <li>Teacher shares the 4-digit event PIN with students</li>
+    <li>Student goes to Check In page (<code>/student/checkin</code>)</li>
+    <li>Enters the 4 digits (auto-advances between inputs)</li>
+    <li>Click "Check In" &mdash; verified instantly</li>
+    <li>When done, go to Check Out to log hours</li>
+  </ol>
+  <p>No GPS, no QR scanner, no camera needed &mdash; works on any device with a keyboard.</p>
+</div>
+
+<h2>Self-Reported Kind Deeds</h2>
+<div class="section-card">
+  <p>Students (or parents for K-5) can log volunteer activities and acts of kindness that happen outside structured events:</p>
+  <ul>
+    <li><strong>Description:</strong> What they did (minimum 10 characters)</li>
+    <li><strong>Date:</strong> When it happened (cannot be future)</li>
+    <li><strong>Hours:</strong> 0.5 to 24 hours</li>
+    <li><strong>Organization:</strong> Optional (defaults to "Self-reported")</li>
+  </ul>
+  <p>Submissions go to the teacher/admin for verification before counting toward the student's total.</p>
+</div>
+
+<h2>Event Discovery Defaults</h2>
+<div class="section-card">
+  <p>Since school Chromebooks don't have GPS, the event discovery page defaults to school coordinates (currently set to Holland, MI for Black River). Students can search by name or filter by category to find events.</p>
+  <p>8 category filters: Environment 🌳, Education 📚, Health 🏥, Animals 🐾, Hunger 🍽️, Arts 🎨, Seniors 👴, Community 🏘️</p>
+</div>
+
+<h2>Responsive Design</h2>
+<table>
+  <tr><th>Device</th><th>Viewport</th><th>Layout</th></tr>
+  <tr><td>Chromebook</td><td>1366 × 768</td><td>Full sidebar + content area</td></tr>
+  <tr><td>iPad / Tablet</td><td>1024 × 768</td><td>Sidebar hidden, bottom tab bar</td></tr>
+  <tr><td>Mobile (browser)</td><td>375 × 812</td><td>Bottom tab bar, compact header</td></tr>
+</table>
+
+<h2>Key Files</h2>
+<table>
+  <tr><th>File</th><th>Purpose</th></tr>
+  <tr><td><code>web/src/components/StudentLayout.tsx</code></td><td>Responsive layout with sidebar + bottom nav</td></tr>
+  <tr><td><code>web/src/pages/student/*.tsx</code></td><td>10 student page files</td></tr>
+  <tr><td><code>web/src/App.tsx</code></td><td>Role-based routing (student → /student/*)</td></tr>
+  <tr><td><code>web/src/hooks/useAuth.ts</code></td><td>Extended AppUser with grade, XP, hours, badges</td></tr>
+  <tr><td><code>web/src/services/api.ts</code></td><td>16 student API method wrappers</td></tr>
+</table>
+
+<h2>Isolation from Admin Portal</h2>
+<div class="section-card">
+  <p><strong>Zero risk to existing admin functionality.</strong> The student portal:</p>
+  <ul>
+    <li>Uses a separate <code>StudentLayout</code> component (admin uses <code>Layout</code>)</li>
+    <li>Has separate routes (<code>/student/*</code> vs <code>/admin/*</code>, <code>/school/*</code>, etc.)</li>
+    <li>Calls the same Cloud Functions but cannot access admin-only endpoints (server-side role checks)</li>
+    <li>Shares the same Firebase config and auth system</li>
+    <li>Deployed via <code>firebase deploy --only hosting</code> (never touches Cloud Functions)</li>
+  </ul>
+</div>
+
+<h2>Tests</h2>
+<p><span class="badge badge-green">228 web tests passing</span> — App.test.tsx updated for student role routing, useAuth.test.ts updated for extended user fields.</p>
+
+</body>
+</html>
