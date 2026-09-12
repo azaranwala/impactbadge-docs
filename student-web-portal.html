@@ -137,6 +137,29 @@
   </ul>
 </div>
 
+<h2>Social Sharing (Web Portal)</h2>
+<div class="section-card">
+  <p>All roles have share buttons on key pages. Clicking "Share" opens a dropdown with:</p>
+  <ul>
+    <li><strong>X (Twitter)</strong> — compose tweet with pre-filled text + URL</li>
+    <li><strong>Facebook</strong> — share to Facebook with link</li>
+    <li><strong>LinkedIn</strong> — share to LinkedIn feed</li>
+    <li><strong>WhatsApp</strong> — send to WhatsApp contact with text + URL</li>
+    <li><strong>Email</strong> — compose email with subject + body</li>
+    <li><strong>Copy Link</strong> — copy URL to clipboard</li>
+  </ul>
+  <p>On browsers that support the Web Share API (Chrome mobile, Safari), the native share sheet opens instead.</p>
+</div>
+<table>
+  <tr><th>Role</th><th>Page</th><th>What Gets Shared</th></tr>
+  <tr><td>Org Admin</td><td>Dashboard</td><td>"Join us on ImpactBadge! X events, Y volunteers, Z hours verified."</td></tr>
+  <tr><td>Teacher</td><td>Advisor Dashboard</td><td>"Our students have logged X volunteer hours with Y% participation!"</td></tr>
+  <tr><td>Student</td><td>Dashboard</td><td>"I've logged X volunteer hours and earned Y badges on ImpactBadge!"</td></tr>
+  <tr><td>Student</td><td>Event Detail</td><td>"I just registered for [EVENT] at [ORG]!" or "Check out [EVENT]!"</td></tr>
+  <tr><td>Student</td><td>Profile</td><td>"I'm Level X (Tier) with Y hours and Z badges!"</td></tr>
+  <tr><td>Student</td><td>Leaderboard</td><td>"Check out the volunteer leaderboard on ImpactBadge!"</td></tr>
+</table>
+
 <h2>Tests</h2>
 <p><span class="badge badge-green">228 web tests passing</span> — App.test.tsx updated for student role routing, useAuth.test.ts updated for extended user fields.</p>
 
