@@ -30,7 +30,7 @@
 
 <div class="header-bar">
   <h1>Student Web Portal</h1>
-  <p>10 pages for Chromebook &amp; laptop access — solves no-cell-phone policy blocker. Deployed September 2026.</p>
+  <p>11 pages for Chromebook &amp; laptop access — Clever SSO, challenges, social sharing. Deployed September 2026.</p>
 </div>
 
 <h2>Problem Solved</h2>
@@ -46,6 +46,31 @@
     <li>Automatically routed to <code>/student</code> dashboard</li>
   </ol>
   <p><strong>Note:</strong> The Login and Sign In buttons use inline <code>style={{ background: "#00897B" }}</code> because Tailwind CSS 4's <code>bg-teal-primary</code> custom class doesn't resolve without a config file. All brand-color buttons in the web portal must use inline styles.</p>
+</div>
+
+<h2>Clever SSO for Students</h2>
+<div class="section-card">
+  <p>Students at Clever-enabled schools can sign in with their Clever credentials:</p>
+  <ol>
+    <li>Click <strong>"Sign in with Clever"</strong> on the login modal</li>
+    <li>Redirected to Clever's OAuth page</li>
+    <li>Authenticate with school credentials</li>
+    <li>Redirected back to ImpactBadge → automatically routed to <code>/student</code></li>
+  </ol>
+  <p>The <code>CleverCallbackPage</code> handles role-based routing for all roles: student → <code>/student</code>, teacher → <code>/advisor</code>, school_admin → <code>/school</code>, org_admin → <code>/admin</code>, super_admin → <code>/business</code>.</p>
+  <p><strong>Previously:</strong> Students were blocked with "Access Denied" after Clever auth. Fixed September 12, 2026.</p>
+</div>
+
+<h2>Challenges</h2>
+<div class="section-card">
+  <p>The Challenges page (<code>/student/challenges</code>) supports the Black River kindness campaign and similar school-wide initiatives:</p>
+  <ul>
+    <li><strong>Individual Challenges</strong> — students join, track personal progress, claim XP reward when completed</li>
+    <li><strong>School Challenges</strong> — entire school contributes collectively, school-vs-school leaderboard</li>
+    <li>Progress bars color-coded: orange (starting) → green (on track) → purple (completed)</li>
+    <li>Shows: emoji, title, description, target hours/events, XP reward, days remaining</li>
+    <li>Join button → Active badge → Claim Reward → Completed</li>
+  </ul>
 </div>
 
 <h2>Architecture</h2>
@@ -65,6 +90,7 @@
   <tr><td><strong>Hours</strong></td><td><code>/student/hours</code></td><td>View all hours (verified/pending/rejected), progress bar toward goal</td></tr>
   <tr><td><strong>Self-Report</strong></td><td><code>/student/hours/report</code></td><td>Log kind deeds with description, date, hours, optional photo</td></tr>
   <tr><td><strong>Profile</strong></td><td><code>/student/profile</code></td><td>View XP, level, tier, badges grid, personal stats</td></tr>
+  <tr><td><strong>Challenges</strong></td><td><code>/student/challenges</code></td><td>Individual + school challenges. Join, track progress, claim XP reward. School-vs-school leaderboard.</td></tr>
   <tr><td><strong>Leaderboard</strong></td><td><code>/student/leaderboard</code></td><td>School / Friends / Global tabs with rankings</td></tr>
   <tr><td><strong>Export</strong></td><td><code>/student/export</code></td><td>Download certificate PDF, Common App export, college data export</td></tr>
 </table>
