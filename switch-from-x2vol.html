@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Switch from x2VOL to ImpactBadge — Save 85% on Volunteer Tracking</title>
+<meta name="description" content="ImpactBadge starts at $1/student/year with Common App export, gamification, and free data migration. Switch from x2VOL and save 85%.">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --teal: #00897B;
+  --teal-dark: #00695C;
+  --teal-light: #E0F2F1;
+  --orange: #E65100;
+  --orange-light: #FFF3E0;
+  --gray-50: #FAFAFA;
+  --gray-100: #F5F5F5;
+  --gray-200: #EEEEEE;
+  --gray-400: #BDBDBD;
+  --gray-600: #757575;
+  --gray-800: #424242;
+  --gray-900: #212121;
+  --green: #2E7D32;
+  --green-light: #E8F5E9;
+  --white: #FFFFFF;
+  --shadow: 0 2px 8px rgba(0,0,0,0.1);
+  --shadow-lg: 0 4px 20px rgba(0,0,0,0.12);
+  --radius: 8px;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--gray-900);
+  line-height: 1.6;
+  background: var(--white);
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+a { color: var(--teal); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---- HERO ---- */
+.hero {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+  color: var(--white);
+  padding: 80px 24px 72px;
+  text-align: center;
+}
+.hero h1 {
+  font-size: 2.6rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 20px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero p.sub {
+  font-size: 1.2rem;
+  opacity: 0.92;
+  max-width: 680px;
+  margin: 0 auto 36px;
+  line-height: 1.5;
+}
+.hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
+.btn {
+  display: inline-block;
+  padding: 14px 32px;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-lg); text-decoration: none; }
+.btn-primary { background: var(--white); color: var(--teal-dark); }
+.btn-secondary { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,0.7); }
+.btn-secondary:hover { border-color: var(--white); }
+.btn-orange { background: var(--orange); color: var(--white); }
+.btn-teal { background: var(--teal); color: var(--white); }
+
+.trust-row {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+  opacity: 0.88;
+}
+.trust-row span { display: flex; align-items: center; gap: 6px; }
+.trust-row .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.6); }
+
+/* ---- SECTIONS ---- */
+section { padding: 72px 24px; }
+section:nth-child(even) { background: var(--gray-50); }
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--gray-900);
+}
+.section-subtitle {
+  text-align: center;
+  color: var(--gray-600);
+  font-size: 1.05rem;
+  margin-bottom: 48px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ---- PAIN POINTS ---- */
+.pain-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.pain-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--orange);
+}
+.pain-card .icon { font-size: 2rem; margin-bottom: 12px; }
+.pain-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; color: var(--orange); }
+.pain-card p { font-size: 0.95rem; color: var(--gray-600); }
+
+/* ---- COMPARISON TABLE ---- */
+.table-wrap { overflow-x: auto; max-width: 900px; margin: 0 auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+thead th {
+  background: var(--teal);
+  color: var(--white);
+  padding: 14px 18px;
+  text-align: left;
+  font-weight: 600;
+}
+thead th:first-child { border-radius: var(--radius) 0 0 0; }
+thead th:last-child { border-radius: 0 var(--radius) 0 0; }
+tbody td {
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--gray-200);
+}
+tbody tr:nth-child(even) { background: var(--gray-50); }
+tbody tr:hover { background: var(--teal-light); }
+td.feature { font-weight: 600; color: var(--gray-800); }
+td.ib { color: var(--teal-dark); font-weight: 600; }
+td.x2 { color: var(--gray-600); }
+.check { color: var(--green); }
+.cross { color: #C62828; }
+.warn { color: #F57F17; }
+.highlight-row td { background: var(--green-light); font-weight: 700; }
+
+/* ---- ROI CALCULATOR ---- */
+.calc-container {
+  max-width: 680px;
+  margin: 0 auto;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 40px 36px;
+  border: 1px solid var(--gray-200);
+}
+.calc-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+.calc-inputs label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 6px;
+}
+.calc-inputs input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--gray-200);
+  border-radius: 6px;
+  font-size: 1.1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.calc-inputs input:focus { border-color: var(--teal); }
+.calc-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--teal);
+  color: var(--white);
+  border: none;
+  border-radius: 6px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 28px;
+  transition: background 0.2s;
+}
+.calc-btn:hover { background: var(--teal-dark); }
+.calc-results { display: none; }
+.calc-results.show { display: block; }
+.result-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--gray-200);
+  font-size: 1rem;
+}
+.result-row:last-child { border-bottom: none; }
+.result-row .label { color: var(--gray-600); }
+.result-row .value { font-weight: 700; color: var(--gray-900); }
+.result-row.savings .value { color: var(--green); font-size: 1.15rem; }
+.result-row.big-savings { background: var(--green-light); margin: 12px -20px 0; padding: 16px 20px; border-radius: var(--radius); border-bottom: none; }
+.result-row.big-savings .label { color: var(--green); font-weight: 600; }
+.result-row.big-savings .value { color: var(--green); font-size: 1.3rem; }
+
+/* ---- MIGRATION ---- */
+.migration-box {
+  max-width: 760px;
+  margin: 0 auto;
+  background: var(--teal-light);
+  border-radius: var(--radius);
+  padding: 40px 36px;
+  border-left: 5px solid var(--teal);
+}
+.migration-box h2 {
+  font-size: 1.6rem;
+  margin-bottom: 24px;
+  color: var(--teal-dark);
+}
+.migration-list { list-style: none; }
+.migration-list li {
+  padding: 10px 0;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.migration-list li::before {
+  content: "\2713";
+  color: var(--teal);
+  font-weight: 800;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ---- HOW IT WORKS ---- */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 32px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.step {
+  text-align: center;
+  padding: 32px 24px;
+}
+.step-num {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: var(--white);
+  font-size: 1.5rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+}
+.step h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; }
+.step p { color: var(--gray-600); font-size: 0.95rem; }
+
+/* ---- SOCIAL PROOF ---- */
+.proof {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.proof-heading {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 32px;
+  color: var(--gray-800);
+}
+.stats-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.stat-badge {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 40px;
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--teal-dark);
+  box-shadow: var(--shadow);
+}
+
+/* ---- FINAL CTA ---- */
+.final-cta {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+  color: var(--white);
+  text-align: center;
+  padding: 72px 24px;
+}
+.final-cta h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 24px; }
+.final-cta .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; }
+.final-cta .contact { opacity: 0.85; font-size: 0.95rem; }
+.final-cta .contact a { color: var(--white); text-decoration: underline; }
+
+/* ---- FOOTER ---- */
+footer {
+  background: var(--gray-900);
+  color: var(--gray-400);
+  text-align: center;
+  padding: 32px 24px;
+  font-size: 0.85rem;
+}
+footer a { color: var(--gray-400); }
+footer a:hover { color: var(--white); }
+footer .links { margin-top: 10px; }
+footer .links a { margin: 0 12px; }
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 640px) {
+  .hero { padding: 56px 20px 48px; }
+  .hero h1 { font-size: 1.8rem; }
+  .hero p.sub { font-size: 1.05rem; }
+  .section-title { font-size: 1.6rem; }
+  .calc-inputs { grid-template-columns: 1fr; }
+  .calc-container { padding: 28px 20px; }
+  .migration-box { padding: 28px 20px; }
+  .pain-grid { grid-template-columns: 1fr; }
+  thead th, tbody td { padding: 10px 12px; font-size: 0.85rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <h1>Switch from x2VOL. Save 85%. Get More Features.</h1>
+    <p class="sub">ImpactBadge starts at $1/student/year &mdash; with Common App export, gamification, and free data migration.</p>
+    <div class="hero-btns">
+      <a href="mailto:impact@impactbadge.app?subject=Free%20Pilot%20Request" class="btn btn-primary">Start Free Pilot</a>
+      <a href="#roi-calculator" class="btn btn-secondary">See ROI Calculator</a>
+    </div>
+    <div class="trust-row">
+      <span><span class="dot"></span> Clever Complete Certified</span>
+      <span><span class="dot"></span> FERPA Compliant</span>
+      <span><span class="dot"></span> 4,489 Tests Passing</span>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN POINTS -->
+<section>
+  <div class="container">
+    <h2 class="section-title">Why Schools Are Switching from x2VOL</h2>
+    <p class="section-subtitle">We hear the same frustrations from counselors every week.</p>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="icon">&#128200;</div>
+        <h3>35% Price Hikes</h3>
+        <p>x2VOL raised prices up to 35%. Your budget didn't grow.</p>
+      </div>
+      <div class="pain-card">
+        <div class="icon">&#128241;</div>
+        <h3>Broken Mobile App</h3>
+        <p>50/50 chance it loads. Students can't write reflections on mobile.</p>
+      </div>
+      <div class="pain-card">
+        <div class="icon">&#128683;</div>
+        <h3>Missing Features</h3>
+        <p>No Common App export. No gamification. No parent dashboard.</p>
+      </div>
+      <div class="pain-card">
+        <div class="icon">&#128190;</div>
+        <h3>Legacy Technology</h3>
+        <p>Built in 2010. Limited integrations. No modern SSO.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE COMPARISON -->
+<section>
+  <div class="container">
+    <h2 class="section-title">Feature Comparison</h2>
+    <p class="section-subtitle">See how ImpactBadge stacks up against x2VOL, feature by feature.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>ImpactBadge</th>
+            <th>x2VOL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="feature">Price</td>
+            <td class="ib">$1/student/yr</td>
+            <td class="x2">$6&ndash;10/student/yr</td>
+          </tr>
+          <tr>
+            <td class="feature">Common App Export</td>
+            <td class="ib"><span class="check">&#10003;</span> Unique</td>
+            <td class="x2"><span class="cross">&#10007;</span></td>
+          </tr>
+          <tr>
+            <td class="feature">Gamification (XP / Levels / Streaks)</td>
+            <td class="ib"><span class="check">&#10003;</span></td>
+            <td class="x2"><span class="cross">&#10007;</span></td>
+          </tr>
+          <tr>
+            <td class="feature">Clever SSO (Complete Certified)</td>
+            <td class="ib"><span class="check">&#10003;</span></td>
+            <td class="x2"><span class="check">&#10003;</span></td>
+          </tr>
+          <tr>
+            <td class="feature">Mobile App Quality</td>
+            <td class="ib"><span class="check">&#10003;</span> Native iOS + Android</td>
+            <td class="x2"><span class="warn">&#9888;</span> Poor reviews</td>
+          </tr>
+          <tr>
+            <td class="feature">Parent Dashboard</td>
+            <td class="ib"><span class="check">&#10003;</span></td>
+            <td class="x2"><span class="cross">&#10007;</span></td>
+          </tr>
+          <tr>
+            <td class="feature">Self-Report with Photo/Signature</td>
+            <td class="ib"><span class="check">&#10003;</span></td>
+            <td class="x2"><span class="cross">&#10007;</span></td>
+          </tr>
+          <tr>
+            <td class="feature">Reflections</td>
+            <td class="ib"><span class="check">&#10003;</span></td>
+            <td class="x2"><span class="check">&#10003;</span></td>
+          </tr>
+          <tr>
+            <td class="feature">WBL / CTE Tracking</td>
+            <td class="ib">Coming Q4 2026</td>
+            <td class="x2"><span class="check">&#10003;</span></td>
+          </tr>
+          <tr>
+            <td class="feature">Data Migration</td>
+            <td class="ib"><span class="check">&#10003;</span> Free</td>
+            <td class="x2">N/A</td>
+          </tr>
+          <tr class="highlight-row">
+            <td class="feature">Total Features</td>
+            <td class="ib">55</td>
+            <td class="x2">22</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ROI CALCULATOR -->
+<section id="roi-calculator">
+  <div class="container">
+    <h2 class="section-title">ROI Calculator</h2>
+    <p class="section-subtitle">See how much your school can save by switching to ImpactBadge.</p>
+    <div class="calc-container">
+      <div class="calc-inputs">
+        <div>
+          <label for="numStudents">How many students?</label>
+          <input type="number" id="numStudents" value="500" min="1" max="50000">
+        </div>
+        <div>
+          <label for="x2volCost">Current x2VOL cost per student ($)</label>
+          <input type="number" id="x2volCost" value="7" min="1" max="50" step="0.5">
+        </div>
+      </div>
+      <button class="calc-btn" onclick="calculate()">Calculate Savings</button>
+      <div class="calc-results" id="calcResults">
+        <div class="result-row">
+          <span class="label">Current annual cost (x2VOL)</span>
+          <span class="value" id="currentCost">$3,500</span>
+        </div>
+        <div class="result-row">
+          <span class="label">ImpactBadge annual cost</span>
+          <span class="value" id="ibCost">$500</span>
+        </div>
+        <div class="result-row savings">
+          <span class="label">Annual savings</span>
+          <span class="value" id="annualSavings">$3,000</span>
+        </div>
+        <div class="result-row savings">
+          <span class="label">3-year savings</span>
+          <span class="value" id="threeSavings">$9,000</span>
+        </div>
+        <div class="result-row big-savings">
+          <span class="label">That&rsquo;s</span>
+          <span class="value" id="pctSavings">86% less</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MIGRATION GUARANTEE -->
+<section>
+  <div class="container">
+    <div class="migration-box">
+      <h2>The ImpactBadge Migration Promise</h2>
+      <ul class="migration-list">
+        <li>We import every student's historical hours &mdash; for free</li>
+        <li>Your students keep their complete volunteer record</li>
+        <li>Setup takes less than 48 hours</li>
+        <li>30-day money-back guarantee &mdash; if your counselors aren't happier, we help you switch back</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="container">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-subtitle">Three simple steps to switch from x2VOL to ImpactBadge.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Export Your x2VOL Data</h3>
+        <p>Download your student hours as CSV from x2VOL.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>We Import Everything</h3>
+        <p>Upload the CSV to ImpactBadge. We match students and verify hours automatically.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Students Start Logging</h3>
+        <p>Students sign in with Clever SSO. Their history is already there.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section>
+  <div class="container">
+    <div class="proof">
+      <h2 class="proof-heading">Schools Across the Country Are Switching to ImpactBadge</h2>
+      <div class="stats-row">
+        <span class="stat-badge">55 Features</span>
+        <span class="stat-badge">4,489 Tests</span>
+        <span class="stat-badge">0 Vulnerabilities</span>
+        <span class="stat-badge">Clever Complete Certified</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="container">
+    <h2>Ready to Save 85%?</h2>
+    <div class="cta-btns">
+      <a href="mailto:impact@impactbadge.app?subject=Free%20Pilot%20Request" class="btn btn-primary">Start Free Pilot</a>
+      <a href="mailto:impact@impactbadge.app?subject=Demo%20Request%20%E2%80%93%20Switching%20from%20x2VOL" class="btn btn-orange">Schedule a Demo</a>
+    </div>
+    <p class="contact">Questions? Contact <a href="mailto:impact@impactbadge.app">impact@impactbadge.app</a></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>ImpactBadge LLC &bull; <a href="https://impactbadge.app">impactbadge.app</a></div>
+  <div class="links">
+    <a href="https://impactbadge.app/privacy">Privacy Policy</a>
+    <a href="https://impactbadge.app/terms">Terms of Service</a>
+    <a href="ferpa-documentation.html">FERPA Compliance</a>
+  </div>
+</footer>
+
+<script>
+function calculate() {
+  var students = parseInt(document.getElementById('numStudents').value) || 500;
+  var x2vol = parseFloat(document.getElementById('x2volCost').value) || 7;
+  var currentCost = students * x2vol;
+  var ibCost = students * 1;
+  var annual = currentCost - ibCost;
+  var three = annual * 3;
+  var pct = Math.round((annual / currentCost) * 100);
+
+  document.getElementById('currentCost').textContent = '$' + currentCost.toLocaleString();
+  document.getElementById('ibCost').textContent = '$' + ibCost.toLocaleString();
+  document.getElementById('annualSavings').textContent = '$' + annual.toLocaleString();
+  document.getElementById('threeSavings').textContent = '$' + three.toLocaleString();
+  document.getElementById('pctSavings').textContent = pct + '% less';
+
+  document.getElementById('calcResults').classList.add('show');
+}
+</script>
+
+</body>
+</html>
