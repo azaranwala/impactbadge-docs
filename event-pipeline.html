@@ -29,7 +29,7 @@
 
 <div class="header-bar">
   <h1>Event Aggregation Pipeline</h1>
-  <p>5-source import system ensuring users always see volunteer events — deployed September 2026</p>
+  <p>6-source import system ensuring users always see volunteer events — deployed September 2026</p>
 </div>
 
 <h2>Problem Solved</h2>
@@ -42,6 +42,7 @@
   <tr><td>4 AM EST</td><td>VolunteerMatch API</td><td><code>volunteerMatchImportFunction</code></td><td>Richmond, 25mi radius</td></tr>
   <tr><td>5 AM EST</td><td>SerpAPI Google Events</td><td><code>serpApiEventsImportFunction</code></td><td>Richmond VA, 8 queries</td></tr>
   <tr><td>6 AM EST</td><td>iCal Feeds</td><td><code>icalFeedImportFunction</code></td><td>Richmond SPCA + Lewis Ginter</td></tr>
+  <tr><td>1 AM EST</td><td>LibCal Library Events</td><td><code>libcalImportFunction</code></td><td>270 US public libraries, 38 states</td></tr>
   <tr><td>On-demand</td><td>Client-triggered</td><td><code>onDemandImportCall</code></td><td>User's location, 20 US cities</td></tr>
 </table>
 
@@ -93,6 +94,18 @@
   <li>Checked before every write — prevents duplicate imports across sources</li>
 </ul>
 
+<h2>LibCal Library Import</h2>
+<div class="section-card">
+  <p><strong>270 US public libraries</strong> across <strong>38 states</strong>, imported daily at <strong>1 AM EST</strong>.</p>
+  <ul>
+    <li>Fetches from public AJAX endpoint (no authentication needed)</li>
+    <li>Filters for youth-friendly audiences: Teens, Family, All Ages, Children</li>
+    <li>Maps library categories to ImpactBadge categories (Environment, Education, Arts, Community, etc.)</li>
+    <li><strong>1,583+ events imported</strong> from <strong>50+ active libraries</strong></li>
+  </ul>
+  <p><strong>Source data:</strong> 16,565 library branches + 471 national parks + 100 parks &amp; rec departments = <strong>17,136 organizations</strong> in the directory.</p>
+</div>
+
 <h2>Tests</h2>
 <p><span class="badge badge-green">112 tests</span> — 31 SerpAPI + 47 iCal + 23 on-demand + 11 auto-expand. All passing.</p>
 
@@ -103,6 +116,7 @@
   <tr><td><code>functions/src/import/icalFeedImport.ts</code></td><td>iCal feed parser (zero dependencies)</td></tr>
   <tr><td><code>functions/src/import/onDemandImport.ts</code></td><td>On-demand import callable</td></tr>
   <tr><td><code>functions/src/events/getEventsNearby.ts</code></td><td>Auto-expand radius logic</td></tr>
+  <tr><td><code>functions/src/import/libcalImport.ts</code></td><td>LibCal library event importer (270 libraries, 38 states)</td></tr>
   <tr><td><code>functions/src/import/importHelpers.ts</code></td><td>Shared dedup, category mapping, writeImportedEvent</td></tr>
 </table>
 

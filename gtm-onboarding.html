@@ -121,6 +121,18 @@
 <p><code>orgInvites/{inviteCode}</code> — 8-char URL-safe code, 30-day expiry</p>
 <p>Fields: inviteCode, ein, nonprofitId, orgName, chapterName, city, state, category, status, contactName, contactEmail, verificationToken, reminderDay1Sent/Day3/Day7, expiresAt, orgId, createdByOrgUid</p>
 
+<h2>Self-Serve Org Signup (Alternative Path)</h2>
+<div class="section-card">
+  <p>In addition to GTM-generated invite links, organizations can sign up directly at <code>/signup/org</code> without an invitation:</p>
+  <ul>
+    <li><strong>4 org types supported:</strong> Nonprofit, School, Library, Parks &amp; Recreation</li>
+    <li>EIN validation for nonprofits; domain validation for schools (.k12/.edu)</li>
+    <li>If EIN/domain cannot be auto-verified, submission goes to <code>orgReviewQueue</code> for manual review</li>
+    <li>Cloud Function: <code>selfServeOrgSignupCall</code></li>
+  </ul>
+  <p>This enables organic sign-ups without requiring a GTM lead to generate a link first.</p>
+</div>
+
 <h2>Tests</h2>
 <p><span class="badge badge-green">36 tests</span> — Invite code generation, input validation, status transitions, expiry logic, orgId generation, reminder calculations. All passing.</p>
 

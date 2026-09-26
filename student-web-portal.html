@@ -30,7 +30,7 @@
 
 <div class="header-bar">
   <h1>Student Web Portal</h1>
-  <p>17 pages for Chromebook &amp; laptop access — Clever SSO, challenges, WBL tracking, reflections, social sharing. Deployed September 2026.</p>
+  <p>19 pages for Chromebook &amp; laptop access — Clever SSO, challenges, WBL tracking, reflections, social sharing. Deployed September 2026.</p>
 </div>
 
 <h2>Problem Solved</h2>
@@ -76,7 +76,7 @@
 <h2>Architecture</h2>
 <div class="section-card">
   <p><strong>Same app, role-based routing.</strong> The student portal lives inside the existing React app at <code>impacthub-prod.web.app</code>. When a student logs in, they're automatically routed to <code>/student/*</code> pages with a student-specific layout. Admin users continue to see their existing admin dashboards — zero impact on existing functionality.</p>
-  <p><strong>Zero backend changes.</strong> All 17 student pages call existing Cloud Functions that were already deployed for the mobile apps. No new API endpoints were created.</p>
+  <p><strong>Zero backend changes.</strong> All 19 student pages call existing Cloud Functions that were already deployed for the mobile apps. No new API endpoints were created.</p>
 </div>
 
 <h2>Pages</h2>
@@ -96,6 +96,8 @@
   <tr><td><strong>WBL Dashboard</strong></td><td><code>/student/wbl</code></td><td>WBL hours summary, CTE pathway progress bars, per-pathway hour breakdown</td></tr>
   <tr><td><strong>WBL Log</strong></td><td><code>/student/wbl/log</code></td><td>Submit WBL hours: select type (internship, apprenticeship, job shadow, clinical, co-op), employer, supervisor, description, date, hours</td></tr>
   <tr><td><strong>Reflections</strong></td><td><code>/student/reflections</code></td><td>Write reflections using school-configured prompts (free-form, DEAL framework, or custom). Toggle public/private.</td></tr>
+  <tr><td><strong>Premium</strong></td><td><code>/student/premium</code></td><td>View premium features, subscription options, and upgrade benefits.</td></tr>
+  <tr><td><strong>Referrals</strong></td><td><code>/student/referrals</code></td><td>Share referral links with friends. Both referrer and referee earn 50 XP on signup. Track referral status.</td></tr>
   <tr><td><strong>Check Out</strong></td><td><code>/student/checkout</code></td><td>Log hours when done volunteering. <strong>Signature capture</strong> at checkout for verification evidence.</td></tr>
 </table>
 
@@ -149,7 +151,7 @@
 <table>
   <tr><th>File</th><th>Purpose</th></tr>
   <tr><td><code>web/src/components/StudentLayout.tsx</code></td><td>Responsive layout with sidebar + bottom nav</td></tr>
-  <tr><td><code>web/src/pages/student/*.tsx</code></td><td>17 student page files</td></tr>
+  <tr><td><code>web/src/pages/student/*.tsx</code></td><td>19 student page files</td></tr>
   <tr><td><code>web/src/App.tsx</code></td><td>Role-based routing (student → /student/*)</td></tr>
   <tr><td><code>web/src/hooks/useAuth.ts</code></td><td>Extended AppUser with grade, XP, hours, badges</td></tr>
   <tr><td><code>web/src/services/api.ts</code></td><td>16 student API method wrappers</td></tr>
