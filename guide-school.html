@@ -143,6 +143,92 @@ tr:nth-child(even){background:#f9f9f9}
 <li>Emails the school admin a compliance digest with counts and a CSV attachment</li>
 </ol>
 
+<h2>Economic Impact Reporting</h2>
+
+<p>ImpactBadge calculates the economic value of your students' volunteer work using the Independent Sector's national volunteer rate:</p>
+
+<table>
+<tr><th>Setting</th><th>Details</th></tr>
+<tr><td><strong>Default Rate</strong></td><td>$34.79/hour (national average, updated annually)</td></tr>
+<tr><td><strong>Custom Rate</strong></td><td>Configurable per school in Settings — set a local rate if your region differs</td></tr>
+<tr><td><strong>Community Impact Value</strong></td><td>Total verified hours x rate = dollar value shown on dashboard and reports</td></tr>
+</table>
+
+<p>The economic impact value appears on the school dashboard, in compliance reports, and in district-wide reports. Use it in grant applications, school board presentations, and community impact summaries.</p>
+
+<h2>Grade-Level Goal Setting</h2>
+
+<p>Set per-grade volunteer hour targets so students build hours progressively across all four years:</p>
+
+<table>
+<tr><th>Grade</th><th>Example Target</th><th>Cumulative by Graduation</th></tr>
+<tr><td>9th Grade</td><td>15 hours</td><td>15 hours</td></tr>
+<tr><td>10th Grade</td><td>20 hours</td><td>35 hours</td></tr>
+<tr><td>11th Grade</td><td>25 hours</td><td>60 hours</td></tr>
+<tr><td>12th Grade</td><td>15 hours</td><td>75 hours</td></tr>
+</table>
+
+<p>Configure per-grade targets in <strong>Settings → Grade-Level Goals</strong>. Student progress bars and compliance color-coding reflect cumulative progress against the target for their current grade. Students who transfer in mid-year see adjusted expectations based on their enrollment date.</p>
+
+<h2>Reflection Configuration</h2>
+
+<p>Control how students write reflections after volunteering:</p>
+
+<table>
+<tr><th>Setting</th><th>Options</th></tr>
+<tr><td><strong>Required / Optional</strong></td><td>Toggle whether students must submit a reflection after each event or can skip</td></tr>
+<tr><td><strong>Framework</strong></td><td><strong>Free-form</strong> — open-ended text<br><strong>DEAL</strong> — Describe / Examine / Articulate Learning (structured service-learning prompts)<br><strong>Custom</strong> — define your own prompts (up to 5)</td></tr>
+</table>
+
+<p>Configure at <strong>Settings → Reflections</strong>. When set to required, students cannot mark an event as complete without submitting a reflection.</p>
+
+<h2>Verification Badges & Trust Score</h2>
+
+<p>When reviewing student hours on the Approvals page or Student Detail Panel, you can see verification evidence attached to each hour entry:</p>
+<ul>
+<li><strong>Verification badges</strong> — icons showing which verification methods were used: GPS, Photo, Signature, PIN, QR, Supervisor</li>
+<li><strong>Trust Score</strong> — a 0-100 score per student reflecting the proportion of hours backed by strong verification evidence</li>
+<li>Use badges and Trust Score to make faster, more confident approval decisions</li>
+<li>Trust Score is visible on the compliance dashboard alongside each student's name</li>
+</ul>
+
+<h2>Rejection Reasons</h2>
+
+<p>When rejecting a student's hours (pre-approval requests or hour verifications), you can now provide a reason:</p>
+<ol>
+<li>Click "Reject" on any pending hour entry or pre-approval request</li>
+<li>A text field appears — enter the reason (e.g., "Hours exceed event duration," "Organization not approved for CSL")</li>
+<li>The student receives a notification with your rejection reason so they can correct and resubmit</li>
+</ol>
+
+<h2>WBL / CTE Settings</h2>
+
+<p>Enable Work-Based Learning (WBL) tracking for your school to let students log professional experience alongside volunteer hours:</p>
+
+<h3>Enabling WBL</h3>
+<ol>
+<li>Go to <strong>Settings → WBL/CTE</strong></li>
+<li>Toggle <strong>"Enable WBL Tracking"</strong> — students will see a "Log WBL Hours" option in their Hours tab</li>
+<li>Select which <strong>CTE pathways</strong> your school offers (from the 16 national career clusters)</li>
+<li>Set <strong>per-pathway minimum hours</strong> (e.g., Health Science requires 120 hours, IT requires 80 hours)</li>
+<li>Save — students assigned to pathways will see pathway-specific progress bars</li>
+</ol>
+
+<h3>WBL Types Supported</h3>
+<table>
+<tr><th>Type</th><th>Description</th></tr>
+<tr><td>Internship</td><td>Structured work experience at a company or organization</td></tr>
+<tr><td>Apprenticeship</td><td>Hands-on training under a skilled professional</td></tr>
+<tr><td>Job Shadow</td><td>Observing a professional in their workplace</td></tr>
+<tr><td>Clinical</td><td>Healthcare-related practical training (e.g., CNA, EMT)</td></tr>
+<tr><td>Co-op</td><td>Cooperative education combining classroom and work</td></tr>
+</table>
+
+<h3>WBL Compliance</h3>
+<p>WBL hours are tracked in parallel with volunteer hours — they have their own compliance dashboard, progress bars, and reporting. A student can be "on track" for volunteer graduation requirements but "behind" on WBL pathway minimums (or vice versa). Both compliance statuses are shown on the student detail panel and in exports.</p>
+
+<div class="tip"><strong>Employer Verification:</strong> When a student logs WBL hours, their employer/supervisor receives a verification email — the same flow as volunteer supervisor verification. No ImpactBadge account needed for the employer.</div>
+
 <h2>Clever Secure Sync (Roster Management)</h2>
 
 <p>If your district uses Clever Complete, student and teacher rosters sync automatically via Clever Secure Sync:</p>
@@ -352,7 +438,7 @@ tr:nth-child(even){background:#f9f9f9}
 
 <div class="footer">
 <p>ImpactBadge LLC &nbsp;|&nbsp; <a href="index.html">Documentation Hub</a> &nbsp;|&nbsp; <a href="https://impactbadge.app">impactbadge.app</a></p>
-<p>Last updated: August 5, 2026</p>
+<p>Last updated: September 20, 2026</p>
 </div>
 </body>
 </html>

@@ -34,7 +34,7 @@ pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:a
 <p>Complete technical reference for the ImpactBadge volunteer tracking platform</p>
 </div>
 
-<p class="meta"><strong>Version:</strong> 1.5.0 &nbsp;|&nbsp; <strong>Date:</strong> August 10, 2026 &nbsp;|&nbsp; <strong>Project:</strong> impacthub-prod</p>
+<p class="meta"><strong>Version:</strong> 1.6.0 &nbsp;|&nbsp; <strong>Date:</strong> September 20, 2026 &nbsp;|&nbsp; <strong>Project:</strong> impacthub-prod</p>
 
 <h2>1. Architecture Overview</h2>
 <table>
@@ -45,7 +45,7 @@ pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:a
 <tr><td>Backend</td><td>Firebase Cloud Functions / TypeScript</td><td>Node.js 22</td><td>impacthub-backend/functions/</td></tr>
 <tr><td>Database</td><td>Cloud Firestore</td><td>—</td><td>impacthub-prod</td></tr>
 <tr><td>Auth</td><td>Firebase Auth + Clever OAuth 2.0</td><td>v3.1 API</td><td>—</td></tr>
-<tr><td>Storage</td><td>Firebase Storage</td><td>—</td><td>5 bucket paths</td></tr>
+<tr><td>Storage</td><td>Firebase Storage</td><td>—</td><td>7 bucket paths</td></tr>
 <tr><td>Push</td><td>Firebase Cloud Messaging</td><td>—</td><td>FCM</td></tr>
 <tr><td>Email</td><td>Zoho SMTP</td><td>—</td><td>impact@impactbadge.app</td></tr>
 <tr><td>Validation</td><td>Zod</td><td>3.22</td><td>All callables</td></tr>
@@ -53,7 +53,7 @@ pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:a
 <tr><td>Geo</td><td>geofire-common</td><td>6.0</td><td>Event proximity queries</td></tr>
 </table>
 
-<h2>2. Backend — Cloud Functions (130+)</h2>
+<h2>2. Backend — Cloud Functions (164)</h2>
 
 <h3>2.1 Auth & User Management (9 functions)</h3>
 <table>
@@ -118,7 +118,29 @@ pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:a
 <tr><td>schoolChallengeLeaderboardCall</td><td>onCall</td><td>challenges/schoolChallengeLeaderboard.ts</td><td>Ranked school list for a challenge</td></tr>
 </table>
 
-<h3>2.4 Shifts (4), Hours (10), Students (18), Parents (6), Messaging (5), Challenges (4), Referrals (2), Import (5), Nonprofits/Orgs (6), Partner API (2)</h3>
+<h3>2.4 Marketing Portal (9 functions)</h3>
+<table>
+<tr><th>Function</th><th>Type</th><th>Purpose</th></tr>
+<tr><td>createSocialPostCall</td><td>onCall</td><td>Create social media post draft</td></tr>
+<tr><td>getSocialPostsCall</td><td>onCall</td><td>List social posts with status filters</td></tr>
+<tr><td>createEmailCampaignCall</td><td>onCall</td><td>Create email campaign with template</td></tr>
+<tr><td>getEmailCampaignsCall</td><td>onCall</td><td>List email campaigns with analytics</td></tr>
+<tr><td>sendQuickEmailCall</td><td>onCall</td><td>Quick Send 1-50 emails/day</td></tr>
+<tr><td>getMarketingCalendarCall</td><td>onCall</td><td>Marketing calendar events</td></tr>
+<tr><td>generateAIContentCall</td><td>onCall</td><td>AI-powered content generation</td></tr>
+<tr><td>getEmailTemplatesCall</td><td>onCall</td><td>List reusable email templates</td></tr>
+<tr><td>manageUnsubscribesCall</td><td>onCall</td><td>Handle email unsubscribe requests</td></tr>
+</table>
+
+<h3>2.5 WBL/CTE Tracking (3 functions)</h3>
+<table>
+<tr><th>Function</th><th>Type</th><th>Purpose</th></tr>
+<tr><td>submitWBLEntryCall</td><td>onCall</td><td>Submit WBL hours with CTE pathway + WBL type</td></tr>
+<tr><td>getWBLSubmissionsCall</td><td>onCall</td><td>List WBL submissions for student/school</td></tr>
+<tr><td>verifyWBLEntryCall</td><td>onCall</td><td>Employer verification of WBL hours</td></tr>
+</table>
+
+<h3>2.6 Shifts (4), Hours (10), Students (18), Parents (6), Messaging (5), Challenges (4), Referrals (2), Import (5), Nonprofits/Orgs (6), Partner API (2)</h3>
 
 <h3>2.5 Public HTTP Endpoints (No Auth Required)</h3>
 <table>
@@ -131,7 +153,7 @@ pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:a
 <tr><td>verifyParentalConsent</td><td>GET</td><td>/verifyParentalConsent?token=xxx&action=approve</td><td>Parent COPPA consent via email link</td></tr>
 <tr><td>verifyOrgClaim</td><td>GET</td><td>/verifyOrgClaim?token=xxx</td><td>Org claim verification via email link</td></tr>
 </table>
-<p>See <code>functions/src/index.ts</code> for the complete export list of all 135+ functions organized by category.</p>
+<p>See <code>functions/src/index.ts</code> for the complete export list of all 164 functions organized by category.</p>
 
 <h3>2.5 Clever Complete (13 functions)</h3>
 <table>
@@ -176,9 +198,17 @@ pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:a
 <tr><td>ferpaExportLog/{id}</td><td>studentUid, studentName, schoolName, requestedByUid, requestedByName, exportedAt</td><td>Cloud Functions write, school admin read (audit)</td></tr>
 <tr><td>restrictionLog/{id}</td><td>studentUid, studentName, schoolName, action (restricted/unrestricted), reason, actorUid, actorName, timestamp</td><td>Cloud Functions write, school admin read (audit)</td></tr>
 <tr><td>yearEndSnapshots/{id}</td><td>studentUid, studentName, schoolName, districtName, grade, schoolYear, totalVerifiedHours, graduationMinHours, onTrack, snapshotAt</td><td>Cloud Functions write; school admin read</td></tr>
+<tr><td>wblSubmissions/{id}</td><td>studentUid, ctePathway, wblType, employerName, hoursLogged, verified, supervisorEmail, verificationToken</td><td>Student read, employer/admin write</td></tr>
+<tr><td>emailTemplates/{id}</td><td>name, subject, body, category, createdByUid, createdAt</td><td>Org admin read/write</td></tr>
+<tr><td>emailCampaigns/{id}</td><td>templateId, recipients, status, sentAt, openRate, clickRate</td><td>Org admin read/write</td></tr>
+<tr><td>socialPosts/{id}</td><td>platform, content, mediaUrl, scheduledAt, status, createdByUid</td><td>Org admin read/write</td></tr>
+<tr><td>marketingCalendar/{id}</td><td>title, type (social/email/event), scheduledDate, status</td><td>Org admin read/write</td></tr>
+<tr><td>quickEmailLog/{id}</td><td>senderUid, recipientEmail, subject, sentAt</td><td>Cloud Functions write</td></tr>
+<tr><td>unsubscribes/{id}</td><td>email, unsubscribedAt, reason</td><td>Cloud Functions read/write</td></tr>
+<tr><td>contentRotation/{id}</td><td>content, platform, lastUsedAt, usageCount</td><td>Cloud Functions read/write</td></tr>
 </table>
 
-<h3>3.1 Composite Indexes (Key)</h3>
+<h3>3.1 Composite Indexes (35+)</h3>
 <table>
 <tr><th>Collection</th><th>Fields</th><th>Purpose</th></tr>
 <tr><td>users</td><td>schoolName ASC, role ASC, isMinor ASC</td><td>COPPA report query</td></tr>
@@ -342,11 +372,13 @@ LTI 1.3 Launch: POST /ltiLaunchHandler
 <h2>8. Testing</h2>
 <table>
 <tr><th>Platform</th><th>Framework</th><th>Suites</th><th>Tests</th></tr>
-<tr><td>Backend</td><td>Jest + ts-jest</td><td>81</td><td>1,799</td></tr>
-<tr><td>Web</td><td>Vitest + Testing Library</td><td>8</td><td>92</td></tr>
-<tr><td>Android</td><td>Jest + React Testing Library</td><td>14</td><td>336</td></tr>
-<tr><td><strong>Total</strong></td><td></td><td><strong>103</strong></td><td><strong>2,227</strong></td></tr>
+<tr><td>Backend</td><td>Jest + ts-jest</td><td>92</td><td>2,229</td></tr>
+<tr><td>Web</td><td>Vitest + Testing Library</td><td>41</td><td>1,229</td></tr>
+<tr><td>Android</td><td>Jest + React Testing Library</td><td>26</td><td>563</td></tr>
+<tr><td>iOS</td><td>XCTest</td><td>27</td><td>883</td></tr>
+<tr><td><strong>Total</strong></td><td></td><td><strong>186</strong></td><td><strong>4,904</strong></td></tr>
 </table>
+<p><strong>CI/CD</strong>: GitHub Actions daily automated runs on all 3 repositories. Android: 90.06% line coverage. Web: 95%+ line coverage.</p>
 <p><strong>Test accounts:</strong> student@test.impactbadge.app / admin@test.impactbadge.app / school@test.impactbadge.app — all use password <code>Test1234!</code></p>
 
 <h2>9. iOS Architecture</h2>
@@ -365,7 +397,7 @@ LTI 1.3 Launch: POST /ltiLaunchHandler
 <li><strong>Stack:</strong> React Native 0.83.6, Expo 55, TypeScript 5.9</li>
 <li><strong>Navigation:</strong> React Navigation 7, role-based tabs (Student 5, Org 4, Parent 3)</li>
 <li><strong>API:</strong> api.ts service wrapping 60+ Cloud Functions via httpsCallable</li>
-<li><strong>Screens:</strong> 54 total</li>
+<li><strong>Screens:</strong> 67 total</li>
 <li><strong>i18n:</strong> i18next (English + Spanish)</li>
 </ul>
 
@@ -373,11 +405,35 @@ LTI 1.3 Launch: POST /ltiLaunchHandler
 <ul>
 <li><strong>Stack:</strong> React 18, Vite 5, Tailwind CSS 4, Recharts 2.12</li>
 <li><strong>Design:</strong> Material Icons Round, gradient teal sidebar, professional StatsCards</li>
-<li><strong>Pages:</strong> Org Admin (5), School Admin (10: Dashboard, Compliance, Approvals, Reports, Import, Announcements, COPPA, Settings, District Report, Clever Sync), Teacher (1)</li>
+<li><strong>Pages:</strong> 55 total — Org Admin, School Admin, Teacher, Student Portal, Marketing Portal, Sign-Up, Privacy/Terms</li>
 <li><strong>Hosting:</strong> Firebase Hosting at impacthub-prod.web.app, SPA rewrite</li>
 </ul>
 
-<h2>12. Deployment</h2>
+<h2>12. Event Import Pipeline (6 sources)</h2>
+<table>
+<tr><th>Source</th><th>Method</th><th>Frequency</th><th>Coverage</th></tr>
+<tr><td>SerpAPI (Google Events)</td><td>Pub/Sub scheduled</td><td>On-demand</td><td>National</td></tr>
+<tr><td>iCal Feeds</td><td>URL fetch + parse</td><td>Daily</td><td>Per-org</td></tr>
+<tr><td>VolunteerMatch</td><td>API import</td><td>Nightly</td><td>National</td></tr>
+<tr><td>Idealist</td><td>API import</td><td>Nightly</td><td>National</td></tr>
+<tr><td>LibCal</td><td>API import</td><td>Daily</td><td>270 libraries, 38 states</td></tr>
+<tr><td>Manual</td><td>Admin creation</td><td>On-demand</td><td>Per-org</td></tr>
+</table>
+<p><strong>Organization Directory:</strong> 17,136 entries (16,565 libraries + 471 parks + 100 parks &amp; rec departments).</p>
+
+<h2>13. Cloud Storage Paths (7)</h2>
+<table>
+<tr><th>Path</th><th>Purpose</th><th>Max Size</th></tr>
+<tr><td><code>eventPhotos/{eventId}/{userId}/</code></td><td>Event evidence photos</td><td>10MB</td></tr>
+<tr><td><code>profilePhotos/{userId}/</code></td><td>Profile avatars</td><td>5MB</td></tr>
+<tr><td><code>selfReportSignatures/{userId}/</code></td><td>E-signatures</td><td>5MB</td></tr>
+<tr><td><code>selfReportPhotos/{userId}/</code></td><td>Self-report evidence</td><td>10MB</td></tr>
+<tr><td><code>checkoutPhotos/{eventId}/{userId}/</code></td><td>Check-out evidence</td><td>10MB</td></tr>
+<tr><td><code>orgLogos/{orgId}/</code></td><td>Nonprofit logos</td><td>5MB</td></tr>
+<tr><td><code>orgBanners/{orgId}/</code></td><td>Nonprofit banners / event banners</td><td>10MB</td></tr>
+</table>
+
+<h2>14. Deployment</h2>
 <pre>
 # Deploy all functions + rules + indexes + web
 firebase deploy --only functions,firestore:rules,firestore:indexes,hosting
@@ -408,7 +464,7 @@ CLEVER_WEB_APP_URL=https://impacthub-prod.web.app
 
 <br>
 <p class="meta" style="text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid #e0e0e0;">
-ImpactBadge LLC &nbsp;|&nbsp; Technical Documentation &nbsp;|&nbsp; July 2026 (v1.4.0)<br>
+ImpactBadge LLC &nbsp;|&nbsp; Technical Documentation &nbsp;|&nbsp; September 2026 (v1.6.0)<br>
 Generated by Claude Code
 </p>
 </body>

@@ -30,7 +30,7 @@
 
 <div class="header-bar">
   <h1>Student Web Portal</h1>
-  <p>11 pages for Chromebook &amp; laptop access — Clever SSO, challenges, social sharing. Deployed September 2026.</p>
+  <p>17 pages for Chromebook &amp; laptop access — Clever SSO, challenges, WBL tracking, reflections, social sharing. Deployed September 2026.</p>
 </div>
 
 <h2>Problem Solved</h2>
@@ -76,7 +76,7 @@
 <h2>Architecture</h2>
 <div class="section-card">
   <p><strong>Same app, role-based routing.</strong> The student portal lives inside the existing React app at <code>impacthub-prod.web.app</code>. When a student logs in, they're automatically routed to <code>/student/*</code> pages with a student-specific layout. Admin users continue to see their existing admin dashboards — zero impact on existing functionality.</p>
-  <p><strong>Zero backend changes.</strong> All 10 student pages call existing Cloud Functions that were already deployed for the mobile apps. No new API endpoints were created.</p>
+  <p><strong>Zero backend changes.</strong> All 17 student pages call existing Cloud Functions that were already deployed for the mobile apps. No new API endpoints were created.</p>
 </div>
 
 <h2>Pages</h2>
@@ -87,12 +87,16 @@
   <tr><td><strong>Event Detail</strong></td><td><code>/student/events/:id</code></td><td>View event info, register/unregister, see check-in PIN (after registration)</td></tr>
   <tr><td><strong>Check In</strong></td><td><code>/student/checkin</code></td><td>Enter 4-digit PIN from teacher to check in. Auto-advance between digits.</td></tr>
   <tr><td><strong>Check Out</strong></td><td><code>/student/checkout</code></td><td>Log hours when done volunteering</td></tr>
-  <tr><td><strong>Hours</strong></td><td><code>/student/hours</code></td><td>View all hours (verified/pending/rejected), progress bar toward goal</td></tr>
+  <tr><td><strong>Hours</strong></td><td><code>/student/hours</code></td><td>View all hours with <strong>All / Volunteer / WBL filter tabs</strong>. Each entry shows type badge (Volunteer or WBL) and verification badges (GPS, Photo, Signature, PIN, QR, Supervisor). Progress bar toward goal.</td></tr>
   <tr><td><strong>Self-Report</strong></td><td><code>/student/hours/report</code></td><td>Log kind deeds with description, date, hours, optional photo</td></tr>
   <tr><td><strong>Profile</strong></td><td><code>/student/profile</code></td><td>View XP, level, tier, badges grid, personal stats</td></tr>
   <tr><td><strong>Challenges</strong></td><td><code>/student/challenges</code></td><td>Individual + school challenges. Join, track progress, claim XP reward. School-vs-school leaderboard.</td></tr>
   <tr><td><strong>Leaderboard</strong></td><td><code>/student/leaderboard</code></td><td>School / Friends / Global tabs with rankings</td></tr>
-  <tr><td><strong>Export</strong></td><td><code>/student/export</code></td><td>Download certificate PDF, Common App export, college data export</td></tr>
+  <tr><td><strong>Export</strong></td><td><code>/student/export</code></td><td>Download certificate PDF, Common App export (WBL hours exported as "Internship"), college data export, <strong>WBL summary export</strong></td></tr>
+  <tr><td><strong>WBL Dashboard</strong></td><td><code>/student/wbl</code></td><td>WBL hours summary, CTE pathway progress bars, per-pathway hour breakdown</td></tr>
+  <tr><td><strong>WBL Log</strong></td><td><code>/student/wbl/log</code></td><td>Submit WBL hours: select type (internship, apprenticeship, job shadow, clinical, co-op), employer, supervisor, description, date, hours</td></tr>
+  <tr><td><strong>Reflections</strong></td><td><code>/student/reflections</code></td><td>Write reflections using school-configured prompts (free-form, DEAL framework, or custom). Toggle public/private.</td></tr>
+  <tr><td><strong>Check Out</strong></td><td><code>/student/checkout</code></td><td>Log hours when done volunteering. <strong>Signature capture</strong> at checkout for verification evidence.</td></tr>
 </table>
 
 <h2>Student Layout</h2>
@@ -145,7 +149,7 @@
 <table>
   <tr><th>File</th><th>Purpose</th></tr>
   <tr><td><code>web/src/components/StudentLayout.tsx</code></td><td>Responsive layout with sidebar + bottom nav</td></tr>
-  <tr><td><code>web/src/pages/student/*.tsx</code></td><td>10 student page files</td></tr>
+  <tr><td><code>web/src/pages/student/*.tsx</code></td><td>17 student page files</td></tr>
   <tr><td><code>web/src/App.tsx</code></td><td>Role-based routing (student → /student/*)</td></tr>
   <tr><td><code>web/src/hooks/useAuth.ts</code></td><td>Extended AppUser with grade, XP, hours, badges</td></tr>
   <tr><td><code>web/src/services/api.ts</code></td><td>16 student API method wrappers</td></tr>

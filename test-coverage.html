@@ -32,8 +32,8 @@ strong{color:#1a1a1a}
 <div style="background:linear-gradient(135deg,#00897B,#00695C);padding:24px 32px;border-radius:12px;margin-bottom:24px;text-align:center"><div style="display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:4px"><div style="width:40px;height:40px;border-radius:10px;background:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;color:#00897B;box-shadow:0 2px 8px rgba(0,0,0,0.15)"><svg width="28" height="28" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg"><circle cx="22" cy="22" r="18" fill="#00897B"/><path d="M22 9l4 8 8 2-6 5.5 1.5 8L22 28l-7.5 4.5L16 24.5 10 19l8-2z" fill="white"/></svg></div></div><div style="color:white;font-size:22px;font-weight:800">ImpactBadge</div></div><a href="index.html" class="back-link">&larr; Back to Documentation Hub</a>
 <h1 id="impactbadge--test-coverage-report">ImpactBadge — Test Coverage Report</h1>
 
-<p><strong>Date</strong>: August 5, 2026</p>
-<p><strong>Executed</strong>: Full audit across all platforms (Phase 2 features complete)</p>
+<p><strong>Date</strong>: September 20, 2026</p>
+<p><strong>Executed</strong>: Full audit across all platforms (P1-P4 features complete)</p>
 <p><strong>Result</strong>: 100% pass rate — zero failures</p>
 
 <hr>
@@ -42,12 +42,11 @@ strong{color:#1a1a1a}
 
 <table>
 <tr><th>Metric</th><th>Value</th></tr>
-<tr><td>Total unit tests</td><td><strong>3,181</strong></td></tr>
-<tr><td>Total E2E tests</td><td><strong>45</strong> (iOS)</td></tr>
-<tr><td>Grand total</td><td><strong>3,226</strong></td></tr>
+<tr><td>Total tests</td><td><strong>4,904</strong></td></tr>
 <tr><td>Total failures</td><td><strong>0</strong></td></tr>
 <tr><td>Pass rate</td><td><strong>100%</strong></td></tr>
-<tr><td>Last verified</td><td><strong>August 18, 2026</strong></td></tr>
+<tr><td>CI/CD</td><td><strong>GitHub Actions — daily automated runs on all 3 repos</strong></td></tr>
+<tr><td>Last verified</td><td><strong>September 20, 2026</strong></td></tr>
 </table>
 
 <hr>
@@ -55,20 +54,20 @@ strong{color:#1a1a1a}
 <h2 id="platform-test-results">Platform Test Results</h2>
 
 <table>
-<tr><th>Platform</th><th>Unit Tests</th><th>E2E Tests</th><th>Total</th><th>Status</th></tr>
-<tr><td><strong>Backend (Jest)</strong></td><td>1,799 (81 files)</td><td>—</td><td>1,799</td><td>ALL PASSED</td></tr>
-<tr><td><strong>Web Portal (Vitest)</strong></td><td>228 (19 files)</td><td>—</td><td>228</td><td>ALL PASSED</td></tr>
-<tr><td><strong>Android (Jest)</strong></td><td>470 (20 files)</td><td>—</td><td>470</td><td>ALL PASSED</td></tr>
-<tr><td><strong>iOS (XCTest)</strong></td><td>684 (22 files, 5 skipped)</td><td>45 (10 files)</td><td>729</td><td>ALL PASSED</td></tr>
+<tr><th>Platform</th><th>Suites</th><th>Tests</th><th>Line Coverage</th><th>Status</th></tr>
+<tr><td><strong>Backend (Jest)</strong></td><td>92</td><td>2,229</td><td>—</td><td>ALL PASSED</td></tr>
+<tr><td><strong>Web Portal (Vitest)</strong></td><td>41</td><td>1,229</td><td>95%+</td><td>ALL PASSED</td></tr>
+<tr><td><strong>Android (Jest)</strong></td><td>26</td><td>563</td><td>90.06%</td><td>ALL PASSED</td></tr>
+<tr><td><strong>iOS (XCTest)</strong></td><td>27</td><td>883</td><td>—</td><td>ALL PASSED</td></tr>
 </table>
 
 <hr>
 
 <h2 id="unit-test-coverage-by-category">Unit Test Coverage by Category</h2>
 
-<h3 id="backend--81-suites-1799-tests">Backend — 81 Suites, 1,799 Tests</h3>
+<h3 id="backend--92-suites-2229-tests">Backend — 92 Suites, 2,229 Tests</h3>
 
-<p><strong>New since Aug 3:</strong> apiResilience suite (69 tests covering timeout, failure, and rate limit scenarios for Idealist/VolunteerMatch), waitlist auto-promote suite (7 tests).</p>
+<p><strong>New since Aug:</strong> Marketing portal (9 suites), WBL/CTE tracking (3 suites), verification badges &amp; trust score, LibCal import, organization directory, economic impact, grade-level goals.</p>
 
 <table>
 <tr><th>Category</th><th>Suite</th><th>Tests</th><th>Type</th><th>Covers</th></tr>
@@ -134,9 +133,9 @@ strong{color:#1a1a1a}
 <tr><td></td><td>certificateFields</td><td>~10</td><td>Unit</td><td>Certificate field mapping</td></tr>
 </table>
 
-<h3 id="web-portal--19-suites-228-tests">Web Portal — 19 Suites, 228 Tests</h3>
+<h3 id="web-portal--41-suites-1229-tests">Web Portal — 41 Suites, 1,229 Tests</h3>
 
-<p><strong>New since Aug 3:</strong> 11 E2E component test files covering all 13 web portal pages (136 new tests).</p>
+<p><strong>Coverage:</strong> 95%+ line coverage across 55 web pages. Includes student portal, marketing portal, sign-up form, privacy/terms pages.</p>
 
 <table>
 <tr><th>Suite</th><th>Tests</th><th>Type</th><th>Covers</th></tr>
@@ -150,7 +149,7 @@ strong{color:#1a1a1a}
 <tr><td>api</td><td>31</td><td>Unit</td><td>All 37 API function declarations</td></tr>
 </table>
 
-<h3 id="android--20-suites-470-tests">Android — 20 Suites, 470 Tests</h3>
+<h3 id="android--26-suites-563-tests">Android — 26 Suites, 563 Tests (90.06% line coverage)</h3>
 
 <table>
 <tr><th>Suite</th><th>Tests</th><th>Type</th><th>Covers</th></tr>
@@ -170,7 +169,7 @@ strong{color:#1a1a1a}
 <tr><td>SelfReportScreen</td><td>0</td><td>Skipped</td><td>Pre-existing react-native-view-shot mock issue</td></tr>
 </table>
 
-<h3 id="ios--22-suites-684-unit--45-e2e-tests">iOS — 22 Suites, 684 Unit + 45 E2E Tests</h3>
+<h3 id="ios--27-suites-883-tests">iOS — 27 Suites, 883 Tests</h3>
 
 <table>
 <tr><th>Suite</th><th>Tests</th><th>Type</th><th>Covers</th></tr>
@@ -344,9 +343,9 @@ strong{color:#1a1a1a}
 
 <hr>
 
-<p><em>Last audited August 5, 2026 — ImpactBadge Test Coverage Report — Phase 2 features complete</em></p>
+<p><em>Last audited September 20, 2026 — ImpactBadge Test Coverage Report — P1-P4 features complete, 4,904 tests</em></p>
 
 <hr>
-<p style="text-align:center;color:#aaa;font-size:12px;margin-top:40px">ImpactBadge LLC &nbsp;|&nbsp; <a href="index.html">Documentation Hub</a> &nbsp;|&nbsp; August 2026</p>
+<p style="text-align:center;color:#aaa;font-size:12px;margin-top:40px">ImpactBadge LLC &nbsp;|&nbsp; <a href="index.html">Documentation Hub</a> &nbsp;|&nbsp; September 2026</p>
 </body>
 </html>

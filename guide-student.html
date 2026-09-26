@@ -52,6 +52,7 @@ tr:nth-child(even){background:#f9f9f9}
 <tr><td><strong>Sign in with Google</strong></td><td>Gmail or Google Workspace users</td><td>One-tap sign in → school auto-detected if using school email domain</td></tr>
 <tr><td><strong>Sign in with Apple</strong></td><td>iPhone users</td><td>Face ID / Touch ID → account created with Apple ID email</td></tr>
 <tr><td><strong>Sign in with Clever</strong></td><td>Schools using Clever</td><td>Click from Clever portal → school info auto-populated from district SIS</td></tr>
+<tr><td><strong>Web Sign-Up</strong></td><td>Chromebook / laptop users</td><td>Go to <a href="https://impactbadge.app">impactbadge.app</a> → create account with email & password (no Google or Clever required). Works on any browser.</td></tr>
 </table>
 
 <div class="tip"><strong>Tip:</strong> If you signed up with Google or Apple, go to Profile → "Edit School Info" to add your school name, district, Student ID, and graduation year. This is needed for graduation hour tracking.</div>
@@ -68,18 +69,22 @@ tr:nth-child(even){background:#f9f9f9}
 </div>
 <div class="step">
 <h4>2. Check Event Details</h4>
-<p>Tap any event card to see: description, date/time, address (tap for directions), available spots, and reviews from other volunteers.</p>
+<p>Tap any event card to see: description, date/time, address (tap for directions), available spots, and reviews from other volunteers. Virtual events display a meeting link (Zoom, Teams, or Google Meet) instead of a physical address.</p>
 </div>
 <div class="step">
 <h4>3. Register</h4>
 <p>Tap "Register" to secure your spot. If the event is full, you'll be added to the waitlist. You'll get a push notification 24 hours before the event.</p>
 </div>
 <div class="step">
-<h4>4. Add to Calendar</h4>
-<p>After registering, tap "Add to Calendar" to save the event to your device calendar. On iOS this uses the native Calendar app; on Android it uses expo-calendar. The calendar entry includes the event title, time, and location.</p>
+<h4>4. Add to Calendar / Download .ics</h4>
+<p>After registering, tap "Add to Calendar" to save the event to your device calendar. On iOS this uses the native Calendar app; on Android it uses expo-calendar. On the web portal, download a <strong>.ics file</strong> to import into Google Calendar, Outlook, or Apple Calendar. The calendar entry includes the event title, time, location (or meeting link for virtual events).</p>
 </div>
 <div class="step">
-<h4>5. Multi-Shift Events</h4>
+<h4>5. Join Virtual Events</h4>
+<p>For virtual events, tap the meeting link to join via Zoom, Microsoft Teams, or Google Meet directly from the event detail screen. Check in using PIN — GPS is not required for virtual events.</p>
+</div>
+<div class="step">
+<h4>6. Multi-Shift Events</h4>
 <p>Some events have multiple shifts (e.g., Morning 9-12, Afternoon 1-4). Choose the shift that works for you.</p>
 </div>
 </div>
@@ -155,6 +160,72 @@ tr:nth-child(even){background:#f9f9f9}
 <li><strong>School</strong> — Students at your school</li>
 <li><strong>Friends</strong> — People you follow</li>
 </ul>
+
+<h2>Verification Badges</h2>
+
+<p>Every time your hours are verified, you earn verification badges that show <em>how</em> they were verified. These badges appear on your hours detail and your volunteer portfolio:</p>
+
+<table>
+<tr><th>Badge</th><th>How You Earn It</th></tr>
+<tr><td><strong>GPS</strong></td><td>Checked in within 300 meters of the event location</td></tr>
+<tr><td><strong>Photo</strong></td><td>Submitted photo evidence with your hours</td></tr>
+<tr><td><strong>Signature</strong></td><td>Provided an e-signature at check-out</td></tr>
+<tr><td><strong>PIN</strong></td><td>Checked in using the event's 4-digit PIN code</td></tr>
+<tr><td><strong>QR</strong></td><td>Checked in by scanning the event QR code</td></tr>
+<tr><td><strong>Supervisor</strong></td><td>Supervisor verified your self-reported hours via email</td></tr>
+</table>
+
+<h2>Trust Score</h2>
+
+<p>Your Trust Score is a 0-100 score that reflects how well your volunteer hours are verified. The more verification evidence you provide (GPS, photos, signatures, supervisor confirmation), the higher your score. Schools and colleges can see your Trust Score on your volunteer portfolio — a high score shows your hours are credible and well-documented.</p>
+
+<div class="tip"><strong>Boost your Trust Score:</strong> Always enable GPS for check-in, add photos to your self-reports, and provide supervisor email when logging external hours.</div>
+
+<h2>Reflections — DEAL Framework</h2>
+
+<p>After volunteering, write reflections using the <strong>DEAL framework</strong> — a structured approach used in service-learning programs:</p>
+
+<table>
+<tr><th>Step</th><th>Prompt</th><th>What to Write</th></tr>
+<tr><td><strong>D</strong>escribe</td><td>"What happened?"</td><td>Describe the volunteer activity objectively — what you did, where, and with whom.</td></tr>
+<tr><td><strong>E</strong>xamine</td><td>"So what?"</td><td>Analyze the experience — what did you learn? How does it connect to your values or goals?</td></tr>
+<tr><td><strong>A</strong>rticulate <strong>L</strong>earning</td><td>"Now what?"</td><td>Articulate what you'll do differently or how this experience will shape your future actions.</td></tr>
+</table>
+
+<p>Your school may configure reflections as required or optional, and may use the DEAL framework, a custom framework, or free-form. Follow the prompts shown on your reflection screen — they come from your school's settings.</p>
+
+<div class="tip"><strong>College Tip:</strong> DEAL reflections demonstrate critical thinking and self-awareness — qualities admissions counselors value. Include them in your volunteer portfolio.</div>
+
+<h2>WBL / CTE Tracking (Work-Based Learning)</h2>
+
+<p>If your school has enabled WBL tracking, you can log work-based learning hours alongside your volunteer hours. WBL hours track professional experience in Career & Technical Education (CTE) pathways.</p>
+
+<h3>What Counts as WBL</h3>
+<table>
+<tr><th>WBL Type</th><th>Description</th></tr>
+<tr><td><strong>Internship</strong></td><td>Structured work experience at a company or organization</td></tr>
+<tr><td><strong>Apprenticeship</strong></td><td>Hands-on training under a skilled professional</td></tr>
+<tr><td><strong>Job Shadow</strong></td><td>Observing a professional in their workplace</td></tr>
+<tr><td><strong>Clinical</strong></td><td>Healthcare-related practical training (e.g., CNA, EMT)</td></tr>
+<tr><td><strong>Co-op</strong></td><td>Cooperative education combining classroom and work</td></tr>
+</table>
+
+<h3>16 CTE Pathways</h3>
+<p>Your school assigns you to one or more of the 16 national CTE career clusters (e.g., Health Science, Information Technology, Business Management, Arts/AV/Communications). Your WBL hours are tracked per pathway so you can meet pathway-specific minimums.</p>
+
+<h3>Logging WBL Hours</h3>
+<ol>
+<li>Go to Hours → "Log WBL Hours" (or on the web portal: /student/wbl/log)</li>
+<li>Select the WBL type (internship, apprenticeship, job shadow, clinical, co-op)</li>
+<li>Enter employer/site name, supervisor name and email, description, date, and hours</li>
+<li>Submit — your supervisor receives a verification email</li>
+<li>Once the employer verifies, the hours count toward your CTE pathway requirements</li>
+</ol>
+
+<h3>Employer Verification</h3>
+<p>Your employer/supervisor receives an email with a "Verify Hours" button — the same flow as volunteer supervisor verification. They do not need an ImpactBadge account.</p>
+
+<div class="tip"><strong>Common App:</strong> WBL hours logged as "Internship" type are automatically formatted as an Internship activity in your Common App export.</div>
 
 <h2>College Application Export</h2>
 
@@ -408,11 +479,19 @@ tr:nth-child(even){background:#f9f9f9}
 <tr><td>55</td><td>Deep linking</td><td>impactbadge://event/{id} opens event detail</td></tr>
 <tr><td>56</td><td>Age confirmation</td><td>Signup → 13+ age confirmation checkbox</td></tr>
 <tr><td>57</td><td>Under-13 messaging restriction</td><td>Automatic — DMs and group chat disabled for under-13</td></tr>
+<tr><td>58</td><td>Calendar sync (.ics download)</td><td>Event detail → Download .ics (web portal)</td></tr>
+<tr><td>59</td><td>Virtual events</td><td>Event detail → Join via Zoom/Teams/Meet link</td></tr>
+<tr><td>60</td><td>Verification badges</td><td>Hours detail → GPS/Photo/Signature/PIN/QR/Supervisor badges</td></tr>
+<tr><td>61</td><td>Trust Score</td><td>Profile → Trust Score (0-100)</td></tr>
+<tr><td>62</td><td>DEAL reflections</td><td>After event → Write Reflection (Describe/Examine/Articulate Learning)</td></tr>
+<tr><td>63</td><td>WBL hour logging</td><td>Hours → Log WBL Hours (internship, apprenticeship, job shadow, clinical, co-op)</td></tr>
+<tr><td>64</td><td>CTE pathway progress</td><td>Profile → CTE Pathways → per-pathway hours</td></tr>
+<tr><td>65</td><td>Web sign-up</td><td>impactbadge.app → Create Account (no Google/Clever required)</td></tr>
 </table>
 
 <div class="footer">
 <p>ImpactBadge LLC &nbsp;|&nbsp; <a href="index.html">Documentation Hub</a> &nbsp;|&nbsp; <a href="https://impactbadge.app">impactbadge.app</a></p>
-<p>Last updated: August 5, 2026</p>
+<p>Last updated: September 20, 2026</p>
 </div>
 </body>
 </html>
