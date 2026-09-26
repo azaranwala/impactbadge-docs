@@ -53,7 +53,7 @@ pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:a
 <tr><td>Geo</td><td>geofire-common</td><td>6.0</td><td>Event proximity queries</td></tr>
 </table>
 
-<h2>2. Backend — Cloud Functions (164)</h2>
+<h2>2. Backend — Cloud Functions (170)</h2>
 
 <h3>2.1 Auth & User Management (9 functions)</h3>
 <table>
@@ -153,9 +153,20 @@ pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:a
 <tr><td>verifyParentalConsent</td><td>GET</td><td>/verifyParentalConsent?token=xxx&action=approve</td><td>Parent COPPA consent via email link</td></tr>
 <tr><td>verifyOrgClaim</td><td>GET</td><td>/verifyOrgClaim?token=xxx</td><td>Org claim verification via email link</td></tr>
 </table>
-<p>See <code>functions/src/index.ts</code> for the complete export list of all 164 functions organized by category.</p>
+<p>See <code>functions/src/index.ts</code> for the complete export list of all 170 functions organized by category.</p>
 
-<h3>2.5 Clever Complete (13 functions)</h3>
+<h3>2.7 Growth & Onboarding (6 functions)</h3>
+<table>
+<tr><th>Function</th><th>Type</th><th>Purpose</th></tr>
+<tr><td>startSchoolPilotHTTP</td><td>onRequest</td><td>Start free 30-day school pilot (/pilot, K-12)</td></tr>
+<tr><td>searchNonprofitsHTTP</td><td>onRequest</td><td>Public nonprofit search for org signup</td></tr>
+<tr><td>requestManualReviewHTTP</td><td>onRequest</td><td>Submit org for manual review (orgReviewQueue)</td></tr>
+<tr><td>selfServeOrgSignupCall</td><td>onCall</td><td>Self-serve org signup with EIN/domain validation (4 org types)</td></tr>
+<tr><td>studentReferralCall</td><td>onCall</td><td>Student referral with shareable links (50 XP reward)</td></tr>
+<tr><td>generateAISocialPostCall</td><td>onCall</td><td>AI social post generation with stock images</td></tr>
+</table>
+
+<h3>2.8 Clever Complete (13 functions)</h3>
 <table>
 <tr><th>Function</th><th>Type</th><th>File</th><th>Purpose</th></tr>
 <tr><td>cleverOAuthCallback</td><td>onRequest</td><td>auth/cleverOAuthCallback.ts</td><td>SSO OAuth 2.0 flow (v3.1 API)</td></tr>
@@ -206,6 +217,8 @@ pre{background:#1e1e1e;color:#d4d4d4;padding:16px;border-radius:8px;overflow-x:a
 <tr><td>quickEmailLog/{id}</td><td>senderUid, recipientEmail, subject, sentAt</td><td>Cloud Functions write</td></tr>
 <tr><td>unsubscribes/{id}</td><td>email, unsubscribedAt, reason</td><td>Cloud Functions read/write</td></tr>
 <tr><td>contentRotation/{id}</td><td>content, platform, lastUsedAt, usageCount</td><td>Cloud Functions read/write</td></tr>
+<tr><td>schoolPilots/{id}</td><td>schoolName, adminEmail, startDate, expiresAt, status, orgType</td><td>Cloud Functions write, admin read</td></tr>
+<tr><td>orgReviewQueue/{id}</td><td>orgName, orgType, einOrDomain, submittedByUid, status, reviewedAt</td><td>Cloud Functions write, admin read</td></tr>
 </table>
 
 <h3>3.1 Composite Indexes (35+)</h3>
@@ -324,6 +337,14 @@ LTI 1.3 Launch: POST /ltiLaunchHandler
   → create/link Firebase Auth → redirect to web app with token
 </pre>
 
+<h2>5.6 CAN-SPAM Compliance</h2>
+<p>All commercial emails include CAN-SPAM compliant footers. Two utility functions enforce compliance:</p>
+<table>
+<tr><th>Utility</th><th>Purpose</th></tr>
+<tr><td><code>canspamFooter()</code></td><td>Appends physical address, unsubscribe link, and sender identification to all commercial email HTML</td></tr>
+<tr><td><code>isUnsubscribed(email)</code></td><td>Checks <code>unsubscribes</code> collection before sending; skips unsubscribed recipients</td></tr>
+</table>
+
 <h2>6. Email System</h2>
 <table>
 <tr><th>#</th><th>Template</th><th>Subject</th><th>Branding</th></tr>
@@ -372,11 +393,11 @@ LTI 1.3 Launch: POST /ltiLaunchHandler
 <h2>8. Testing</h2>
 <table>
 <tr><th>Platform</th><th>Framework</th><th>Suites</th><th>Tests</th></tr>
-<tr><td>Backend</td><td>Jest + ts-jest</td><td>92</td><td>2,229</td></tr>
-<tr><td>Web</td><td>Vitest + Testing Library</td><td>41</td><td>1,229</td></tr>
+<tr><td>Backend</td><td>Jest + ts-jest</td><td>94</td><td>2,276</td></tr>
+<tr><td>Web</td><td>Vitest + Testing Library</td><td>44</td><td>1,281</td></tr>
 <tr><td>Android</td><td>Jest + React Testing Library</td><td>26</td><td>563</td></tr>
 <tr><td>iOS</td><td>XCTest</td><td>27</td><td>883</td></tr>
-<tr><td><strong>Total</strong></td><td></td><td><strong>186</strong></td><td><strong>4,904</strong></td></tr>
+<tr><td><strong>Total</strong></td><td></td><td><strong>191</strong></td><td><strong>5,003</strong></td></tr>
 </table>
 <p><strong>CI/CD</strong>: GitHub Actions daily automated runs on all 3 repositories. Android: 90.06% line coverage. Web: 95%+ line coverage.</p>
 <p><strong>Test accounts:</strong> student@test.impactbadge.app / admin@test.impactbadge.app / school@test.impactbadge.app — all use password <code>Test1234!</code></p>

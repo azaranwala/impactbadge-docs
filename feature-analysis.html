@@ -57,15 +57,15 @@ strong{color:#1a1a1a}
 
 <h2 id="1-executive-summary">1. Executive Summary</h2>
 
-<p>ImpactBadge is a comprehensive K-12 volunteer hour tracking platform spanning <strong>4 applications</strong> with <strong>164 backend Cloud Functions</strong>, <strong>75 iOS views</strong>, <strong>67 Android screens</strong>, and <strong>55 web pages</strong>. The platform serves 5 user roles (Student, Org Admin, School Admin, Parent, Teacher) with full gamification, compliance reporting, WBL/CTE tracking, and college export capabilities.</p>
+<p>ImpactBadge is a comprehensive K-12 volunteer hour tracking platform spanning <strong>4 applications</strong> with <strong>170 backend Cloud Functions</strong>, <strong>75 iOS views</strong>, <strong>67 Android screens</strong>, and <strong>55 web pages</strong>. The platform serves 5 user roles (Student, Org Admin, School Admin, Parent, Teacher) with full gamification, compliance reporting, WBL/CTE tracking, and college export capabilities.</p>
 
 <h3 id="key-metrics">Key Metrics</h3>
 
 <table>
 <tr><th>Metric</th><th>Value</th></tr>
-<tr><td>Total Features</td><td><strong>71</strong></td></tr>
-<tr><td>Cloud Functions</td><td>164</td></tr>
-<tr><td>Total Tests</td><td>4,904</td></tr>
+<tr><td>Total Features</td><td><strong>74</strong></td></tr>
+<tr><td>Cloud Functions</td><td>170</td></tr>
+<tr><td>Total Tests</td><td>5,003</td></tr>
 <tr><td>iOS Views</td><td>75</td></tr>
 <tr><td>Android Screens</td><td>67</td></tr>
 <tr><td>Web Portal Pages</td><td>55</td></tr>
@@ -110,7 +110,7 @@ strong{color:#1a1a1a}
 <h3 id="24-backend-firebase-cloud-functions">2.4 Backend (Firebase Cloud Functions)</h3>
 <ul>
 <li><strong>Runtime</strong>: Node.js 20, TypeScript (strict mode)</li>
-<li><strong>Functions</strong>: 158 callable/HTTP/trigger functions</li>
+<li><strong>Functions</strong>: 170 callable/HTTP/trigger functions</li>
 <li><strong>Validation</strong>: Zod schema validation on all inputs</li>
 <li><strong>Geo</strong>: geofire-common for proximity searches</li>
 </ul>
@@ -121,15 +121,15 @@ strong{color:#1a1a1a}
 
 <h3 id="31-backend-tests">3.1 Backend Tests</h3>
 <pre><code>
-Test Suites: 92 passed, 92 total
-Tests:       2,229 passed, 2,229 total
+Test Suites: 94 passed, 94 total
+Tests:       2,276 passed, 2,276 total
 Result:      ALL PASSED
 </code></pre>
 
 <h3 id="32-web-portal-tests">3.2 Web Portal Tests</h3>
 <pre><code>
-Test Suites: 41 passed, 41 total
-Tests:       1,229 passed, 1,229 total
+Test Suites: 44 passed, 44 total
+Tests:       1,281 passed, 1,281 total
 Line Coverage: 95%+
 Result:      ALL PASSED
 </code></pre>
@@ -153,11 +153,11 @@ Result:      ALL PASSED
 
 <table>
 <tr><th>Component</th><th>Suites</th><th>Tests</th><th>Pass Rate</th></tr>
-<tr><td>Backend</td><td>92</td><td>2,229</td><td><strong>100%</strong></td></tr>
-<tr><td>Web Portal</td><td>41</td><td>1,229</td><td><strong>100%</strong></td></tr>
+<tr><td>Backend</td><td>94</td><td>2,276</td><td><strong>100%</strong></td></tr>
+<tr><td>Web Portal</td><td>44</td><td>1,281</td><td><strong>100%</strong></td></tr>
 <tr><td>Android</td><td>26</td><td>563</td><td><strong>100%</strong></td></tr>
 <tr><td>iOS</td><td>27</td><td>883</td><td><strong>100%</strong></td></tr>
-<tr><td><strong>Total</strong></td><td><strong>186</strong></td><td><strong>4,904</strong></td><td><strong>100%</strong></td></tr>
+<tr><td><strong>Total</strong></td><td><strong>191</strong></td><td><strong>5,003</strong></td><td><strong>100%</strong></td></tr>
 </table>
 
 <p><strong>CI/CD</strong>: GitHub Actions runs all tests daily on all 3 repositories (backend, Android, iOS).</p>
@@ -465,6 +465,18 @@ Result:      ALL PASSED
 <tr><td>173</td><td>Privacy Policy &amp; Terms of Service Pages</td><td>Y</td><td>Y</td><td>Y</td><td>-</td><td>-</td></tr>
 </table>
 
+<h3 id="422-growth-features-6-features">4.22 Growth Features (6 features) — G1/G2/G3 SHIPPED</h3>
+
+<table>
+<tr><th>#</th><th>Feature</th><th>iOS</th><th>Android</th><th>Web</th><th>Backend</th><th>Tests</th></tr>
+<tr><td>174</td><td>Self-Serve Org Signup (/signup/org, 4 org types, EIN/domain validation)</td><td>-</td><td>-</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>175</td><td>Free 30-Day School Pilot (/pilot, K-12, auto-expire)</td><td>-</td><td>-</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>176</td><td>Student Referral System (50 XP, shareable links)</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>177</td><td>Quick Send Email (50/day limit, CAN-SPAM compliant)</td><td>-</td><td>-</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>178</td><td>AI Social Post Generation (stock images, multi-platform)</td><td>-</td><td>-</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>179</td><td>CAN-SPAM Compliance (canspamFooter, isUnsubscribed, all commercial emails)</td><td>-</td><td>-</td><td>-</td><td>Y</td><td>Y</td></tr>
+</table>
+
 <hr>
 
 <h2 id="5-end-to-end-scenarios">5. End-to-End Scenarios</h2>
@@ -758,11 +770,11 @@ Result:      ALL PASSED
 
 <table>
 <tr><th>Platform</th><th>Suites</th><th>Total Tests</th><th>Pass Rate</th></tr>
-<tr><td>Backend (Jest)</td><td>92</td><td>2,229</td><td>100%</td></tr>
-<tr><td>Web Portal (Vitest)</td><td>41</td><td>1,229</td><td>100%</td></tr>
+<tr><td>Backend (Jest)</td><td>94</td><td>2,276</td><td>100%</td></tr>
+<tr><td>Web Portal (Vitest)</td><td>44</td><td>1,281</td><td>100%</td></tr>
 <tr><td>Android (Jest)</td><td>26</td><td>563</td><td>100%</td></tr>
 <tr><td>iOS (XCTest)</td><td>27</td><td>883</td><td>100%</td></tr>
-<tr><td><strong>Total</strong></td><td><strong>186</strong></td><td><strong>4,904</strong></td><td><strong>100%</strong></td></tr>
+<tr><td><strong>Total</strong></td><td><strong>191</strong></td><td><strong>5,003</strong></td><td><strong>100%</strong></td></tr>
 </table>
 
 <h3 id="93-untested-areas-gaps">9.3 Untested Areas (Gaps)</h3>
@@ -917,7 +929,7 @@ Result:      ALL PASSED
 
 <hr>
 
-<p><em>Updated September 20, 2026 — 71 features, 164 Cloud Functions, 4,904 tests</em></p>
+<p><em>Updated September 20, 2026 — 74 features, 170 Cloud Functions, 5,003 tests</em></p>
 <p><em>ImpactBadge - Making Volunteering Count</em></p>
 
 <hr>
